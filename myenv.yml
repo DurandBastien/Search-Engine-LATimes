@@ -1,0 +1,5 @@
+name: search-engine
+channels:
+  - defaults
+prefix: /usr/local/anaconda3/envs/search-engine
+

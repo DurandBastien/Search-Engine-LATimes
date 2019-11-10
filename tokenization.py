@@ -1,61 +1,86 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[30]:
 
+
+#!/usr/bin/env python
+# coding: utf-8
 
 import os
 import re
 
 
-# In[14]:
-
-
 class Tokenization:
-     
     def __init__(self, listfile):
         self.listfile = os.listdir(listfile)
         self.path = listfile
-    
-    def readFile(self,file):
-        f = open(self.path+'/'+file,"r")
+
+        """
+        read certain file whose name specified in the para
+        args:
+            file: name of the file to read
+        """
+
+    def readFile(self, file):
+        f = open(self.path + "/" + file, "r")
         content = f.readlines()
-        #print(content)
-        print(self.nextDocument(content,2))
+        # print(content)
         f.close()
-        
-    
-    def nextDocument(self, content, index):
-        docid = content[index].replace('<DOCID> ','')
-        docid = docid.replace(' </DOCID>','')
-        paragraph = ''
-        
-        for i in range(index + 1, len(content)):
-            if "DOCID" in content[i]:
-                nextDocLine = i
-                break
-            if "<P>" in content[i]:
-                i = i + 1
-                while "</P>" not in content[i]:
-                    if i+1 >= len(content):
+        return content
+
+        """
+        extract the info of docID and Paragraph of next document.
+        call iteratively to extract the info of all docs
+        args:
+            content: the content of the whole file
+           
+        """
+
+    def nextDocument(self, content):
+        try:
+            if content == None:
+                raise ValueError("file content empty!")
+
+            nbDocId = 0
+            paragraph = ""
+
+            for i in range(0, len(content)):
+                if "DOCID" in content[i]:
+                    nbDocId = nbDocId + 1
+                    if nbDocId == 2:
                         break
-                    else:
-                        paragraph = paragraph + content[i]
-                        i = i + 1 
-                        
-                        
-        return docid, paragraph
-            
+                    content[i] = (
+                        content[i].replace("<DOCID> ", "").replace(" </DOCID>", "")
+                    )
+                    docid = content[i]
+                elif "<P>" in content[i]:
+                    content[i] = ""
+                    i = i + 1
+                    while "</P>" not in content[i]:
+                        if i + 1 >= len(content):
+                            break
+                        else:
+                            paragraph = paragraph + content[i]
+                            i = i + 1
+                    content[i] = ""
+
+            return docid, paragraph
+
+        except ValueError:
+            return 0, 0
 
 
-# In[15]:
+# In[32]:
 
 
 t = Tokenization("./latimes")
-print(t.readFile("la010289"))
+content = t.readFile("la010289")
+print(t.nextDocument(content))
+print(t.nextDocument(content))
+print(t.nextDocument(content))
 
 
-# In[ ]:
 
 
 

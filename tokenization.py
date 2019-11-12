@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[30]:
-
-
-#!/usr/bin/env python
-# coding: utf-8
-
 import os
 import re
 
@@ -37,7 +31,7 @@ class Tokenization:
            
         """
 
-    def nextDocument(self, content):
+    def extractDocumentFromFile(self, content):
         try:
             if content == None:
                 raise ValueError("file content empty!")
@@ -55,7 +49,7 @@ class Tokenization:
                     )
                     docid = content[i]
                 elif "<P>" in content[i]:
-                    content[i] = ""
+                    #content[i] = "" #useless
                     i = i + 1
                     while "</P>" not in content[i]:
                         if i + 1 >= len(content):
@@ -63,31 +57,40 @@ class Tokenization:
                         else:
                             paragraph = paragraph + content[i]
                             i = i + 1
-                    content[i] = ""
+                    #content[i] = "" #useless
 
             return docid, paragraph
 
         except ValueError:
             return 0, 0
-
-
-# In[32]:
-
+        
+        
+        """
+        clean the document content by removing punctuation.
+        create the list of tokens.
+        args:
+            paragraph: the content of a specific document
+           
+        """
+        
+    def createListOfTokens(self, paragraph):
+        
+        #remove punctuation
+        paragraph = paragraph.replace("\n","")
+        paragraph = paragraph.replace(";","").replace(",","").replace("\"","")
+        paragraph = paragraph.replace("/", "").replace("(", "").replace(")", "")
+        
+        #create tokens using space character as separator
+        tokens = paragraph.split(" ")
+        while "" in tokens:
+            tokens.remove("")
+        
+        return tokens
 
 t = Tokenization("./latimes")
 content = t.readFile("la010289")
-print(t.nextDocument(content))
-print(t.nextDocument(content))
-print(t.nextDocument(content))
-
-
-
-
-
-
-
-# In[ ]:
-
-
-
-
+mydoc= t.extractDocumentFromFile(content)
+print(mydoc)
+print(t.createListOfTokens(mydoc[1]))
+#print(t.nextDocument(content))
+#print(t.nextDocument(content))

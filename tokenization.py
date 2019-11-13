@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[33]:
+# In[34]:
 
 
 
@@ -128,16 +128,19 @@ class Tokenization:
         return tokens
             
 
-t = Tokenization("./latimes")
-content = t.readFile("la010289")
-index = 0;
-while index != len(content):
-    mydoc= t.extractDocumentFromFile(content,index)
-    index = mydoc[2]
-    tokens = t.createListOfTokens(mydoc[1])
-    print("before removing stop words:",len(tokens))
-    tokens = t.removeStopWords(tokens)
-    print(len(tokens))
+t = Tokenization("./latimes-sous-partie")
+
+for file in t.listfile:
+    print("curremt file name:", file)
+    content = t.readFile(file)
+    index = 0;
+    while index != len(content):
+        mydoc= t.extractDocumentFromFile(content,index)
+        index = mydoc[2]
+        tokens = t.createListOfTokens(mydoc[1])
+        print("before removing stop words:",len(tokens))
+        tokens = t.removeStopWords(tokens)
+        print(len(tokens))
 
 
 # In[ ]:

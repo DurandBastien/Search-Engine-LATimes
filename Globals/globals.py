@@ -10,5 +10,4 @@ global invertedFile
 invertedFile = {}
 
 def initmap():
-    print("in")
     invertedFile = {"you": {1: 3, 2: 2}, "are": {1, 2}, "tuples": {2, 2}}

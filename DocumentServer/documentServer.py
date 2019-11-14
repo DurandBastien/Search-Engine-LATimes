@@ -1,0 +1,4 @@
+
+
+def serveDocuments(docId):
+	pass

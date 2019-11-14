@@ -9,11 +9,11 @@ import os
 import re
 
 
-class Tokenization:
+class Tokenizer:
     def __init__(self, listfile):
         self.listfile = os.listdir(listfile)
         self.path = listfile
-
+        print("Tokenizer successfully created")
 
     def readFile(self, file):
         """
@@ -21,6 +21,7 @@ class Tokenization:
         args:
             file: name of the file to read
         """
+        print("reading ", file)
         f = open(self.path + "/" + file, "r")
         content = f.readlines()
         # print(content)
@@ -38,6 +39,7 @@ class Tokenization:
             indexFile: where we want to begin the document analysis
            
         """
+        print("document extraction, index ", indexFile)
         try:
             if content == None:
                 raise ValueError("file content empty!")
@@ -128,23 +130,20 @@ class Tokenization:
         return tokens
             
 
-t = Tokenization("./latimes-sous-partie")
+if __name__ == "__main__":
+    t = Tokenizer("./latimes-sous-partie")
 
-for file in t.listfile:
-    print("curremt file name:", file)
-    content = t.readFile(file)
-    index = 0;
-    while index != len(content):
-        mydoc= t.extractDocumentFromFile(content,index)
-        index = mydoc[2]
-        tokens = t.createListOfTokens(mydoc[1])
-        print("before removing stop words:",len(tokens))
-        tokens = t.removeStopWords(tokens)
-        print(len(tokens))
-
-
-# In[ ]:
-
+    for file in t.listfile:
+        print("curremt file name:", file)
+        content = t.readFile(file)
+        index = 0;
+        while index != len(content):
+            mydoc= t.extractDocumentFromFile(content,index)
+            index = mydoc[2]
+            tokens = t.createListOfTokens(mydoc[1])
+            print("before removing stop words:",len(tokens))
+            tokens = t.removeStopWords(tokens)
+            print(len(tokens))
 
 
 

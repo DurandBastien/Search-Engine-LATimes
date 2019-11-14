@@ -7,9 +7,11 @@ Created on Fri Nov  8 11:28:26 2019
 """
 
 from collections import Counter
-from globals import invertedFile as IF
+from Globals.globals import invertedFile as IF
 
 def naiveAlgo(query):
+    if(not IF):
+        return []
     finalDic = dict();
     for keyword in query.split():
         if (keyword in IF):

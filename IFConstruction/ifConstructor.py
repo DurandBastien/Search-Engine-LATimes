@@ -15,6 +15,7 @@ def constructIF(tokenizer):
     for file in tokenizer.listfile:
         content = tokenizer.readFile(file)
         index = 0;
+        print(file)
         while index != len(content):
             mydoc= tokenizer.extractDocumentFromFile(content,index)
             docId = mydoc[2]

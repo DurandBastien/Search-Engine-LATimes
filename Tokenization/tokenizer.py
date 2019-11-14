@@ -39,7 +39,7 @@ class Tokenizer:
             indexFile: where we want to begin the document analysis
            
         """
-        print("document extraction, index ", indexFile)
+        # print("document extraction, index ", indexFile)
         try:
             if content == None:
                 raise ValueError("file content empty!")

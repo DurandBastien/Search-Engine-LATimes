@@ -7,9 +7,13 @@ Tokenizer::Tokenizer(string& foldername_){
 	foldername = new char[foldername_.size() + 1];
 	strcpy(foldername, foldername_.c_str());
 	openDir();
+	cout << "ok" << endl;
 	readdir(folder);
+	cout << "ok" << endl;
 	readdir(folder);
+	cout << "ok" << endl;
 	openNextFile();
+	cout << "ok" << endl;
 }
 
 string Tokenizer::get_nextTokens(string& tokens){

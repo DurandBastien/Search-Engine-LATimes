@@ -1,6 +1,6 @@
 # Search-Engine-LATimes
 
-This is a framework to execute search queries on a dataset consisting  of LA Times record.
+This is a framework to execute search queries on a dataset consisting of LA Times records.
 
 ## First iteration
 
@@ -8,4 +8,8 @@ This is a framework to execute search queries on a dataset consisting  of LA Tim
   More details..
 - Inverted files constructor
 - Ranked queries algorithm
+...
+
+## Second iteration
+
 ...

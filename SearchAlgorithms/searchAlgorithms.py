@@ -29,7 +29,7 @@ def naiveAlgo(query):
     print(finalDic)
     ranking(finalDic)
 
-# 
+# Fonction de classement des documents selon leur score 
 def ranking(finalDic):
     for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
         print("document ID:", docId, " freq:", freq)

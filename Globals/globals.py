@@ -9,5 +9,7 @@ Created on Fri Nov  8 11:02:35 2019
 global invertedFile
 invertedFile = {}
 
+
+
 def initmap():
     invertedFile = {"you": {1: 3, 2: 2}, "are": {1, 2}, "tuples": {2, 2}}

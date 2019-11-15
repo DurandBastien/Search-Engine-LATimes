@@ -37,6 +37,11 @@ class Tokenizer:
         args:
             content: the content of the whole file
             indexFile: where we want to begin the document analysis
+            
+        return:
+            docid: the id of the doc extracted from file
+            paragraph: the content extracted from file
+            i : the index the next iteration will begin
            
         """
         #print("document extraction, index ", indexFile)

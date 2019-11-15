@@ -28,6 +28,14 @@ def naiveAlgo(query):
             finalDic = dict(Counter(finalDic) + Counter(IF[keyword])) # additionne les valeurs des deux dictionnaires avec la même clé
     return ranking(finalDic)
 
+def faginAlgo(query):
+    if(not IF):
+        return []
+    nbDocumentsWanted = 10 
+    
+        
+            
+
 # Fonction de classement des documents selon leur score 
 def ranking(finalDic):
     # for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
@@ -35,6 +43,6 @@ def ranking(finalDic):
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
     
 if __name__ == "__main__":
-    IF = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}
+    IF = {"you": {1: 3, 2: 2, 3:1}, "are": {1: 2, 3:2}, "tuples": {2: 2}, "hello": {1: 4, 2: 5, 3:10}}
     naiveAlgo("you tuples")
     

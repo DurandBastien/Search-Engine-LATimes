@@ -140,7 +140,7 @@ class Tokenizer:
             
 
 if __name__ == "__main__":
-    t = Tokenizer("./latimes-sous-partie")
+    t = Tokenizer("../../latimes-sous-partie")
 
     for file in t.listfile:
         print("curremt file name:", file)

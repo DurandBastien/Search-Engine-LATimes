@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[34]:
-
-
 
 import os
+import re
+from nltk.stem import PorterStemmer
 
 class Tokenizer:
     def __init__(self, listfile):
@@ -20,6 +19,7 @@ class Tokenizer:
             file: name of the file to read
         """
         # print("reading ", file)
+
 
         f = open(self.path + "/" + file, "r")
         content = f.readlines()
@@ -53,17 +53,16 @@ class Tokenizer:
             docid = ""
             i = -1 
             docIndexInFile = -1           
-            
             for i in range(indexFile, len(content)):
                 if "DOCID" in content[i]:
                     nbDocId = nbDocId + 1
-                    docIndexInFile = i
                     if nbDocId == 2:
                         break
                     content[i] = (
                         content[i].replace("<DOCID> ", "").replace(" </DOCID>", "").strip()
                     )
                     docid = content[i]
+                    docIndexInFile = i
                 elif "<P>" in content[i]:
                     i = i + 1
                     while "</P>" not in content[i]:
@@ -75,7 +74,6 @@ class Tokenizer:
                     
             if nbDocId == 0:
                 i = len(content)
-                
             return docid, paragraph, docIndexInFile, i
 
         except ValueError:
@@ -134,6 +132,11 @@ class Tokenizer:
             tokens = [value for value in tokens if value != word]
         
         return tokens
+    
+    def replaceWordsByStem(self, tokens):
+        stemmer = PorterStemmer()
+        stemTokens = [stemmer.stem(token) for token in tokens]
+        return stemTokens
             
 
 if __name__ == "__main__":

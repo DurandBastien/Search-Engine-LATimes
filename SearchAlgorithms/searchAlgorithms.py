@@ -26,13 +26,13 @@ def naiveAlgo(query):
     for keyword in query.split():
         if (keyword in IF):
             finalDic = dict(Counter(finalDic) + Counter(IF[keyword])) # additionne les valeurs des deux dictionnaires avec la même clé
-    print(finalDic)
-    ranking(finalDic)
+    return ranking(finalDic)
 
 # Fonction de classement des documents selon leur score 
 def ranking(finalDic):
-    for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
-        print("document ID:", docId, " freq:", freq)
+    # for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
+        # print("document ID:", docId, " freq:", freq)
+    return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
     
 if __name__ == "__main__":
     IF = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}

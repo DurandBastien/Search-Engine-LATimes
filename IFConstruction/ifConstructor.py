@@ -9,23 +9,27 @@ Created on Fri Nov  8 11:03:25 2019
 @author: clementguittat
 """
 from Globals.globals import invertedFile as IF
-
+from Globals.globals import docID2filename as d2f
 
 
 def constructIF(tokenizer):
     global countDoc
     countDoc = 0
 
-    for file in tokenizer.listfile:
+
+    for file in tokenizer.listfile[:4]:
         content = tokenizer.readFile(file)
         index = 0
         while index != len(content):
             mydoc= tokenizer.extractDocumentFromFile(content,index)
+
             countDoc = countDoc + 1
+            d2f[mydoc[0]] = [file, mydoc[2], mydoc[3]]
             docId = mydoc[0]
             index = mydoc[3]
             tokens = tokenizer.createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
+            tokens = tokenizer.replaceWordsByStem(tokens)
 
             for word in tokens:
                 if (word in IF):
@@ -46,6 +50,7 @@ def giveScores():
         for docId in IF[word]:
             IF[word][docId] = (1 + math.log(IF[word][docId])) * math.log(countDoc / (1 + len(IF[word])))
     print(countDoc)  #132626 docs for whole dir
+
 
 if __name__ == "__main__":
     constructIF()

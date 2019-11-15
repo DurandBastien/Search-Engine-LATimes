@@ -29,13 +29,19 @@ def naiveAlgo(query):
     return ranking(finalDic)
 
 def faginAlgo(query):
+    nbOfElementsInQuery = len(query.split())
+    IFOther = {"you": [(1, 3), (2, 2), (3,1)], "are": [(4, 6), (1, 2), (3,2)], "tuples": [(3,3), (2,2)], "hello": [(3,10), (2,5), (1,4)]}
     if(not IF):
         return []
     listDocumentsScoreSeenforAtLeastOneWord = []
     listDocumentsScoreSeenforAllWords = []
+    nbTopElements = 2
+    dictNbTimesSeen = dict();
+    while(len(listDocumentsScoreSeenforAllWords) < nbTopElements):
+        for keyword in query.split():
+            if (keyword in IFOther):
+                
     
-    
-        
             
 
 # Fonction de classement des documents selon leur score 
@@ -45,6 +51,6 @@ def ranking(finalDic):
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
     
 if __name__ == "__main__":
-    IF = {"you": {1: 3, 2: 2, 3:1}, "are": {4: 6, 1: 2, 3:2}, "tuples": {3:3, 2: 2}, "hello": {3:10, 2: 5, 1: 4}}
+    IF = {"you": {1: 3, 2: 2, 3:1}, "are": {1: 2, 3:2, 4: 6}, "tuples": {2: 2, 3:3}, "hello": {1: 4, 2: 5, 3:10}}
     naiveAlgo("you tuples")
     

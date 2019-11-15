@@ -6,9 +6,9 @@ This is a framework to execute search queries on a dataset consisting of LA Time
 
 - Tokenizer
   - Initialize tokeniker with the list of files 
-	- Extract documents from files representing by an id
-	- Extract tokens from documents
-	- Pre-processing on tokens (remove punctuation and sto words)	
+  - Extract documents from files representing by an id
+  - Extract tokens from documents
+  - Pre-processing on tokens (remove punctuation and sto words)	
 - Inverted files construction
   - Inverted file: HashMap(keys = word, value = Posting List)
   - Posting List: HashMap(key = docID, value = score(word, docID))

@@ -26,7 +26,6 @@ def naiveAlgo(query):
     for keyword in query.split():
         if (keyword in IF):
             finalDic = dict(Counter(finalDic) + Counter(IF[keyword])) # additionne les valeurs des deux dictionnaires avec la même clé
-    print(finalDic)
     return ranking(finalDic)
 
 # Fonction de classement des documents selon leur score 

@@ -13,6 +13,5 @@ if __name__ == "__main__":
 
 	# print(IF["chernobyl"])
 	# searchAlgorithms.naiveAlgo("chernobyl")
-	print(d2f)
 	documentServer.foldername = datasetFoldername
 	queryShell.launchShell(searchAlgorithms.naiveAlgo, documentServer)

@@ -9,6 +9,7 @@ def launchShell(searchAlgorithm, documentServer):
 		processedQuery = processQueryString(query)
 		queryResult = searchAlgorithm(processedQuery)
 		if(queryResult):
+			print(queryResult)
 			returnedDocuments = documentServer.serveDocuments(queryResult)
 			metadata = processReturnedDocuments(returnedDocuments)
 			print("\n")

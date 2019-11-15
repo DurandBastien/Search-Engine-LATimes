@@ -39,7 +39,7 @@ class Tokenizer:
             indexFile: where we want to begin the document analysis
            
         """
-        # print("document extraction, index ", indexFile)
+        #print("document extraction, index ", indexFile)
         try:
             if content == None:
                 raise ValueError("file content empty!")
@@ -47,11 +47,13 @@ class Tokenizer:
             nbDocId = 0
             paragraph = ""
             docid = ""
-            i = -1            
+            i = -1 
+            docIndexInFile = -1           
             
             for i in range(indexFile, len(content)):
                 if "DOCID" in content[i]:
                     nbDocId = nbDocId + 1
+                    docIndexInFile = i
                     if nbDocId == 2:
                         break
                     content[i] = (
@@ -70,7 +72,7 @@ class Tokenizer:
             if nbDocId == 0:
                 i = len(content)
                 
-            return docid, paragraph, i
+            return docid, paragraph, docIndexInFile, i
 
         except ValueError:
             return 0, 0, -1
@@ -136,10 +138,10 @@ if __name__ == "__main__":
     for file in t.listfile:
         print("curremt file name:", file)
         content = t.readFile(file)
-        index = 0;
+        index = 0
         while index != len(content):
             mydoc= t.extractDocumentFromFile(content,index)
-            index = mydoc[2]
+            index = mydoc[3]
             tokens = t.createListOfTokens(mydoc[1])
             print("before removing stop words:",len(tokens))
             tokens = t.removeStopWords(tokens)

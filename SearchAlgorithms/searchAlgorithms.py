@@ -20,7 +20,7 @@ def naiveAlgo(query):
     listValues = list(finalDic.values())
     listKeys = list(finalDic.keys())
     bestDoc = listKeys[listValues.index(max(listValues))]
-    print(bestDoc)
+    return [bestDoc]
     
 if __name__ == "__main__":
     IF = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}

@@ -21,7 +21,7 @@ class Tokenizer:
         args:
             file: name of the file to read
         """
-        print("reading ", file)
+        # print("reading ", file)
         f = open(self.path + "/" + file, "r")
         content = f.readlines()
         # print(content)

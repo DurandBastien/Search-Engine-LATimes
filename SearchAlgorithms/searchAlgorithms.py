@@ -31,7 +31,9 @@ def naiveAlgo(query):
 def faginAlgo(query):
     if(not IF):
         return []
-    nbDocumentsWanted = 10 
+    listDocumentsScoreSeenforAtLeastOneWord = []
+    listDocumentsScoreSeenforAllWords = []
+    
     
         
             
@@ -43,6 +45,6 @@ def ranking(finalDic):
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
     
 if __name__ == "__main__":
-    IF = {"you": {1: 3, 2: 2, 3:1}, "are": {1: 2, 3:2}, "tuples": {2: 2}, "hello": {1: 4, 2: 5, 3:10}}
+    IF = {"you": {1: 3, 2: 2, 3:1}, "are": {4: 6, 1: 2, 3:2}, "tuples": {3:3, 2: 2}, "hello": {3:10, 2: 5, 1: 4}}
     naiveAlgo("you tuples")
     

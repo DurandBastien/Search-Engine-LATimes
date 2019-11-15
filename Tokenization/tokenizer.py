@@ -4,7 +4,7 @@
 
 import os
 import re
-from nltk.stem.porter import *
+from nltk.stem import PorterStemmer
 
 class Tokenizer:
     def __init__(self, listfile):
@@ -51,17 +51,16 @@ class Tokenizer:
             docid = ""
             i = -1 
             docIndexInFile = -1           
-            
             for i in range(indexFile, len(content)):
                 if "DOCID" in content[i]:
                     nbDocId = nbDocId + 1
-                    docIndexInFile = i
                     if nbDocId == 2:
                         break
                     content[i] = (
                         content[i].replace("<DOCID> ", "").replace(" </DOCID>", "")
                     )
                     docid = content[i]
+                    docIndexInFile = i
                 elif "<P>" in content[i]:
                     i = i + 1
                     while "</P>" not in content[i]:
@@ -73,7 +72,6 @@ class Tokenizer:
                     
             if nbDocId == 0:
                 i = len(content)
-                
             return docid, paragraph, docIndexInFile, i
 
         except ValueError:

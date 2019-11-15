@@ -7,7 +7,7 @@ from Globals.globals import invertedFile as IF
 from Globals.globals import docID2filename as d2f
 
 if __name__ == "__main__":
-	datasetFoldername = "/home/bastien/Documents/latimes"
+	datasetFoldername = "../../latimes/latimes"
 	tokenizer = tokenizer.Tokenizer(datasetFoldername)
 	ifConstructor.constructIF(tokenizer)
 

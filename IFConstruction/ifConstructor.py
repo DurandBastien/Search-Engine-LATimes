@@ -12,7 +12,6 @@ import Tokenization.tokenizer
 
 def constructIF(tokenizer):
 
-    #print(tokenizer.listfile)
     for file in tokenizer.listfile:
         content = tokenizer.readFile(file)
         index = 0
@@ -23,6 +22,7 @@ def constructIF(tokenizer):
             index = mydoc[3]
             tokens = tokenizer.createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
+            tokens = tokenizer.replaceWordsByStem(tokens)
 
             for word in tokens:
                 if (word in IF):
@@ -32,7 +32,7 @@ def constructIF(tokenizer):
                         IF[word][docId] = 1
                 else:
                     IF[word] = {docId: 1}
-            
+        print(file, len(IF))    
 if __name__ == "__main__":
     constructIF()
     print(IF)

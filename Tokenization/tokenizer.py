@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[34]:
-
-
 
 import os
 import re
-
+from nltk.stem.porter import *
 
 class Tokenizer:
     def __init__(self, listfile):
@@ -21,7 +18,7 @@ class Tokenizer:
         args:
             file: name of the file to read
         """
-        print("reading ", file)
+        #print("reading ", file)
         f = open(self.path + "/" + file, "r")
         content = f.readlines()
         # print(content)
@@ -135,6 +132,11 @@ class Tokenizer:
             tokens = [value for value in tokens if value != word]
         
         return tokens
+    
+    def replaceWordsByStem(self, tokens):
+        stemmer = PorterStemmer()
+        stemTokens = [stemmer.stem(token) for token in tokens]
+        return stemTokens
             
 
 if __name__ == "__main__":

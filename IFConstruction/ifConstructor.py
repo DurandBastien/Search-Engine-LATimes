@@ -35,7 +35,48 @@ def constructIF(tokenizer):
                         IF[word][docId] = 1
                 else:
                     IF[word] = {docId: 1}
-        print(file, len(IF))    
+        print(file, len(IF)) 
+
+def constructIFFromStreamTokenizer(streamTokenizer):
+    counter = 0
+    docFromStream = streamTokenizer.getNextDocAsTokens()
+    while(docFromStream):
+        filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
+        d2f[docID] = [filename, docIndexStart, docIndexEnd]
+        for word in tokens.split():
+            if (word in IF):
+                if (docID in IF[word]):
+                    IF[word][docID] += 1
+                else:
+                    IF[word][docID] = 1
+            else:
+                IF[word] = {docID: 1}
+        docFromStream = streamTokenizer.getNextDocAsTokens()
+        if(counter == 9):
+            break
+        counter+=1
+def constructIF_diskBased(streamTokenizer, runSize):
+    runCounter = 0
+    docFromStream = streamTokenizer.getNextDocAsTokens()
+    while(docFromStream):
+        filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
+        runTriples = []
+        if(runCounter < runSize):
+            docWiseDict = {}
+            for word in tokens:
+                if (word in docWiseDict):
+                    docWiseDict[word] += 1
+                else:
+                    docWiseDict = 1
+            for word in docWiseDict:
+                runTriples.append([word, docID, docWiseDict[word]])
+        else:
+            #flush runTriples
+            runCounter = 0
+
+        docFromStream = streamTokenizer.getNextDocAsTokens()
+
+
 if __name__ == "__main__":
     constructIF()
     print(IF)

@@ -20,5 +20,6 @@ This is a framework to execute search queries on a dataset consisting of LA Time
 ## Second iteration
 
 - Tokenization
+  - pip install nltk
 - Inverted files construction
 - Search algorithm

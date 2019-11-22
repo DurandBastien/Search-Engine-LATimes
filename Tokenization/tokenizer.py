@@ -4,7 +4,9 @@
 
 import os
 import re
+import nltk
 from nltk.stem import PorterStemmer
+#from nltk.stem import WordNetLemmatizer
 
 class Tokenizer:
     def __init__(self, listfile):
@@ -135,7 +137,12 @@ class Tokenizer:
         stemmer = PorterStemmer()
         stemTokens = [stemmer.stem(token) for token in tokens]
         return stemTokens
-            
+
+    def replaceWordsByLemma(sefl, paragraph):
+        lemmatizer = WordNetLemmatizer()
+        for word in paragraph:
+            word = lemmatizer.lemmatize(word, pos="v")
+        return paragraph    
 
 if __name__ == "__main__":
     t = Tokenizer("../../latimes-sous-partie")

@@ -20,7 +20,9 @@ class Tokenizer:
         args:
             file: name of the file to read
         """
-        #print("reading ", file)
+        # print("reading ", file)
+
+
         f = open(self.path + "/" + file, "r")
         content = f.readlines()
         # print(content)
@@ -59,7 +61,7 @@ class Tokenizer:
                     if nbDocId == 2:
                         break
                     content[i] = (
-                        content[i].replace("<DOCID> ", "").replace(" </DOCID>", "")
+                        content[i].replace("<DOCID> ", "").replace(" </DOCID>", "").strip()
                     )
                     docid = content[i]
                     docIndexInFile = i

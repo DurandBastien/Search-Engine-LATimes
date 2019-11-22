@@ -9,6 +9,7 @@ Created on Fri Nov  8 11:02:35 2019
 global invertedFile
 invertedFile = {}
 
+
 global docID2filename
 docID2filename = {}
 

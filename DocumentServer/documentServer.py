@@ -7,12 +7,12 @@ foldername = ""
 def serveDocuments(docIDList):
 	docContent = {}
 	for docID in docIDList:
-		docContent[docID] = None
-		if(docID in d2f):
-			docIDinfo = d2f[docID]
+		docContent[docID[0]] = None
+		if(docID[0] in d2f):
+			docIDinfo = d2f[docID[0]]
 			file = open(foldername+"/"+docIDinfo[0], "r")
 			file.seek(docIDinfo[1])
-			docContent[docID] = file.read(docIDinfo[2] - docIDinfo[1])
+			docContent[docID[0]] = file.read(docIDinfo[2] - docIDinfo[1])
 
 	return docContent
 

@@ -1,4 +1,5 @@
-#include </usr/include/python3.5/Python.h>
+#include <Python.h>
+// #include </usr/include/python3.5/Python.h>
 #include <iostream>
 #include <string>
 #include "Tokenizer.h"
@@ -8,7 +9,7 @@ using namespace std;
 
 PyObject* construct(PyObject* self, PyObject* args){
     // Arguments passed from Python
-    string foldername_;   
+    const char* foldername_;   
 
     // Process arguments passes from Python
     PyArg_ParseTuple(args, "s",
@@ -20,15 +21,14 @@ PyObject* construct(PyObject* self, PyObject* args){
     // Create a Python capsule with a pointer to object
     PyObject* tokenizerCapsule = PyCapsule_New((void *)tokenizer, "TokenizerPtr", NULL);
     PyCapsule_SetPointer(tokenizerCapsule, (void *)tokenizer);
-    cout << "construct" << endl;
+    // cout << "construct" << endl;
     // Return the Python capsule with the pointer toobject
     return Py_BuildValue("O", tokenizerCapsule);   // "O" means "Python object"
 }
 
-PyObject* getNextTokens(PyObject* self, PyObject* args){
+PyObject* getNextDocAsTokens(PyObject* self, PyObject* args){
     // Arguments passed from Python
-    PyObject* tokenizerCapsule_;
-    string buffer;      
+    PyObject* tokenizerCapsule_; 
 
     // Process arguments
     PyArg_ParseTuple(args, "O",
@@ -37,9 +37,15 @@ PyObject* getNextTokens(PyObject* self, PyObject* args){
     // Get the pointer to object
     Tokenizer* tokenizer = (Tokenizer*)PyCapsule_GetPointer(tokenizerCapsule_, "TokenizerPtr");
 
-    string docID = tokenizer->get_nextTokens(buffer);
-
-    return Py_BuildValue("ss", docID.c_str(), buffer.c_str());
+    int docStart;
+    int docEnd;
+    string docID;
+    string buffer;     
+    if(tokenizer->get_nextDoc(docID, buffer, docStart, docEnd)){
+        string tokens = tokenizer->parseText2Tokens(buffer);
+        return Py_BuildValue("sssii", tokenizer->getCurrentFilename().c_str(), docID.c_str(), tokens.c_str(), docStart, docEnd);
+    }else
+        return Py_BuildValue("");
 }
 
 PyObject* delete_object(PyObject* self, PyObject* args)
@@ -73,8 +79,8 @@ static PyMethodDef cTokenizerFunctions[] =
       construct, METH_VARARGS,
      "Create Tokenizer object"},
 
-    {"getNextTokens",                     // C++/Py wrapper 
-      getNextTokens, METH_NOARGS,
+    {"getNextDocAsTokens",                     // C++/Py wrapper 
+      getNextDocAsTokens, METH_VARARGS,
      "get the next tokens"},
 
     {"delete_object",               // C++/Py Destructor

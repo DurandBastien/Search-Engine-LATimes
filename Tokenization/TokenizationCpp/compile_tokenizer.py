@@ -5,7 +5,7 @@ except:
 
 # Definition of extension modules
 cTokenizer = Extension('cTokenizer',
-                 sources = [ 'TokenizerInterface.cpp'])
+                 sources = [ 'Tokenizer.cpp', 'TokenizerInterface.cpp'])
 
 # Compile Python module
 setup (ext_modules = [cTokenizer],

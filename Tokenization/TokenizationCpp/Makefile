@@ -1,5 +1,5 @@
 # Compiler and Python interpreter
-CPYTHON3 = python3.7
+CPYTHON3 = python3
 CPP = g++
 
 # C++ example
@@ -24,3 +24,5 @@ clean:
 	rm -f *.so
 	rm -f *.o
 	rm -fR __pycache__
+
+

@@ -18,7 +18,7 @@ def launchShell(searchAlgorithm, documentServer):
 				print("choose docID")
 				chosenDocId = sys.stdin.readline()
 				print("\n")
-				print(returnedDocuments[chosenDocId],"\n")
+				print(returnedDocuments[chosenDocId.strip("\n")],"\n")
 		else:
 			print("no result\n")
 
@@ -26,6 +26,6 @@ def processQueryString(query):
 	return query
 
 def processReturnedDocuments(returnedDocuments):
-	return returnedDocuments
+	return returnedDocuments.keys()
 
 	

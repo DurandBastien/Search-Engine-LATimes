@@ -10,6 +10,7 @@ Created on Fri Nov  8 11:03:25 2019
 """
 from Globals.globals import invertedFile as IF
 from Globals.globals import docID2filename as d2f
+from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
 
 
 def constructIF(tokenizer):
@@ -27,11 +28,10 @@ def constructIF(tokenizer):
             d2f[mydoc[0]] = [file, mydoc[2], mydoc[3]]
             docId = mydoc[0]
             index = mydoc[3]
-            tokens = tokenizer.createListOfTokens(mydoc[1])
+            tokens = createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
-            #tokens = tokenizer.replaceWordsByStem(tokens)
-            #tokens = tokenizer.replaceWordsByLemma(tokens)
-            print(tokens)
+            tokens = replaceWordsByStem(tokens)
+            #tokens = replaceWordsByLemma(tokens)
 
 
             for word in tokens:

@@ -22,8 +22,8 @@ from Globals.globals import invertedFile as IF
 def naiveAlgo(query):
     if(not IF):
         return []
-    finalDic = dict();
-    for keyword in query.split():
+    finalDic = dict()
+    for keyword in query:
         if (keyword in IF):
             finalDic = dict(Counter(finalDic) + Counter(IF[keyword])) # additionne les valeurs des deux dictionnaires avec la même clé
     return ranking(finalDic)

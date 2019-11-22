@@ -6,7 +6,8 @@ import os
 import re
 import nltk
 from nltk.stem import PorterStemmer
-#from nltk.stem import WordNetLemmatizer
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
 
 class Tokenizer:
     def __init__(self, listfile):
@@ -140,11 +141,19 @@ class Tokenizer:
         stemTokens = [stemmer.stem(token) for token in tokens]
         return stemTokens
 
-    def replaceWordsByLemma(sefl, paragraph):
+    def replaceWordsByLemma(sefl, tokens):
         lemmatizer = WordNetLemmatizer()
-        for word in paragraph:
-            word = lemmatizer.lemmatize(word, pos="v")
-        return paragraph    
+        for i in range(0, len(tokens)):
+            #Extract the type of word to find the correct lemma
+            tag = nltk.pos_tag([tokens[i]])[0][1][0].upper()
+            tag_dict = {"J": wordnet.ADJ,
+                        "N": wordnet.NOUN,
+                        "V": wordnet.VERB,
+                        "R": wordnet.ADV}
+            POS = tag_dict.get(tag, wordnet.NOUN)
+            #Replace the word by its lemma
+            tokens[i] = lemmatizer.lemmatize(tokens[i], POS)
+        return tokens  
 
 if __name__ == "__main__":
     t = Tokenizer("../../latimes-sous-partie")

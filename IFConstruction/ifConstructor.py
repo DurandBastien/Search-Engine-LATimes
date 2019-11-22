@@ -29,7 +29,10 @@ def constructIF(tokenizer):
             index = mydoc[3]
             tokens = tokenizer.createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
-            tokens = tokenizer.replaceWordsByStem(tokens)
+            #tokens = tokenizer.replaceWordsByStem(tokens)
+            #tokens = tokenizer.replaceWordsByLemma(tokens)
+            print(tokens)
+
 
             for word in tokens:
                 if (word in IF):

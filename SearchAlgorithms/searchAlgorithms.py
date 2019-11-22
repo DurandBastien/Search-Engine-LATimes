@@ -29,7 +29,8 @@ def naiveAlgo(query):
     return ranking(finalDic)
 
 def faginAlgo(query):
-    IFOther = {"you": [(1, 3), (2, 2), (3,1)], "are": [(4, 6), (1, 2), (3,2)], "tuples": [(3,3), (2,2)], "hello": [(3,10), (2,5), (1,4)]}
+    IFOther = {"you": [(1, 3), (2, 2), (3,1)], "are": [(4, 6), (1, 2), (3,2)]}
+    IFID2Term = {1 : {"you": 3, "are": 2}, 2: {"you": 2}, 3: {"you":1, "are": 2}, 4: {"are":6}}
     if(not IFOther):
         return []
     M = dict();
@@ -56,9 +57,24 @@ def faginAlgo(query):
         if (indexWord == nbOfElementsInQuery):
             indexWord = 0
             indexPL = indexPL+1
+
+    dictScore = dict()
+    for ID in M.keys():
+        termScoreMap = IFID2Term[ID]
+        dictScore[ID] = sum(termScoreMap.values())
+    for key,value in dictScore.items():
+        C.append((key, value))
+    C = sorted(C, key=lambda x:x[1], reverse=True)[:nbTopElements]
     
-    
-            
+        #for value in IFID2Term.values():
+            #for scoresDoc in value.values():
+                #print(dictScore)
+                #if(ID in dictScore):
+                  #  dictScore[ID] = dictScore[ID] + scoresDoc
+               # else:
+                  #  dictScore[ID] = scoresDoc
+        
+        
 
 # Fonction de classement des documents selon leur score 
 def ranking(finalDic):

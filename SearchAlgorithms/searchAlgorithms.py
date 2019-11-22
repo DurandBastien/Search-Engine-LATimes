@@ -8,7 +8,7 @@ Created on Fri Nov  8 11:28:26 2019
 
 import sys
 sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
-from collections import Counter
+from collections import Counter, OrderedDict
 from Globals.globals import invertedFile as IF
 
 # Algo naif 
@@ -29,13 +29,12 @@ def naiveAlgo(query):
     return ranking(finalDic)
 
 def faginAlgo(query):
-    IFOther = {"you": [(1, 3), (2, 2), (3,1)], "are": [(4, 6), (1, 2), (3,2)]}
-    IFID2Term = {1 : {"you": 3, "are": 2}, 2: {"you": 2}, 3: {"you":1, "are": 2}, 4: {"are":6}}
+    IFOther = {"you": {1: 3, 2: 2, 3: 1, 4:1, 5:1}, "are": {4: 6, 1: 2, 3: 2, 5:1} }
     if(not IFOther):
         return []
     M = dict();
     C = []
-    nbTopElements = 2
+    nbTopElements = 3
     listWordsQuery = query.split()
     nbOfElementsInQuery = len(listWordsQuery)
     indexWord = 0
@@ -43,38 +42,40 @@ def faginAlgo(query):
     while(len(C) < nbTopElements):
         keyword = listWordsQuery[indexWord]
         if (keyword in IFOther):
-            if indexPL < len(IFOther[keyword]):
-                docId, score = IFOther[keyword][indexPL]
+            if indexPL < len(IFOther[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue 
+                docId = list(IFOther[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir 
+                score = IFOther[keyword][docId] #le score de ce docID
                 if (docId in M):
                     previousScore, nbTimesSeen = M[docId]
-                    M[docId] = (previousScore + score, nbTimesSeen + 1)
-                    if (nbTimesSeen + 1 == nbOfElementsInQuery):
+                    M[docId] = (previousScore + score, nbTimesSeen + 1) # on utilise la somme pour calculer les scores des documents 
+                    if (nbTimesSeen + 1 == nbOfElementsInQuery): #si on a toruvé un document qui est dans toutes les PLlistes alors on l'ajoute à C
                         C.append((docId, previousScore + score))
                         del M[docId]
-                else :
+                else : # si c'est la première fois qu'on rencontre ce document on ajoute l'ajoute à M avec son score et nbdefoisvu à 1 
                     M[docId] = (score, 1)
+            else: # si on a parcouru une des PLlistes en entier, on break car on sait qu'on aura plus rien à ajouter à C 
+                print("in")
+                break
         indexWord = indexWord+1
-        if (indexWord == nbOfElementsInQuery):
+        if (indexWord == nbOfElementsInQuery):#si on a parcouru tous les mots de la query, alors on peut passer au niveau suivant dans les PLlistes, on incrémente l'index indexPL pour regarder le prochain élement de chaque PLliste 
             indexWord = 0
             indexPL = indexPL+1
-
+ 
     dictScore = dict()
-    for ID in M.keys():
-        termScoreMap = IFID2Term[ID]
-        dictScore[ID] = sum(termScoreMap.values())
+    for ID in M.keys(): #on parcourt tous les documents restants dans M pour vérifier que leur score ne soit pas supérieur à ceux déjà dans C  
+        for keyword in listWordsQuery: # on va parcourir toutes les PLlistes et trouver le score pour un document en les additionnant. On est alors disjonctif en utilisant l'additionnant car un docuement ne comportant pas un terme ne sera pas pénalisé mais si bcp dans un document alors quand même sélectionné
+            if (keyword in IFOther):
+                if ID in IFOther[keyword]:
+                    if ID in dictScore :
+                        dictScore[ID] = dictScore[ID] + IFOther[keyword][ID]
+                    else: 
+                        dictScore[ID] = IFOther[keyword][ID]
+
     for key,value in dictScore.items():
         C.append((key, value))
     C = sorted(C, key=lambda x:x[1], reverse=True)[:nbTopElements]
+    print(C)
     
-        #for value in IFID2Term.values():
-            #for scoresDoc in value.values():
-                #print(dictScore)
-                #if(ID in dictScore):
-                  #  dictScore[ID] = dictScore[ID] + scoresDoc
-               # else:
-                  #  dictScore[ID] = scoresDoc
-        
-        
 
 # Fonction de classement des documents selon leur score 
 def ranking(finalDic):

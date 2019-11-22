@@ -3,24 +3,28 @@ from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, repla
 
 def launchShell(searchAlgorithm, documentServer):
 	while 1:
-		print("\n")
+		print("\nEnter \'quit()\' to exit")
 		print("Enter search query:")
 		query = sys.stdin.readline()
-		processedQuery = processQueryString(query, lemmatization = True)
-		queryResult = searchAlgorithm(processedQuery)
-		if(queryResult):
-			returnedDocuments = documentServer.serveDocuments(queryResult)
-			metadata = processReturnedDocuments(returnedDocuments)
-			print("\n")
-			print("result:\n")
-			print(metadata, "\n")
-			if(returnedDocuments):
-				print("choose docID")
-				chosenDocId = sys.stdin.readline()
+		print("quit()" not in query)
+		if "quit()" not in query:
+			processedQuery = processQueryString(query, lemmatization = True)
+			queryResult = searchAlgorithm(processedQuery)
+			if(queryResult):
+				returnedDocuments = documentServer.serveDocuments(queryResult)
+				metadata = processReturnedDocuments(returnedDocuments)
 				print("\n")
-				print(returnedDocuments[chosenDocId.strip("\n")],"\n")
+				print("result:\n")
+				print(metadata, "\n")
+				if(returnedDocuments):
+					print("choose docID")
+					chosenDocId = sys.stdin.readline()
+					print("\n")
+					print(returnedDocuments[chosenDocId.strip("\n")],"\n")
+			else:
+				print("no result\n")
 		else:
-			print("no result\n")
+			break
 
 def processQueryString(query, stemming = False, lemmatization = False):
 	query = createListOfTokens(query)

@@ -14,4 +14,4 @@ global docID2filename
 docID2filename = {}
 
 def initmap():
-    invertedFile = {"you": {1: 3, 2: 2}, "are": {1, 2}, "tuples": {2, 2}}
+    invertedFile = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}

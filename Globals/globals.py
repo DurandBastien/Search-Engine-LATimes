@@ -6,7 +6,7 @@ Created on Fri Nov  8 11:02:35 2019
 @author: clementguittat
 """
 
-global invertedFile
+
 invertedFile = {}
 
 

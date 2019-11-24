@@ -7,9 +7,11 @@ Created on Fri Nov  8 11:28:26 2019
 """
 
 import sys
+import heapq
 sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
 from collections import Counter, OrderedDict
 from Globals.globals import invertedFile as IF
+from SearchAlgorithms.minHeap import PQNode
 
 # Algo naif 
 # Fonctionnement pour 1 mot-clé dans la requête => 
@@ -29,8 +31,12 @@ def naiveAlgo(query):
     return ranking(finalDic)
 
 def faginAlgo(query):
-    IFOther = {"you": {1: 3, 2: 2, 3: 1, 4:1, 5:1}, "are": {4: 6, 1: 2, 3: 2, 5:1} }
-    if(not IFOther):
+    global IF
+
+    for keyword in IF.keys():
+        IF[keyword] = {k: v for k, v in sorted(IF[keyword].items(),key=lambda x: x[1],reverse=True)}
+
+    if(not IF):
         return []
     M = dict();
     C = []
@@ -41,10 +47,10 @@ def faginAlgo(query):
     indexPL = 0
     while(len(C) < nbTopElements):
         keyword = listWordsQuery[indexWord]
-        if (keyword in IFOther):
-            if indexPL < len(IFOther[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue 
-                docId = list(IFOther[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir 
-                score = IFOther[keyword][docId] #le score de ce docID
+        if (keyword in IF):
+            if indexPL < len(IF[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue
+                docId = list(IF[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir
+                score = IF[keyword][docId] #le score de ce docID
                 if (docId in M):
                     previousScore, nbTimesSeen = M[docId]
                     M[docId] = (previousScore + score, nbTimesSeen + 1) # on utilise la somme pour calculer les scores des documents 
@@ -64,27 +70,93 @@ def faginAlgo(query):
     dictScore = dict()
     for ID in M.keys(): #on parcourt tous les documents restants dans M pour vérifier que leur score ne soit pas supérieur à ceux déjà dans C  
         for keyword in listWordsQuery: # on va parcourir toutes les PLlistes et trouver le score pour un document en les additionnant. On est alors disjonctif en utilisant l'additionnant car un docuement ne comportant pas un terme ne sera pas pénalisé mais si bcp dans un document alors quand même sélectionné
-            if (keyword in IFOther):
-                if ID in IFOther[keyword]:
-                    if ID in dictScore :
-                        dictScore[ID] = dictScore[ID] + IFOther[keyword][ID]
+            if (keyword in IF):
+                if ID in IF[keyword]:
+                    if ID in dictScore:
+                        dictScore[ID] = dictScore[ID] + IF[keyword][ID]
                     else: 
-                        dictScore[ID] = IFOther[keyword][ID]
+                        dictScore[ID] = IF[keyword][ID]
 
     for key,value in dictScore.items():
         C.append((key, value))
     C = sorted(C, key=lambda x:x[1], reverse=True)[:nbTopElements]
     print(C)
+
+
+
+
+
+
+def threshold(query):
+    '''
+
+    :param query: query string
+    :return: the minHeap which contains all entries formed by ID  and  Score
+    '''
+    listWordsQuery = query.split()
+    dictMerge = {}
+    nbTop = 3
+    for keyword in listWordsQuery:
+        if (keyword in IF):
+            for k in IF[keyword].keys():
+                if k in dictMerge:
+                    dictMerge[k] = dictMerge[k] + IF[keyword][k]
+                else:
+                    dictMerge[k] = IF[keyword][k]
+    heap = []
+    indexPL = 0
     
+    while True:
+        threshold = 0
+        for keyword in listWordsQuery & IF.keys():
+
+            if indexPL < len(IF[keyword]):  # si on a pas parcouru toute la taille d'une des PLliste on continue
+                docId = list(IF[keyword])[indexPL]  # docID pour l'indexe de la PLliste du terme à parcourir
+                score = IF[keyword][docId]
+                scoreAll = dictMerge[docId] # le score de ce docID ds tout PL
+                newNode = PQNode(docId,scoreAll)
+                if newNode not in heap:
+                    heapq.heappush(heap, newNode)
+                threshold = threshold + score
+
+        indexPL = indexPL + 1
+        if getKthElement(nbTop,heap).value > threshold:
+
+            for node in heapq.nlargest(k,heap):
+                print(node)
+
+            return heap
+
+
+def getKthElement(k,heap):
+
+    res = heapq.nlargest(k,heap)[-1]
+    return res
 
 # Fonction de classement des documents selon leur score 
 def ranking(finalDic):
     # for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
         # print("document ID:", docId, " freq:", freq)
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
-    
+
+def testPQNode():
+    '''
+    to test if PQnode works as a minHeap
+
+    '''
+    input = [PQNode(1, 4), PQNode(7, 4), PQNode(6, 9), PQNode(2, 5)]
+    hinput = []
+    for item in input:
+        heapq.heappush(hinput, item)
+    print(getKthElement(1, input))
+
+    while (hinput):
+        print(heapq.heappop(hinput))
+
 if __name__ == "__main__":
+
     IF = {"you": {1: 3, 2: 2, 3:1}, "are": {1: 2, 3:2, 4: 6}, "tuples": {2: 2, 3:3}, "hello": {1: 4, 2: 5, 3:10}}
     ##naiveAlgo("you tuples")
     faginAlgo("you are")
-    
+
+    threshold("you are")

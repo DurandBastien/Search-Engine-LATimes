@@ -1,6 +1,8 @@
 # Search-Engine-LATimes
 
 This is a framework to execute search queries on a dataset consisting of LA Times records.
+To be able to run this code you will need to execute:
+  - pip install nltk
 
 ## First iteration
 
@@ -15,11 +17,12 @@ This is a framework to execute search queries on a dataset consisting of LA Time
   - Loop through files and update global HashMap using number of word occurence in document as a score
   - Issue: can't fit in memory
 - Search algorithm
-
+  - naive algorithm to be able to test the project
 
 ## Second iteration
 
-- Tokenization
-  - pip install nltk
+- Tokenization (using nltk)
+  - Replace words by their lemma
+  - Replace words by their stem
 - Inverted files construction
 - Search algorithm

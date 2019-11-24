@@ -1,15 +1,19 @@
 import sys
 sys.path.append('../')
-from Globals.globals import docID2filename as d2f
+import Globals.globals
+# from Globals.globals import docID2filename as d2f
+# from Globals.globals import docID2ContentIndexes 
 
 foldername = ""
 
 def serveDocuments(docIDList):
+	# global docID2ContentIndexes
+	print(docIDList)
 	docContent = {}
 	for docID in docIDList:
 		docContent[docID[0]] = None
-		if(docID[0] in d2f):
-			docIDinfo = d2f[docID[0]]
+		if(docID[0] in Globals.globals.docID2ContentIndexes):
+			docIDinfo = Globals.globals.docID2ContentIndexes[docID[0]]
 			file = open(foldername+"/"+docIDinfo[0], "r")
 			file.seek(docIDinfo[1])
 			docContent[docID[0]] = file.read(docIDinfo[2] - docIDinfo[1])

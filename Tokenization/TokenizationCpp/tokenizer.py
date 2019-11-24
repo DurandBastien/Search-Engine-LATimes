@@ -1,5 +1,6 @@
 try:
     from Tokenization.TokenizationCpp import cTokenizer
+    # import cTokenizer
 except:
     strErr = "\n\n cTokenizer module not found, "
     strErr += "run `$ make tokenizer_py_module`! \n"

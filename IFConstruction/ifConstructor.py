@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-import math;
-import ast;
-import os
-from collections import OrderedDict 
-
-from Tokenization import tokenizer
-
 """
 Created on Fri Nov  8 11:03:25 2019
 
 @author: clementguittat
 """
-from Globals.globals import invertedFile as IF
-from Globals.globals import docID2filename as d2f
+import math;
+import ast;
+import os
+from collections import OrderedDict 
+import Globals.globals as glob
+from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
 
 
 def constructIF(tokenizer):
@@ -29,76 +25,91 @@ def constructIF(tokenizer):
             mydoc= tokenizer.extractDocumentFromFile(content,index)
 
             countDoc = countDoc + 1
-            d2f[mydoc[0]] = [file, mydoc[2], mydoc[3]]
+            glob.docID2ContentIndexes[mydoc[0]] = [file, mydoc[2], mydoc[3]]
             docId = mydoc[0]
             index = mydoc[3]
-            tokens = tokenizer.createListOfTokens(mydoc[1])
+            tokens = createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
-            tokens = tokenizer.replaceWordsByStem(tokens)
+            tokens = replaceWordsByStem(tokens)
+            #tokens = replaceWordsByLemma(tokens)
+
 
             for word in tokens:
-                if (word in IF):
-                    if (docId in IF[word]):
-                        IF[word][docId] += 1
+                if (word in glob.invertedFile):
+                    if (docId in glob.invertedFile[word]):
+                        glob.invertedFile[word][docId] += 1
                     else:
-                        IF[word][docId] = 1
+                        glob.invertedFile[word][docId] = 1
                 else:
-                    IF[word] = {docId: 1}
-        print(file, len(IF)) 
+                    glob.invertedFile[word] = {docId: 1}
+        print(file, len(glob.invertedFile)) 
 
+
+#in-memory inverted file construction using a stream-like tokenizer
 def constructIFFromStreamTokenizer(streamTokenizer):
-    counter = 0
     docFromStream = streamTokenizer.getNextDocAsTokens()
     while(docFromStream):
         filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
-        d2f[docID] = [filename, docIndexStart, docIndexEnd]
+        glob.docID2ContentIndexes[docID] = [filename, docIndexStart, docIndexEnd]
         for word in tokens.split():
-            if (word in IF):
-                if (docID in IF[word]):
-                    IF[word][docID] += 1
+            if (word in glob.invertedFile):
+                if (docID in glob.invertedFile[word]):
+                    glob.invertedFile[word][docID] += 1
                 else:
-                    IF[word][docID] = 1
+                    glob.invertedFile[word][docID] = 1
             else:
-                IF[word] = {docID: 1}
+                glob.invertedFile[word] = {docID: 1}
         docFromStream = streamTokenizer.getNextDocAsTokens()
-        if(counter == 9):
-            break
-        counter+=1
 
+#disk based inverted file construction using a stream-like tokenizer
+#runSize is the number of documents processed in one run
+#pre-condition : runSize > (document number)/(allowed number of files open on machine)
 def constructIF_diskBased(streamTokenizer, runSize = 1):
+    print(">","disk-based inverted file construction with a run size of:", runSize)
     datasetToSortedRuns(streamTokenizer, runSize)
     mergeRunsToIF()
+    print(">","Inverted file successfully written on disk")
 
-def datasetToSortedRuns(streamTokenizer, runSize = 1):
+#write result from each runs on different temporary files 
+def datasetToSortedRuns(streamTokenizer, runSize):
+    print(">","start parsing dataset in triples (word, docID, number of occurence)")
+    print(">","rm IFConstruction/tmp/*")
     os.system("rm IFConstruction/tmp/*")
 
     docID2ContentFilename = "Globals/docID2ContentIndexes.dict"
     tempfile = "IFConstruction/tmp/file_"
     tempfileCounter = 0 
 
-    runCounter = 0
+    runCounter = 0 #count number of document processed in current run
     docFromStream = streamTokenizer.getNextDocAsTokens()
-    runTriples = []
-    docCounter = 1
-    docID2Content = {}
+    runTriples = [] #store triples (word, docID, number of occurence) for a whole run before flushing on disk in temporary file
+    docCounter = 1 #count number of document processed from beginning 
+    docID2Content = {} #in-memory construction before flushing on disk, see Globals.globals.docID2ContentIndexes
     while(docFromStream):
-        print(">", int(docCounter*100/131897), "%", "Doc number :",docCounter, end="\r")
-        # print(">", "Doc number :",docCounter, end="\r")
+        # print(">", int(docCounter*100/131897), "%", "Doc number :",docCounter, end="\r")
+        print(">", "Doc number :",docCounter, end="\r")
 
+        #parse result from tokenizer
         docCounter += 1
         filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
         docID2Content[docID] = [filename, docIndexStart, docIndexEnd]
+
+        #check if end of run reached 
         if(runCounter < runSize):
-            docWiseDict = {}
+            #build inverted file for the current document
+            docWiseDict = {} 
             for word in tokens.split():
                 if (word in docWiseDict):
                     docWiseDict[word] += 1
                 else:
                     docWiseDict[word] = 1
+            #unroll doc-wise inverted file in triples and add to list 
             for word in docWiseDict:
                 runTriples.append([word, docID, docWiseDict[word]])
             runCounter += 1
+        #end of run reached     
         else:
+            #alphabetical then docID sorting in order to make merging easier later
             runTriples.sort()
             #flush sorted runTriples
             tempfileCounter += 1
@@ -110,6 +121,7 @@ def datasetToSortedRuns(streamTokenizer, runSize = 1):
 
         docFromStream = streamTokenizer.getNextDocAsTokens()
 
+    #last run probably uncomplete
     if(runTriples[0]):
         runTriples.sort()
         #flush sorted runTriples
@@ -117,57 +129,84 @@ def datasetToSortedRuns(streamTokenizer, runSize = 1):
         with open(tempfile+str(tempfileCounter), "w") as file:
             file.write(run_ToString(runTriples))
 
+    #flush docID2Content for further system initializations, see Globals
     docID2Content_file = open(docID2ContentFilename, "w")
     docID2Content_file.write(str(docID2Content))
     docID2Content_file.close()
 
-    print(int(docCounter*100/131897), "%", "Doc number :",docCounter)
-    # print(">", "Doc number :",docCounter)
+    # print(int(docCounter*100/131897), "%", "Doc number :",docCounter)
+    print(">", "Doc number :",docCounter)
 
+#merge all temporary files containing run triples (see above) in an on-disk inverted files 
 def mergeRunsToIF():
-    print("start merging")
+    print(">","start merging runs' results")
     IFname = "Globals/IF.dict"
     vocabularyFilename = "Globals/vocabulary.dict"
 
+    #list and open temp files
     tmpFoldername = "IFConstruction/tmp/"
     listfile = os.listdir(tmpFoldername)
     
     openedFiles = [open(tmpFoldername+filename, "r") for filename in listfile]
+
+    print(">", len(openedFiles), "temporary files opened")
+
+    #a sorted stack-like list is used to know which temp file has to be read
+    #a stack element consists in a line read and parsed in a triple plus the temp file ID
+    #stack initialized with guardian
     currentEntriesInFiles = [None]
 
+    #read first line of each temp file
     for i, file in enumerate(openedFiles):
         entry = file.readline()
         if(entry != "" or entry != "\n"):
+            #parse triple
             entry_eval = ast.literal_eval(entry)
             currentEntriesInFiles.append([entry_eval[0], entry_eval[1], entry_eval[2], i])
+    #the stack is sorted so it wil pop the right entry 
     currentEntriesInFiles[1:] = sorted(currentEntriesInFiles[1:], reverse=True)
 
+    #erase file
     open(IFname, "w").close()
     
+    #the vocabulary list is build in-memory before flushing on disk for further system initializations, see Globals
     vocList = {}
-    with open(IFname, "a+") as IF_file:#, open(vocabularyFilename, "a+") as vocab_file:
-
+    with open(IFname, "a+") as IF_file:
+        wordCounter = 0
         current_entry = currentEntriesInFiles.pop()
+        #while there's still a temp file to read
         while(len(currentEntriesInFiles) > 0):
             current_word = current_entry[0]
             posting_list = []
+            print(">", "Word processed :",wordCounter, end="\r")
+
+            #check if guardian showing up, if not then check if a new word showed up from the stack
             while(current_entry != None and current_word == current_entry[0]):
                 posting_list.append([current_entry[1], current_entry[2]])
 
+                #read temp file poped from stack
                 entry = openedFiles[current_entry[3]].readline()
                 if(entry != "" and entry != "\n"):
-                    # print(entry)
+                    #parse triple
                     entry_eval = ast.literal_eval(entry)
                     currentEntriesInFiles.append([entry_eval[0], entry_eval[1], entry_eval[2], i])
+                #the stack is sorted so it wil pop the right entry 
                 currentEntriesInFiles[1:] = sorted(currentEntriesInFiles[1:], reverse=True)
                 current_entry = currentEntriesInFiles.pop()
-            # vocab_file.write(str([current_word, IF_file.tell()])+"\n")
+
+            wordCounter += 1
+            #every new word update voc list 
             vocList[current_word] = IF_file.tell()
+            #sort posting list by decreasing number of occurrence
             posting_list.sort(key=lambda x:x[1], reverse = True)
+            #then create ordered dict from the sorted posting list
             posting_list_dict = OrderedDict({ i : j for i,j in posting_list })
+            #flush word and posting list on disk
             IF_file.write(str([current_word, posting_list_dict])+"\n")
-            # print(current_word)
-            # print(currentEntriesInFiles)
+
+        print(">", "Word processed :",wordCounter)
+
+    #flush voc list on disk for further inializations, see Globals
     vocab_file = open(vocabularyFilename, "w")
     vocab_file.write(str(vocList))
     vocab_file.close()

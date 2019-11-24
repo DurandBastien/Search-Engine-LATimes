@@ -1,31 +1,67 @@
-from IFConstruction import ifConstructor
-from Tokenization import tokenizer
+import sys
+
 from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
-from SearchAlgorithms import searchAlgorithms
-from DocumentServer import documentServer
-from QueryMaker import queryShell
+from IFConstruction import ifConstructor
 import Globals.globals as glob
-from Globals.globals import invertedFile as IF
-from Globals.globals import docID2filename as d2f
-from collections import OrderedDict 
+from DocumentServer import documentServer
+from SearchAlgorithms import searchAlgorithms
+from QueryMaker import queryShell
+
+from Tokenization import tokenizer
+
+
+#Here try out whatever you want
+def test():
+	datasetFoldername = "../latimesTest"
+
+	tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+
+	ifConstructor.constructIF(tokenizer_)
+
+	# print(glob.invertedFile)
+
+	documentServer.foldername = datasetFoldername
+	algorithm = searchAlgorithms.naiveAlgo
+
+	queryShell.launchShell(algorithm, documentServer)
+
+
+	'''#Test Lemma et Stem :
+	test = ['cats','words','be','is', 'caring', 'feet', 'unacceptable', 'realized']
+	print(test)
+	print(tokenizer.replaceWordsByStem(test))
+	print(tokenizer.replaceWordsByLemma(test))'''
 
 
 if __name__ == "__main__":
-	datasetFoldername = "/home/bastien/Documents/test_latimes/"
-	# tokenizer = tokenizer.Tokenizer(datasetFoldername)
-	# ifConstructor.constructIF(tokenizer)
-	# tokenizer = tokenizerCpp.Tokenizer(datasetFoldername)
-	# ifConstructor.constructIFFromStreamTokenizer(tokenizer)
-	# ifConstructor.constructIF_diskBased(tokenizer, runSize = 150)
-	# glob.init()
-	glob.loadVocabulary()
-	glob.loadDocID2Content()
-	ordDict = eval(glob.voc2PostingList("worse"))[1]
-	print(ordDict)
-	documentServer.foldername = datasetFoldername
-	print(ordDict.keys())
-	print(documentServer.serveDocuments([["156304", 2]]))
-	# print(IF["chernobyl"])
-	# searchAlgorithms.naiveAlgo("chernobyl")
-	# documentServer.foldername = datasetFoldername
-	# queryShell.launchShell(searchAlgorithms.naiveAlgo, documentServer)
+
+	argv = sys.argv
+
+	#default behavior = up to date solution
+	if(len(argv) <= 1):
+
+		# datasetFoldername = "../latimesTest"
+		datasetFoldername = "/home/bastien/Documents/latimes"
+		
+		constructIF = False
+		
+		if(constructIF):
+			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername)
+			#set runSize such that :
+			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
+			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 150)  
+		
+		glob.loadVocabulary()
+		glob.loadDocID2Content()
+		
+		documentServer.foldername = datasetFoldername
+		algorithm = searchAlgorithms.naiveAlgo
+
+		queryShell.launchShell(algorithm, documentServer)
+
+	elif(argv[1] == "test"):
+		test()
+	else:
+		print("unknown arg")
+
+

@@ -1,29 +1,18 @@
-import sys
-sys.path.append('../')
-import Globals.globals
-# from Globals.globals import docID2filename as d2f
-# from Globals.globals import docID2ContentIndexes 
+import Globals.globals as glob
 
 foldername = ""
 
+#use global docID2ContentIndexes to fetch on disk content of documents with id given 
 def serveDocuments(docIDList):
-	# global docID2ContentIndexes
-	print(docIDList)
 	docContent = {}
 	for docID in docIDList:
-		docContent[docID[0]] = None
-		if(docID[0] in Globals.globals.docID2ContentIndexes):
-			docIDinfo = Globals.globals.docID2ContentIndexes[docID[0]]
+		docContent[docID] = None
+		if(docID in glob.docID2ContentIndexes):
+			docIDinfo = glob.docID2ContentIndexes[docID]
 			file = open(foldername+"/"+docIDinfo[0], "r")
 			file.seek(docIDinfo[1])
-			docContent[docID[0]] = file.read(docIDinfo[2] - docIDinfo[1])
+			docContent[docID] = file.read(docIDinfo[2] - docIDinfo[1])
 
 	return docContent
-
-if __name__ == "__main__":
-	foldername = "/home/bastien/Documents/latimes/"
-	d2f["LA010189-0001"] = ["la010189", 3, 50]
-	returnedDocument = serveDocuments(["LA010189-0001"])
-	print(returnedDocument["LA010189-0001"])
 
 

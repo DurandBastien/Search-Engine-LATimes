@@ -4,7 +4,10 @@
 
 import os
 import re
+import nltk
 from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
 
 class Tokenizer:
     def __init__(self, listfile):
@@ -77,31 +80,7 @@ class Tokenizer:
             return docid, paragraph, docIndexInFile, i
 
         except ValueError:
-            return 0, 0, -1
-       
-        
-    def createListOfTokens(self, paragraph):
-        """
-        clean the document content by removing punctuation.
-        create the list of tokens.
-        args:
-            paragraph: the content of a specific document
-           
-        """
-        paragraph = paragraph.lower()
-        #remove punctuation
-        paragraph = paragraph.replace("\n","")
-        paragraph = paragraph.replace(";","").replace(",","").replace("\"","")
-        paragraph = paragraph.replace("/", "").replace("(", "").replace(")", "").replace("\\","")
-        
-            
-        #create tokens using space character as separator
-        tokens = paragraph.split(" ")
-        while "" in tokens:
-            tokens.remove("")
-        
-        return tokens
-    
+            return 0, 0, -1    
     
     def removeStopWords(self,tokens):
         """
@@ -133,11 +112,46 @@ class Tokenizer:
         
         return tokens
     
-    def replaceWordsByStem(self, tokens):
-        stemmer = PorterStemmer()
-        stemTokens = [stemmer.stem(token) for token in tokens]
-        return stemTokens
+def replaceWordsByStem(tokens):
+    stemmer = PorterStemmer()
+    stemTokens = [stemmer.stem(token) for token in tokens]
+    return stemTokens
+
+def replaceWordsByLemma(tokens):
+    lemmatizer = WordNetLemmatizer()
+    for i in range(0, len(tokens)):
+        #Extract the type of word to find the correct lemma
+        tag = nltk.pos_tag([tokens[i]])[0][1][0].upper()
+        tag_dict = {"J": wordnet.ADJ,
+                    "N": wordnet.NOUN,
+                    "V": wordnet.VERB,
+                    "R": wordnet.ADV}
+        POS = tag_dict.get(tag, wordnet.NOUN)
+        #Replace the word by its lemma
+        tokens[i] = lemmatizer.lemmatize(tokens[i], POS)
+    return tokens  
+
+def createListOfTokens(paragraph):
+        """
+        clean the document content by removing punctuation.
+        create the list of tokens.
+        args:
+            paragraph: the content of a specific document
+           
+        """
+        paragraph = paragraph.lower()
+        #remove punctuation
+        paragraph = paragraph.replace("\n","")
+        paragraph = paragraph.replace(";","").replace(",","").replace("\"","")
+        paragraph = paragraph.replace("/", "").replace("(", "").replace(")", "").replace("\\","")
+        
             
+        #create tokens using space character as separator
+        tokens = paragraph.split(" ")
+        while "" in tokens:
+            tokens.remove("")
+        
+        return tokens
 
 if __name__ == "__main__":
     t = Tokenizer("../../latimes-sous-partie")
@@ -153,6 +167,3 @@ if __name__ == "__main__":
             print("before removing stop words:",len(tokens))
             tokens = t.removeStopWords(tokens)
             print(len(tokens))
-
-
-

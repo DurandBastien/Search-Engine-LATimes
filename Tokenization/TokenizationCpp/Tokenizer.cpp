@@ -49,9 +49,9 @@ bool Tokenizer::openNextFile(){
 	if(dirEntity != NULL){
 		currentFilename = string(dirEntity->d_name);
 		// cout << foldername+currentFilename << endl;
-		currentFile.open(foldername+currentFilename);
+		currentFile.open(string(foldername)+"/"+currentFilename);
 		if(!currentFile.is_open())
-			cerr << "Can't open " << foldername+currentFilename << endl;
+			cerr << "Can't open " << string(foldername)+"/"+currentFilename << endl;
 	}else{
 		cerr << "Can't read " << foldername << endl;
 		return false;
@@ -71,7 +71,12 @@ bool Tokenizer::gotoNextOccurence(string& stringOccurence){
 
 string Tokenizer::parseDocID(string& line){
 	int delimPos = (int)line.find("</");
-	return line.substr(8, delimPos-10);
+	try {
+    	return line.substr(8, delimPos-9);
+	} catch (const std::out_of_range& e) {
+    	cout << "Out of Range error.";
+    	return NULL;
+	}	
 }
 
 string Tokenizer::getCurrentFilename(){

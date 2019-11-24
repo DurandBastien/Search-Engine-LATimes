@@ -1,17 +1,30 @@
+import sys
+
+from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 from IFConstruction import ifConstructor
-from Tokenization import tokenizer
-#from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
-from SearchAlgorithms import searchAlgorithms
+import Globals.globals as glob
 from DocumentServer import documentServer
+from SearchAlgorithms import searchAlgorithms
 from QueryMaker import queryShell
-from Globals.globals import invertedFile as IF
-from Globals.globals import docID2filename as d2f
 
-if __name__ == "__main__":
+from Tokenization import tokenizer
 
+
+#Here try out whatever you want
+def test():
 	datasetFoldername = "../latimesTest"
-	#datasetFoldername = "/home/bastien/Documents/latimes/"
-	tokenizer = tokenizer.Tokenizer(datasetFoldername)
+
+	tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+
+	ifConstructor.constructIF(tokenizer_)
+
+	# print(glob.invertedFile)
+
+	documentServer.foldername = datasetFoldername
+	algorithm = searchAlgorithms.naiveAlgo
+
+	queryShell.launchShell(algorithm, documentServer)
+
 
 	'''#Test Lemma et Stem :
 	test = ['cats','words','be','is', 'caring', 'feet', 'unacceptable', 'realized']
@@ -19,10 +32,36 @@ if __name__ == "__main__":
 	print(tokenizer.replaceWordsByStem(test))
 	print(tokenizer.replaceWordsByLemma(test))'''
 
-	ifConstructor.constructIF(tokenizer)
-	#tokenizer = tokenizerCpp.Tokenizer(datasetFoldername)
-	#ifConstructor.constructIFFromStreamTokenizer(tokenizer)
-	# print(IF["chernobyl"])
-	# searchAlgorithms.naiveAlgo("chernobyl")
-	documentServer.foldername = datasetFoldername
-	queryShell.launchShell(searchAlgorithms.naiveAlgo, documentServer)
+
+if __name__ == "__main__":
+
+	argv = sys.argv
+
+	#default behavior = up to date solution
+	if(len(argv) <= 1):
+
+		# datasetFoldername = "../latimesTest"
+		datasetFoldername = "/home/bastien/Documents/latimes"
+		
+		constructIF = False
+		
+		if(constructIF):
+			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername)
+			#set runSize such that :
+			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
+			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 150)  
+		
+		glob.loadVocabulary()
+		glob.loadDocID2Content()
+		
+		documentServer.foldername = datasetFoldername
+		algorithm = searchAlgorithms.naiveAlgo
+
+		queryShell.launchShell(algorithm, documentServer)
+
+	elif(argv[1] == "test"):
+		test()
+	else:
+		print("unknown arg")
+
+

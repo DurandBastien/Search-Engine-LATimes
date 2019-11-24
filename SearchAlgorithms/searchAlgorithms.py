@@ -12,6 +12,7 @@ sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Searc
 from collections import Counter, OrderedDict
 from Globals.globals import invertedFile as IF
 from SearchAlgorithms.minHeap import PQNode
+import Globals.globals as glob
 
 # Algo naif 
 # Fonctionnement pour 1 mot-clé dans la requête => 
@@ -22,13 +23,14 @@ from SearchAlgorithms.minHeap import PQNode
 # pour chaque mot-clé on calcule le score associé au document. Puis pour chaque document, on calcule son score global sur la requête en additionnant le score obtenu par mot-clé
 # puis je classe les documents par rapport à leur score 
 def naiveAlgo(query):
-    if(not IF):
-        return []
+    # if(not glob.invertedFile):
+    #     return []
     finalDic = dict()
     for keyword in query:
-        if (keyword in IF):
-            finalDic = dict(Counter(finalDic) + Counter(IF[keyword])) # additionne les valeurs des deux dictionnaires avec la même clé
-    return ranking(finalDic)
+        postingList = glob.voc2PostingList(keyword)
+        if (postingList != None):
+            finalDic = dict(Counter(finalDic) + Counter(postingList)) # additionne les valeurs des deux dictionnaires avec la même clé
+    return [doc[0] for doc in ranking(finalDic)]
 
 def faginAlgo(query):
     global IF
@@ -80,7 +82,8 @@ def faginAlgo(query):
     for key,value in dictScore.items():
         C.append((key, value))
     C = sorted(C, key=lambda x:x[1], reverse=True)[:nbTopElements]
-    print(C)
+    return [doc[0] for doc in C]
+
 
 
 
@@ -105,6 +108,7 @@ def threshold(query):
                     dictMerge[k] = IF[keyword][k]
     heap = []
     indexPL = 0
+
     
     while True:
         threshold = 0

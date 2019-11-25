@@ -61,7 +61,7 @@ if __name__ == "__main__":
 		documentServer.foldername = datasetFoldername
 		algorithm = searchAlgorithms.naiveAlgo
 
-		queryShell.launchShell(algorithm, documentServer)
+		queryShell.launchShell(algorithm, documentServer, True, documents)
 
 	elif(argv[1] == "test"):
 		test()

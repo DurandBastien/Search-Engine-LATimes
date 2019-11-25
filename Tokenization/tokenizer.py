@@ -153,6 +153,10 @@ def createListOfTokens(paragraph):
         
         return tokens
 
+def lookForSynonymes(listOfText):
+    model = Word2Vec(listOfText, min_count=5, size=50, workers=3, window=3, sg=1)
+    print(model)
+
 if __name__ == "__main__":
     t = Tokenizer("../../latimes-sous-partie")
 

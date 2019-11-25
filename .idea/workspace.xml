@@ -2,22 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f95ee047-04a9-4805-8021-1e64d231b33a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Globals/IF.dict" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Globals/docID2ContentIndexes.dict" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Globals/vocabulary.dict" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DocumentServer/documentServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentServer/documentServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Globals/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/Globals/globals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IFConstruction/ifConstructor.py" beforeDir="false" afterPath="$PROJECT_DIR$/IFConstruction/ifConstructor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QueryMaker/queryShell.py" beforeDir="false" afterPath="$PROJECT_DIR$/QueryMaker/queryShell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tokenization/TokenizationCpp/Tokenizer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Tokenization/TokenizationCpp/Tokenizer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tokenization/TokenizationCpp/build/temp.linux-x86_64-3.7/Tokenizer.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tokenization/TokenizationCpp/build/temp.linux-x86_64-3.7/Tokenizer.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tokenization/TokenizationCpp/cTokenizer.cpython-37m-x86_64-linux-gnu.so" beforeDir="false" afterPath="$PROJECT_DIR$/Tokenization/TokenizationCpp/cTokenizer.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tokenization/TokenizationCpp/tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tokenization/TokenizationCpp/tokenizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,11 +22,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Globals/globals.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="420">
+              <caret line="28" column="43" lean-forward="true" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
+              <folding>
+                <element signature="e#117#127#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,21 +43,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="91" selection-start-line="91" selection-end-line="91" />
-              <folding>
-                <element signature="e#130#140#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="118">
+              <caret line="8" column="1" selection-start-line="8" selection-end-line="9" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SearchAlgorithms/__init__.py">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -115,6 +96,7 @@
       <find>share</find>
       <find>january</find>
       <find>IFOther</find>
+      <find>glob</find>
     </findStrings>
     <replaceStrings>
       <replace>IF</replace>
@@ -134,14 +116,14 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Tokenization/tokenizer.py" />
         <option value="$PROJECT_DIR$/IFConstruction/ifConstructor.py" />
-        <option value="$PROJECT_DIR$/Globals/globals.py" />
         <option value="$PROJECT_DIR$/SearchAlgorithms/maxHeap.py" />
         <option value="$PROJECT_DIR$/SearchAlgorithms/minHeap.py" />
         <option value="$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py" />
+        <option value="$PROJECT_DIR$/Globals/globals.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="889" />
     <option name="y" value="54" />
     <option name="width" value="1545" />
@@ -286,12 +268,12 @@
       <workItem from="1573806880085" duration="1552000" />
       <workItem from="1573808837422" duration="1780000" />
       <workItem from="1573810671004" duration="10632000" />
-      <workItem from="1574536950512" duration="22218000" />
+      <workItem from="1574536950512" duration="23626000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36182000" />
+    <option name="totallyTimeSpent" value="37590000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -303,15 +285,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="889" y="54" width="1545" height="987" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13040586" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11965812" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25698325" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.24598931" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -334,7 +316,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Search_Engine_LATimes$main.coverage" NAME="main Coverage Results" MODIFIED="1574537028840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Search_Engine_LATimes$searchAlgorithms.coverage" NAME="searchAlgorithms Coverage Results" MODIFIED="1574628898841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SearchAlgorithms" />
+    <SUITE FILE_PATH="coverage/Search_Engine_LATimes$searchAlgorithms.coverage" NAME="searchAlgorithms Coverage Results" MODIFIED="1574628977484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SearchAlgorithms" />
     <SUITE FILE_PATH="coverage/Search_Engine_LATimes$maxHeap.coverage" NAME="maxHeap Coverage Results" MODIFIED="1574622901472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SearchAlgorithms" />
   </component>
   <component name="editorHistoryManager">
@@ -362,22 +344,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SearchAlgorithms/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Globals/globals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SearchAlgorithms/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/SearchAlgorithms/minHeap.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -388,10 +363,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="91" selection-start-line="91" selection-end-line="91" />
+        <state relative-caret-position="118">
+          <caret line="8" column="1" selection-start-line="8" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Globals/globals.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="43" lean-forward="true" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
           <folding>
-            <element signature="e#130#140#0" expanded="true" />
+            <element signature="e#117#127#0" expanded="true" />
           </folding>
         </state>
       </provider>

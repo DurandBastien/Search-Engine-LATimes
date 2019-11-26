@@ -1,6 +1,6 @@
 import sys
 
-from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
+#from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 from IFConstruction import ifConstructor
 import Globals.globals as glob
 from DocumentServer import documentServer
@@ -16,14 +16,14 @@ def test():
 
 	tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
 
-	ifConstructor.constructIF(tokenizer_)
+	documents = ifConstructor.constructIF(tokenizer_, True)
 
 	# print(glob.invertedFile)
 
 	documentServer.foldername = datasetFoldername
 	algorithm = searchAlgorithms.naiveAlgo
 
-	queryShell.launchShell(algorithm, documentServer)
+	queryShell.launchShell(algorithm, documentServer, True, documents)
 
 
 	'''#Test Lemma et Stem :
@@ -41,8 +41,13 @@ if __name__ == "__main__":
 	if(len(argv) <= 1):
 
 		# datasetFoldername = "../latimesTest"
-		datasetFoldername = "/home/bastien/Documents/latimes"
+		datasetFoldername = "../latimesTest"
 		
+		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
+		tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+		documents = ifConstructor.constructIF(tokenizer_, True)
+		print(documents)
+
 		constructIF = False
 		
 		if(constructIF):

@@ -47,7 +47,7 @@ def voc2PostingList(word):
 		if(word in invertedFile):
 			return invertedFile[word]
 		else:
-			return None
+			return {}
 	else:
 		global vocabularyDict
 		IFname = "Globals/IF.dict"
@@ -60,7 +60,41 @@ def voc2PostingList(word):
 				print("Could not open/read file:", IFname)
 				sys.exit()	
 		else:
-			return None
+			return {}
+
+def vocList2PostingLists(words):
+	global invertedFile
+	result = {}
+	if(len(invertedFile.keys()) > 0):
+		for w in words:	
+			if(w in invertedFile):
+				result[w] = invertedFile[word] 
+			else:
+				result[w] = {}
+	else:
+		global vocabularyDict
+		IFname = "Globals/IF.dict"
+		wordsToFetch = []
+		for w in words:
+			wordsToFetch.append([w])
+			if(w in vocabularyDict):
+				wordsToFetch[-1].append(vocabularyDict[w])
+			else:
+				wordsToFetch[-1].append(None)
+		wordsToFetch.sort(key=lambda x:(x[1] is None, x[1]))
+		try:
+			with open(IFname, "r") as IF_file:
+				for entry in wordsToFetch:
+					if(entry[1] != None):
+						IF_file.seek(entry[1])
+						result[entry[0]] = eval(IF_file.readline().strip())[1]
+					else:
+						result[entry[0]] = {}
+		except OSError:
+			print("Could not open/read file:", IFname)
+			sys.exit()	
+	return result
+
 
 # def initmap():
 #     invertedFile = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}

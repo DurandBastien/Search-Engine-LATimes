@@ -51,8 +51,12 @@ if __name__ == "__main__":
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
 			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 150)  
 		
-		glob.loadVocabulary()
-		glob.loadDocID2Content()
+		diskBasedIF = True
+
+		if(diskBasedIF):
+			glob.loadVocabulary()
+			glob.loadDocID2Content()
+		
 		
 		documentServer.foldername = datasetFoldername
 		algorithm = searchAlgorithms.naiveAlgo

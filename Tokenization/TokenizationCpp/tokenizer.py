@@ -26,7 +26,7 @@ class Tokenizer():
 
 
 if __name__ == "__main__":
-    tok = Tokenizer("/home/bastien/Documents/latimes/")
+    tok = Tokenizer("/Users/clementguittat/Documents/INSA LYON/5A/QueryText/latimes/")
     result = []
     # file = ""
     # counter = 0

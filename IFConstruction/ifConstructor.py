@@ -30,7 +30,7 @@ def constructIF(tokenizer, wordEmbedding = False):
             index = mydoc[3]
             tokens = createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
-            tokens = replaceWordsByStem(tokens)
+            #tokens = replaceWordsByStem(tokens)
             #tokens = replaceWordsByLemma(tokens)
 
             if wordEmbedding and index != len(content):

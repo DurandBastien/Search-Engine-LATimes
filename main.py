@@ -41,12 +41,12 @@ if __name__ == "__main__":
 	if(len(argv) <= 1):
 
 		# datasetFoldername = "../latimesTest"
-		datasetFoldername = "../latimesTest"
+		datasetFoldername = "../latimes"
 		
 		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
-		tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
-		documents = ifConstructor.constructIF(tokenizer_, True)
-		print(documents)
+		#tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+		#documents = ifConstructor.constructIF(tokenizer_, True)
+		#print(documents)
 
 		constructIF = False
 		
@@ -64,9 +64,9 @@ if __name__ == "__main__":
 		
 		
 		documentServer.foldername = datasetFoldername
-		algorithm = searchAlgorithms.naiveAlgo
+		algorithm = searchAlgorithms.faginAlgo
 
-		queryShell.launchShell(algorithm, documentServer, True, documents)
+		queryShell.launchShell(algorithm, documentServer, False, [])
 
 	elif(argv[1] == "test"):
 		test()

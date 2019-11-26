@@ -10,7 +10,6 @@ import sys
 import heapq
 sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
 from collections import Counter, OrderedDict
-from Globals.globals import invertedFile as IF
 from SearchAlgorithms.minHeap import PQNode
 import Globals.globals as glob
 
@@ -39,22 +38,16 @@ def ranking(finalDic):
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
 
 def faginAlgo(query):
-    global IF
-
-    for keyword in IF.keys():
-        IF[keyword] = {k: v for k, v in sorted(IF[keyword].items(),key=lambda x: x[1],reverse=True)}
-
-    if(not IF):
-        return []
+    IF = glob.vocList2PostingLists(query)
+    print(IF)
     M = dict();
     C = []
-    nbTopElements = 3
-    listWordsQuery = query.split()
-    nbOfElementsInQuery = len(listWordsQuery)
+    nbTopElements = 10
+    nbOfElementsInQuery = len(query)
     indexWord = 0
     indexPL = 0
     while(len(C) < nbTopElements):
-        keyword = listWordsQuery[indexWord]
+        keyword = query[indexWord]
         if (keyword in IF):
             if indexPL < len(IF[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue
                 docId = list(IF[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir
@@ -77,7 +70,7 @@ def faginAlgo(query):
  
     dictScore = dict()
     for ID in M.keys(): #on parcourt tous les documents restants dans M pour vérifier que leur score ne soit pas supérieur à ceux déjà dans C  
-        for keyword in listWordsQuery: # on va parcourir toutes les PLlistes et trouver le score pour un document en les additionnant. On est alors disjonctif en utilisant l'additionnant car un docuement ne comportant pas un terme ne sera pas pénalisé mais si bcp dans un document alors quand même sélectionné
+        for keyword in query: # on va parcourir toutes les PLlistes et trouver le score pour un document en les additionnant. On est alors disjonctif en utilisant l'additionnant car un docuement ne comportant pas un terme ne sera pas pénalisé mais si bcp dans un document alors quand même sélectionné
             if (keyword in IF):
                 if ID in IF[keyword]:
                     if ID in dictScore:
@@ -153,8 +146,6 @@ def testPQNode():
         print(heapq.heappop(hinput))
 
 if __name__ == "__main__":
-
-    IF = {"you": {1: 3, 2: 2, 3:1}, "are": {1: 2, 3:2, 4: 6}, "tuples": {2: 2, 3:3}, "hello": {1: 4, 2: 5, 3:10}}
     ##naiveAlgo("you tuples")
     faginAlgo("you are")
 

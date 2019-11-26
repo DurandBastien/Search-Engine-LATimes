@@ -16,7 +16,7 @@ def launchShell(searchAlgorithm, documentServer, wordEmbedding = False, document
 			if wordEmbedding:
 				processedQuery = processQueryString(
 					query,
-					stemming = True,
+					stemming = False,
 					embedding = True,
 					embeddingModel = model,
 					nbOfSynonyms = nbSynonyms)

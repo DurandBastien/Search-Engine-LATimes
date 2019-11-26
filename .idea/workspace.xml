@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f95ee047-04a9-4805-8021-1e64d231b33a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/Globals/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/Globals/globals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IFConstruction/ifConstructor.py" beforeDir="false" afterPath="$PROJECT_DIR$/IFConstruction/ifConstructor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QueryMaker/queryShell.py" beforeDir="false" afterPath="$PROJECT_DIR$/QueryMaker/queryShell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tokenization/tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tokenization/tokenizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IFConstruction/ifConstructor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="53" column="35" lean-forward="true" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
+            <state relative-caret-position="420">
+              <caret line="59" column="35" lean-forward="true" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -40,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Globals/globals.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="534">
-              <caret line="84" column="12" lean-forward="true" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
+            <state relative-caret-position="895">
+              <caret line="85" column="12" lean-forward="true" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
               <folding>
                 <element signature="e#117#127#0" expanded="true" />
               </folding>
@@ -49,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2">
-              <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+            <state relative-caret-position="308">
+              <caret line="55" column="86" selection-start-line="55" selection-start-column="86" selection-end-line="55" selection-end-column="86" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -79,10 +82,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
+            <state relative-caret-position="-87">
               <caret line="99" column="14" lean-forward="true" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="14" />
               <folding>
                 <element signature="e#117#127#0" expanded="true" />
@@ -94,8 +97,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/QueryMaker/queryShell.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="13" column="77" selection-start-line="13" selection-start-column="66" selection-end-line="13" selection-end-column="77" />
+            <state relative-caret-position="420">
+              <caret line="29" column="77" selection-start-line="29" selection-start-column="77" selection-end-line="29" selection-end-column="77" />
             </state>
           </provider>
         </entry>
@@ -166,8 +169,8 @@
         <option value="$PROJECT_DIR$/SearchAlgorithms/maxHeap.py" />
         <option value="$PROJECT_DIR$/SearchAlgorithms/minHeap.py" />
         <option value="$PROJECT_DIR$/Globals/globals.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -317,12 +320,12 @@
       <workItem from="1573808837422" duration="1780000" />
       <workItem from="1573810671004" duration="10632000" />
       <workItem from="1574536950512" duration="23626000" />
-      <workItem from="1574778251791" duration="3546000" />
+      <workItem from="1574778251791" duration="3896000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41136000" />
+    <option name="totallyTimeSpent" value="41486000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -342,7 +345,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24598931" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.24598931" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -351,7 +354,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.2" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.47058824" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32960895" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -381,8 +384,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/IFConstruction/ifConstructor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="53" column="35" lean-forward="true" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
+        <state relative-caret-position="420">
+          <caret line="59" column="35" lean-forward="true" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -419,15 +422,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/QueryMaker/queryShell.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="13" column="77" selection-start-line="13" selection-start-column="66" selection-end-line="13" selection-end-column="77" />
+        <state relative-caret-position="420">
+          <caret line="29" column="77" selection-start-line="29" selection-start-column="77" selection-end-line="29" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-87">
+          <caret line="99" column="14" lean-forward="true" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="14" />
+          <folding>
+            <element signature="e#117#127#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Globals/globals.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="534">
-          <caret line="84" column="12" lean-forward="true" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
+        <state relative-caret-position="895">
+          <caret line="85" column="12" lean-forward="true" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
           <folding>
             <element signature="e#117#127#0" expanded="true" />
           </folding>
@@ -436,20 +449,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
-          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="308">
+          <caret line="55" column="86" selection-start-line="55" selection-start-column="86" selection-end-line="55" selection-end-column="86" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SearchAlgorithms/searchAlgorithms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="99" column="14" lean-forward="true" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="14" />
-          <folding>
-            <element signature="e#117#127#0" expanded="true" />
           </folding>
         </state>
       </provider>

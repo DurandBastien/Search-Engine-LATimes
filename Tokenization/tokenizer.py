@@ -58,6 +58,7 @@ class Tokenizer:
             docIndexInFile = -1           
             for i in range(indexFile, len(content)):
                 if "DOCID" in content[i]:
+                    
                     nbDocId = nbDocId + 1
                     if nbDocId == 2:
                         break
@@ -152,6 +153,10 @@ def createListOfTokens(paragraph):
             tokens.remove("")
         
         return tokens
+
+def lookForSynonymes(listOfText):
+    model = Word2Vec(listOfText, min_count=5, size=50, workers=3, window=3, sg=1)
+    print(model)
 
 if __name__ == "__main__":
     t = Tokenizer("../../latimes-sous-partie")

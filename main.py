@@ -40,13 +40,11 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		# datasetFoldername = "../latimesTest"
 		datasetFoldername = "../latimesTest"
 		
 		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
 		tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
 		documents = ifConstructor.constructIF(tokenizer_, True)
-		print(documents)
 
 		constructIF = False
 		

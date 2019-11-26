@@ -18,7 +18,7 @@ def constructIF(tokenizer, wordEmbedding = False):
     countDoc = 0
     documentsForEmbedding = []
 
-    for file in tokenizer.listfile[:20]:
+    for file in tokenizer.listfile[:10]:
         content = tokenizer.readFile(file)
         index = 0
         while index != len(content):
@@ -30,7 +30,7 @@ def constructIF(tokenizer, wordEmbedding = False):
             index = mydoc[3]
             tokens = createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
-            tokens = replaceWordsByStem(tokens)
+            #tokens = replaceWordsByStem(tokens)
             #tokens = replaceWordsByLemma(tokens)
 
             if wordEmbedding and index != len(content):

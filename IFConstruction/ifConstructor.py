@@ -13,7 +13,7 @@ import Globals.globals as glob
 from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
 
 
-def constructIF(tokenizer, wordEmbedding = False):
+def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbedding = False):
     global countDoc
     countDoc = 0
     documentsForEmbedding = []
@@ -30,8 +30,10 @@ def constructIF(tokenizer, wordEmbedding = False):
             index = mydoc[3]
             tokens = createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
-            #tokens = replaceWordsByStem(tokens)
-            #tokens = replaceWordsByLemma(tokens)
+            if lemmatization:
+                tokens = replaceWordsByLemma(tokens)
+            elif stemming:
+                tokens = replaceWordsByStem(tokens)
 
             if wordEmbedding and index != len(content):
                 documentsForEmbedding.append(tokens)

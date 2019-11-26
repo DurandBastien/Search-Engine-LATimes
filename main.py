@@ -16,14 +16,14 @@ def test():
 
 	tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
 
-	documents = ifConstructor.constructIF(tokenizer_, True)
+	documents = ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
 
 	# print(glob.invertedFile)
 
 	documentServer.foldername = datasetFoldername
 	algorithm = searchAlgorithms.naiveAlgo
 
-	queryShell.launchShell(algorithm, documentServer, True, documents)
+	queryShell.launchShell(algorithm, documentServer,applyStemming = False, applyLemmatization = True, wordEmbedding = True, documentsForEmbedding = documents)
 
 
 	'''#Test Lemma et Stem :
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 		
 		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
 		tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
-		documents = ifConstructor.constructIF(tokenizer_, True)
+		documents = ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
 
 		constructIF = False
 		
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 		documentServer.foldername = datasetFoldername
 		algorithm = searchAlgorithms.naiveAlgo
 
-		queryShell.launchShell(algorithm, documentServer, True, documents)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True, documentsForEmbedding = documents)
 
 	elif(argv[1] == "test"):
 		test()

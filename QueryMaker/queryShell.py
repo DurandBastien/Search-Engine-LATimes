@@ -3,7 +3,7 @@ import gensim
 import gensim.downloader as api
 from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
 
-def launchShell(searchAlgorithm, documentServer, wordEmbedding = False, documentsForEmbedding = []):
+def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False, documentsForEmbedding = []):
 	if wordEmbedding:
 		model = trainModelForEmbedding(documentsForEmbedding)
 		print("\nEnter the number of synonyms you want for request\'s words")
@@ -16,7 +16,8 @@ def launchShell(searchAlgorithm, documentServer, wordEmbedding = False, document
 			if wordEmbedding:
 				processedQuery = processQueryString(
 					query,
-					stemming = False,
+					stemming = applyStemming,
+					lemmatization = applyLemmatization,
 					embedding = True,
 					embeddingModel = model,
 					nbOfSynonyms = nbSynonyms)
@@ -46,7 +47,6 @@ def launchShell(searchAlgorithm, documentServer, wordEmbedding = False, document
 
 def processQueryString(query, stemming = False, lemmatization = False, embedding = False, embeddingModel = None, nbOfSynonyms = 0):
 	query = createListOfTokens(query)
-	print('proccessedQuery', query)
 
 	if lemmatization:
 		query = replaceWordsByLemma(query)
@@ -81,9 +81,7 @@ def trainModelForEmbedding(listOfDocuments):
 	return model
 
 def findSynonyms(model, myWord, nbOfSynonyms):
-	print('findSynomyms', myWord, model, nbOfSynonyms)
 	word_vectors = model.wv
-	print('Is in vocab:', myWord, (myWord in word_vectors.vocab))
 	try:
 		synonyms = model.wv.most_similar (positive=[myWord], topn=nbOfSynonyms) 
 	except:

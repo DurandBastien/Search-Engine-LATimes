@@ -11,6 +11,7 @@ import sys
 
 from collections import OrderedDict
 
+numberOfDocuments = 0 #global variable incremented when dataset read 
 
 invertedFile = {} #global variable used when IF build in-memory
 

@@ -82,15 +82,14 @@ def datasetToSortedRuns(streamTokenizer, runSize):
 
     runCounter = 0 #count number of document processed in current run
     docFromStream = streamTokenizer.getNextDocAsTokens()
-    runTriples = [] #store triples (word, docID, number of occurence) for a whole run before flushing on disk in temporary file
-    docCounter = 1 #count number of document processed from beginning 
+    runTriples = [] #store triples (word, docID, number of occurence) for a whole run before flushing on disk in temporary file 
     docID2Content = {} #in-memory construction before flushing on disk, see Globals.globals.docID2ContentIndexes
     while(docFromStream):
-        # print(">", int(docCounter*100/131897), "%", "Doc number :",docCounter, end="\r")
-        print(">", "Doc number :",docCounter, end="\r")
+        # print(">", int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments, end="\r")
+        print(">", "Doc number :",glob.numberOfDocuments, end="\r")
 
         #parse result from tokenizer
-        docCounter += 1
+        glob.numberOfDocuments += 1 #count number of document processed from beginning
         filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
         docID2Content[docID] = [filename, docIndexStart, docIndexEnd]
 
@@ -134,8 +133,8 @@ def datasetToSortedRuns(streamTokenizer, runSize):
     docID2Content_file.write(str(docID2Content))
     docID2Content_file.close()
 
-    # print(int(docCounter*100/131897), "%", "Doc number :",docCounter)
-    print(">", "Doc number :",docCounter)
+    # print(int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments)
+    print(">", "Doc number :",glob.numberOfDocuments)
 
 #merge all temporary files containing run triples (see above) in an on-disk inverted files 
 def mergeRunsToIF():
@@ -197,6 +196,11 @@ def mergeRunsToIF():
             wordCounter += 1
             #every new word update voc list 
             vocList[current_word] = IF_file.tell()
+
+            #compute score = tf * idf
+            # for j in range(len(posting_list)):
+            #     posting_list[j][1] = round((1 + math.log(posting_list[j][1])) * math.log(glob.numberOfDocuments/(1 + len(posting_list[j]))), 6)
+
             #sort posting list by decreasing number of occurrence
             posting_list.sort(key=lambda x:x[1], reverse = True)
             #then create ordered dict from the sorted posting list
@@ -220,7 +224,7 @@ def run_ToString(run):
     run_str += "\n"
     return run_str
 
-def giveScores():
+def giveScores(nbOfOccurence):
     """
     calculate and replace the occurence of word in the doc with score
 

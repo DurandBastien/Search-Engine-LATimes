@@ -40,10 +40,10 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		# datasetFoldername = "../latimesTest"
-		datasetFoldername = "/home/bastien/Documents/latimes"
+		datasetFoldername = "../latimesTest"
+		# datasetFoldername = "/home/bastien/Documents/latimes"
 		
-		constructIF = False
+		constructIF = True
 		
 		if(constructIF):
 			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername)

@@ -36,5 +36,6 @@ To be able to run this code you will need to execute:
   - construction splitted in runs, each run process a bunch of documents, the size of a run (e.g. the number of documents) is given beforehand
   - each run computes and writes an alphabeticaly sorted list of triples (word, doc ID, number of occurrence) in a temporary file  
   - once the whole dataset has been read, the temporary files are merged to produce an inverted file on disk
-  - 
+  - each entry of the inverted file are (word, posting list) and each posting list are sorted by decreasing score 
+  - in the meantime two hashmaps are constructed in-memory, one to map doc IDs to the place where is stores their content on disk (e.g. filename and indexes) and one to map a word to the place in the inverted file where its posting list is stored
 - Search algorithm

@@ -1,6 +1,6 @@
 import sys
 
-from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
+# from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 from IFConstruction import ifConstructor
 import Globals.globals as glob
 from DocumentServer import documentServer
@@ -40,8 +40,8 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		# datasetFoldername = "../latimesTest"
-		datasetFoldername = "/home/bastien/Documents/latimes"
+		datasetFoldername = "../latimes"
+		# datasetFoldername = "/home/bastien/Documents/latimes"
 		
 		constructIF = False
 		
@@ -59,7 +59,8 @@ if __name__ == "__main__":
 		
 		
 		documentServer.foldername = datasetFoldername
-		algorithm = searchAlgorithms.naiveAlgo
+
+		algorithm = searchAlgorithms.threshold
 
 		queryShell.launchShell(algorithm, documentServer)
 

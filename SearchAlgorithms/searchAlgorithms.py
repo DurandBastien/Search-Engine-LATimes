@@ -9,6 +9,7 @@ Created on Fri Nov  8 11:28:26 2019
 import sys
 import heapq
 sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
+
 from collections import Counter, OrderedDict
 from Globals.globals import invertedFile as IF
 from SearchAlgorithms.minHeap import PQNode
@@ -39,17 +40,13 @@ def ranking(finalDic):
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
 
 def faginAlgo(query):
-    global IF
 
-    for keyword in IF.keys():
-        IF[keyword] = {k: v for k, v in sorted(IF[keyword].items(),key=lambda x: x[1],reverse=True)}
 
-    if(not IF):
-        return []
     M = dict();
     C = []
-    nbTopElements = 3
-    listWordsQuery = query.split()
+    nbTopElements = 10
+    listWordsQuery = query
+    IF = glob.vocList2PostingLists(listWordsQuery)
     nbOfElementsInQuery = len(listWordsQuery)
     indexWord = 0
     indexPL = 0
@@ -95,11 +92,12 @@ def threshold(query):
     '''
 
     :param query: query string
-    :return: the minHeap which contains all entries formed by ID  and  Score
+    :return: the topk results
     '''
-    listWordsQuery = query.split()
+    listWordsQuery = query
+    IF = glob.vocList2PostingLists(listWordsQuery)
     dictMerge = {}
-    nbTop = 3
+    nbTop = 10
     for keyword in listWordsQuery:
         if (keyword in IF):
             for k in IF[keyword].keys():
@@ -126,11 +124,11 @@ def threshold(query):
 
         indexPL = indexPL + 1
         if getKthElement(nbTop,heap).value > threshold:
+            res = []
+            for node in heapq.nlargest(nbTop,heap):
+                res.append(node.key)
 
-            for node in heapq.nlargest(k,heap):
-                print(node)
-
-            return heap
+            return res
 
 
 def getKthElement(k,heap):

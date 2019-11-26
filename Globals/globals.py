@@ -68,7 +68,7 @@ def vocList2PostingLists(words):
 	if(len(invertedFile.keys()) > 0):
 		for w in words:	
 			if(w in invertedFile):
-				result[w] = invertedFile[word] 
+				result[w] = invertedFile[w]
 			else:
 				result[w] = {}
 	else:

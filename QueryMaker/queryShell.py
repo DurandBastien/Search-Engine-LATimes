@@ -16,7 +16,7 @@ def launchShell(searchAlgorithm, documentServer, wordEmbedding = False, document
 			if wordEmbedding:
 				processedQuery = processQueryString(
 					query,
-					lemmatization = True,
+					stemming = True,
 					embedding = True,
 					embeddingModel = model,
 					nbOfSynonyms = nbSynonyms)
@@ -68,19 +68,19 @@ def processReturnedDocuments(returnedDocuments):
 def trainModelForEmbedding(listOfDocuments):
 	model = gensim.models.Word2Vec(
 		listOfDocuments,
-		size = 50,
+		size = 100,
 		window = 10,
-		min_count = 5,
+		min_count = 1,
 		workers = 10,
 		iter = 5
 	)
-	model = model.wv
-	model = api.load("glove-wiki-gigaword-100")
+	#model = model.wv
+	#model = api.load("glove-wiki-gigaword-100")
 	return model
 
 def findSynonyms(model, myWord, nbOfSynonyms):
 	try:
-		synonyms = model.most_similar (positive=myWord, topn=nbOfSynonyms) 
+		synonyms = model.vw.most_similar (positive=myWord, topn=nbOfSynonyms) 
 	except:
 		print(myWord, 'is not in the vocabulary')
 		synonyms = []

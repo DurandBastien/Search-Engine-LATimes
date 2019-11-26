@@ -58,6 +58,7 @@ class Tokenizer:
             docIndexInFile = -1           
             for i in range(indexFile, len(content)):
                 if "DOCID" in content[i]:
+                    
                     nbDocId = nbDocId + 1
                     if nbDocId == 2:
                         break

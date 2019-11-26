@@ -32,6 +32,12 @@ def naiveAlgo(query):
             finalDic = dict(Counter(finalDic) + Counter(postingList)) # additionne les valeurs des deux dictionnaires avec la même clé
     return [doc[0] for doc in ranking(finalDic)]
 
+# Fonction de classement des documents selon leur score 
+def ranking(finalDic):
+    # for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
+        # print("document ID:", docId, " freq:", freq)
+    return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
+
 def faginAlgo(query):
     global IF
 
@@ -85,11 +91,6 @@ def faginAlgo(query):
     return [doc[0] for doc in C]
 
 
-
-
-
-
-
 def threshold(query):
     '''
 
@@ -136,12 +137,6 @@ def getKthElement(k,heap):
 
     res = heapq.nlargest(k,heap)[-1]
     return res
-
-# Fonction de classement des documents selon leur score 
-def ranking(finalDic):
-    # for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
-        # print("document ID:", docId, " freq:", freq)
-    return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
 
 def testPQNode():
     '''

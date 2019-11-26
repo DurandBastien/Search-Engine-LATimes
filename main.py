@@ -1,6 +1,6 @@
 import sys
 
-from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
+#from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 from IFConstruction import ifConstructor
 import Globals.globals as glob
 from DocumentServer import documentServer
@@ -16,14 +16,14 @@ def test():
 
 	tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
 
-	ifConstructor.constructIF(tokenizer_)
+	documents = ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
 
 	# print(glob.invertedFile)
 
 	documentServer.foldername = datasetFoldername
 	algorithm = searchAlgorithms.naiveAlgo
 
-	queryShell.launchShell(algorithm, documentServer)
+	queryShell.launchShell(algorithm, documentServer,applyStemming = False, applyLemmatization = True, wordEmbedding = True, documentsForEmbedding = documents)
 
 
 	'''#Test Lemma et Stem :
@@ -43,7 +43,11 @@ if __name__ == "__main__":
 		datasetFoldername = "../latimesTest"
 		# datasetFoldername = "/home/bastien/Documents/latimes"
 		
-		constructIF = True
+		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
+		tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+		documents = ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
+
+		constructIF = False
 		
 		if(constructIF):
 			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername)
@@ -61,7 +65,7 @@ if __name__ == "__main__":
 		documentServer.foldername = datasetFoldername
 		algorithm = searchAlgorithms.naiveAlgo
 
-		queryShell.launchShell(algorithm, documentServer)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True, documentsForEmbedding = documents)
 
 	elif(argv[1] == "test"):
 		test()

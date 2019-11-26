@@ -13,12 +13,12 @@ import Globals.globals as glob
 from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
 
 
-def constructIF(tokenizer):
+def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbedding = False):
     global countDoc
     countDoc = 0
+    documentsForEmbedding = []
 
-
-    for file in tokenizer.listfile[:4]:
+    for file in tokenizer.listfile[:10]:
         content = tokenizer.readFile(file)
         index = 0
         while index != len(content):
@@ -30,8 +30,13 @@ def constructIF(tokenizer):
             index = mydoc[3]
             tokens = createListOfTokens(mydoc[1])
             tokens = tokenizer.removeStopWords(tokens)
-            tokens = replaceWordsByStem(tokens)
-            #tokens = replaceWordsByLemma(tokens)
+            if lemmatization:
+                tokens = replaceWordsByLemma(tokens)
+            elif stemming:
+                tokens = replaceWordsByStem(tokens)
+
+            if wordEmbedding and index != len(content):
+                documentsForEmbedding.append(tokens)
 
 
             for word in tokens:
@@ -44,6 +49,7 @@ def constructIF(tokenizer):
                     glob.invertedFile[word] = {docId: 1}
         print(file, len(glob.invertedFile)) 
 
+    return documentsForEmbedding
 
 #in-memory inverted file construction using a stream-like tokenizer
 def constructIFFromStreamTokenizer(streamTokenizer):

@@ -7,7 +7,8 @@ Created on Fri Nov  8 11:02:35 2019
 """
 
 import sys
-
+import gensim 
+import pickle
 
 from collections import OrderedDict
 
@@ -99,3 +100,19 @@ def vocList2PostingLists(words):
 
 # def initmap():
 #     invertedFile = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}
+
+def trainModelForEmbedding(listOfDocuments):
+	model = gensim.models.Word2Vec(
+		listOfDocuments,
+		size = 50,
+		window = 10,
+		min_count = 1,
+		workers = 10,
+		iter = 5
+	)
+
+	# Write in memory the model for wordEmbedding
+	embeddingFile = open('./Globals/embeddingModel', 'wb')
+	pickle.dump(model, embeddingFile)
+	embeddingFile.close()
+	print("Model for embedding has been stored in memory.")

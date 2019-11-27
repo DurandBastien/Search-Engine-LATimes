@@ -1,11 +1,15 @@
 import sys
-import gensim 
-import gensim.downloader as api
+import pickle
+#import gensim 
 from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
 
 def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False, documentsForEmbedding = []):
 	if wordEmbedding:
-		model = trainModelForEmbedding(documentsForEmbedding)
+		# Load word embedding model from memory
+		embeddingFile = open('./Globals/embeddingModel', 'rb')
+		model = pickle.load(embeddingFile)
+		print(model)
+		embeddingFile.close()
 		print("\nEnter the number of synonyms you want for request\'s words")
 		nbSynonyms = int(sys.stdin.readline())
 	while 1:
@@ -65,20 +69,6 @@ def processQueryString(query, stemming = False, lemmatization = False, embedding
 
 def processReturnedDocuments(returnedDocuments):
 	return returnedDocuments.keys()
-
-def trainModelForEmbedding(listOfDocuments):
-	model = gensim.models.Word2Vec(
-		listOfDocuments,
-		size = 50,
-		window = 10,
-		min_count = 1,
-		workers = 10,
-		iter = 5
-	)
-	print(model)
-	#model = model.wv
-	#model = api.load("glove-wiki-gigaword-100")
-	return model
 
 def findSynonyms(model, myWord, nbOfSynonyms):
 	word_vectors = model.wv

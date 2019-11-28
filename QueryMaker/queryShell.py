@@ -72,11 +72,9 @@ def createTokensWithScore(listOfTokens):
 def deleteDuplicatesInQuery(queryWithScore):
 	myWords = [token[0] for token in queryWithScore]
 	wordsWithoutDuplicates = []
-	#print(myWords)
 	for i in range(len(myWords)):
 		if myWords[i] not in myWords[:i]:
-			indices = [i for i, x in enumerate(myWords) if x == myWords[i]]
-			#print(myWords[i], indices)
+			indices = [k for k in range(len(myWords)) if myWords[k]==myWords[i]]
 			myScore = 0
 			for indice in indices:
 				myScore += queryWithScore[indice][1]
@@ -99,6 +97,7 @@ def processQueryString(query, stemming = False, lemmatization = False, embedding
 			synonyms = findSynonyms(embeddingModel, query[i], nbOfSynonyms)
 			for newWord in synonyms:
 				queryWithScore.append((newWord[0],1))
+	queryWithScore = deleteDuplicatesInQuery(queryWithScore)
 	print(queryWithScore)
 	return queryWithScore
 

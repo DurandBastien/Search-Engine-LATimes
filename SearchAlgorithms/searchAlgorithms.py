@@ -39,25 +39,22 @@ def ranking(finalDic):
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
 
 def faginAlgo(query):
-
     M = dict();
     C = []
-    print("query", query)
-    nbTopElements = 2
+    nbTopElements = 10
     listWordsQuery = query
-    IF = glob.vocList2PostingLists(listWordsQuery)
+    IF = glob.vocList2PostingLists([x[0] for x in listWordsQuery])
     nbOfElementsInQuery = len(listWordsQuery)
     listEndedPL = set()
     indexWord = 0
     indexPL = 0
     while(len(C) < nbTopElements and len(listEndedPL) < nbOfElementsInQuery):
-        keyword = listWordsQuery[indexWord]
+        keyword, scorePower = listWordsQuery[indexWord]
         if (keyword in IF):
             print("taille PL pour le mot ", keyword, " ", IF[keyword])
             if indexPL < len(IF[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue
                 docId = list(IF[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir
-                score = IF[keyword][docId] #le score de ce docID
-                print("docId : ", docId, " score : ", score)
+                score = IF[keyword][docId]*scorePower #le score de ce docID multiplié par l'importance du mot dans la query, dépend notamment si synonyme ou mot de la requete 
                 if (docId in M):
                     previousScore, nbTimesSeen = M[docId]
                     M[docId] = (previousScore + score, nbTimesSeen + 1) # on utilise la somme pour calculer les scores des documents 
@@ -77,7 +74,7 @@ def faginAlgo(query):
  
     dictScore = dict()
     for ID in M.keys(): #on parcourt tous les documents restants dans M pour vérifier que leur score ne soit pas supérieur à ceux déjà dans C  
-        for keyword in listWordsQuery: # on va parcourir toutes les PLlistes et trouver le score pour un document en les additionnant. On est alors disjonctif en utilisant l'additionnant car un docuement ne comportant pas un terme ne sera pas pénalisé mais si bcp dans un document alors quand même sélectionné
+        for keyword, _ in listWordsQuery: # on va parcourir toutes les PLlistes et trouver le score pour un document en les additionnant. On est alors disjonctif en utilisant l'additionnant car un docuement ne comportant pas un terme ne sera pas pénalisé mais si bcp dans un document alors quand même sélectionné
             if (keyword in IF):
                 if ID in IF[keyword]:
                     if ID in dictScore:

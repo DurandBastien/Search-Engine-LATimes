@@ -64,7 +64,7 @@ if __name__ == "__main__":
 		#glob.trainModelForEmbedding(embeddingDataset)
 
 
-		constructIF = True
+		constructIF = False
 		
 		if(constructIF):
 			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername)

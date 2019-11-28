@@ -28,7 +28,7 @@ def naiveAlgo(query):
     # if(not glob.invertedFile):
     #     return []
     finalDic = dict()
-    for keyword,_ in query:
+    for keyword, power in query:
         postingList = glob.voc2PostingList(keyword)
         if (postingList != None):
             finalDic = dict(Counter(finalDic) + Counter(postingList)) # additionne les valeurs des deux dictionnaires avec la même clé
@@ -95,36 +95,39 @@ def threshold(query):
     :return: the topk results
     '''
     listWordsQuery = query
-    IF = glob.vocList2PostingLists(listWordsQuery)
+    IF = glob.vocList2PostingLists([x[0] for x in listWordsQuery])
+
     dictMerge = {}
     nbTop = 10
-    for keyword in listWordsQuery:
+    for keyword, power in listWordsQuery:
         if (keyword in IF):
             for k in IF[keyword].keys():
                 if k in dictMerge:
-                    dictMerge[k] = dictMerge[k] + IF[keyword][k]
+                    dictMerge[k] = dictMerge[k] + IF[keyword][k] * power
                 else:
-                    dictMerge[k] = IF[keyword][k]
+                    dictMerge[k] = IF[keyword][k] * power
+
+
     heap = []
     indexPL = 0
 
-    if(len(listWordsQuery & IF.keys())==1 and IF[listWordsQuery[0]]=={}):
+    if(len((x[0] for x in listWordsQuery) & IF.keys())==1 and IF[listWordsQuery[0][0]]=={}):
         return []
 
     while True:
         threshold = 0
-        for keyword in listWordsQuery & IF.keys():
+        for keyword, power in listWordsQuery:
+            if keyword in IF.keys():
+                if indexPL < len(IF[keyword]):  # si on a pas parcouru toute la taille d'une des PLliste on continue
+                    docId = list(IF[keyword])[indexPL]  # docID pour l'indexe de la PLliste du terme à parcourir
+                    score = IF[keyword][docId] * power
+                    scoreAll = dictMerge[docId] # le score de ce docID ds tout PL
+                    newNode = PQNode(docId,scoreAll)
+                    if newNode not in heap:
+                        heapq.heappush(heap, newNode)
+                    threshold = threshold + score
 
-            if indexPL < len(IF[keyword]):  # si on a pas parcouru toute la taille d'une des PLliste on continue
-                docId = list(IF[keyword])[indexPL]  # docID pour l'indexe de la PLliste du terme à parcourir
-                score = IF[keyword][docId]
-                scoreAll = dictMerge[docId] # le score de ce docID ds tout PL
-                newNode = PQNode(docId,scoreAll)
-                if newNode not in heap:
-                    heapq.heappush(heap, newNode)
-                threshold = threshold + score
-
-        indexPL = indexPL + 1
+            indexPL = indexPL + 1
         if getKthElement(nbTop,heap).value > threshold:
             res = []
             for node in heapq.nlargest(nbTop,heap):
@@ -177,20 +180,19 @@ def testTime(queries):
 if __name__ == "__main__":
     glob.loadVocabulary()
     queries = [
-                ["love", "and", "chocolate"],
-                ["january"],
-                ["narrow"],
-                ["today", "and", "tomorrow"],
-                ["r425252252"],
-                ["good","work","tomorrow"],
-                ["good","work","tomorrow","january","narrow","love","chocolate"]
+                [("love",1), ("and",3), ("chocolate",3)],
+                [("january",3)],
+                [("narrow",3)],
+                [("today",3), ("and",3), ("tomorrow",3)],
+                [("r425252252",3)]
+
 
     ]
 
     short = [
-        "daylight"
+        ("daylight",3)
     ]
     # for query in queries:
     #     test(query)
 
-    testTime(short)
+    testTime(queries)

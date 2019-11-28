@@ -91,7 +91,7 @@ def vocList2PostingLists(words):
 					if(entry[1] != None):
 						IF_file.seek(entry[1])
 						test = IF_file.readline().strip()
-						print(test)
+						# print(test)
 						result[entry[0]] = eval(test)[1]
 					else:
 						result[entry[0]] = {}

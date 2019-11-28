@@ -209,9 +209,11 @@ def mergeRunsToIF():
             #every new word update voc list 
             vocList[current_word] = IF_file.tell()
 
-            #compute score = tf * idf
-            # for j in range(len(posting_list)):
-            #     posting_list[j][1] = round((1 + math.log(posting_list[j][1])) * math.log(glob.numberOfDocuments/(1 + len(posting_list[j]))), 6)
+            # compute score = tf * idf
+            for j in range(len(posting_list)):
+                tf = 1 + math.log(posting_list[j][1])
+                idf = math.log(glob.numberOfDocuments/(len(posting_list))) #note that a posting list is never empty
+                posting_list[j][1] = round(tf * idf, 3)
 
             #sort posting list by decreasing number of occurrence
             posting_list.sort(key=lambda x:x[1], reverse = True)

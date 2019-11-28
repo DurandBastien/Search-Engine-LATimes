@@ -20,7 +20,6 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 			glob.trainModelForEmbedding(embeddingDataset)
 		embeddingFile = open('./Globals/embeddingModel', 'rb')
 		model = pickle.load(embeddingFile)
-		print(model)
 		embeddingFile.close()
 
 		print("\nEnter the number of synonyms you want for request\'s words")
@@ -75,11 +74,9 @@ def processQueryString(query, stemming = False, lemmatization = False, embedding
 	if embedding:
 		for i in range(0, len(query)):
 			synonyms = findSynonyms(embeddingModel, query[i], nbOfSynonyms)
-			print(synonyms)
 			for newWord in synonyms:
 				query.append(newWord[0])
 
-	print(query)
 	return query
 
 def processReturnedDocuments(returnedDocuments):

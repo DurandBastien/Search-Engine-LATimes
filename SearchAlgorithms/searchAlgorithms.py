@@ -108,7 +108,9 @@ def threshold(query):
     heap = []
     indexPL = 0
 
-    
+    if(len(listWordsQuery & IF.keys()) == 1 ):
+        return
+
     while True:
         threshold = 0
         for keyword in listWordsQuery & IF.keys():

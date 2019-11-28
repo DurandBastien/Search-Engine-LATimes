@@ -7,8 +7,16 @@ from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, repla
 from Tokenization import tokenizer
 
 def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False):
+	'''
+    launch shell to proceed a search algorithm on dataset
+    args:
+        searchAlgorithm: the algorithm we want to use to find relevant documents for a user query
+		documentServer: module to retrieve content of document from a document id
+		applyStemming: boolean value to choose to apply or not stemming on query
+		applyLemmatization: boolean value to choose to apply or not lemmatization on query
+		wordEmbedding: boolean value to choose to extend queries with synonyms or not
+	'''
 	if wordEmbedding:
-		# Load word embedding model
 		if not path.exists('./Globals/embeddingModel'):
 			if not path.exists('./Globals/embeddingDataset'):
 				datasetFoldername = "../latimesTest"
@@ -18,11 +26,11 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 			embeddingDataset = pickle.load(embeddingFile)
 			embeddingFile.close()
 			glob.trainModelForEmbedding(embeddingDataset)
+		# Load word embedding model from memory
 		embeddingFile = open('./Globals/embeddingModel', 'rb')
 		model = pickle.load(embeddingFile)
-		print(model)
 		embeddingFile.close()
-
+		
 		print("\nEnter the number of synonyms you want for request\'s words")
 		nbSynonyms = int(sys.stdin.readline())
 
@@ -31,6 +39,7 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 		print("Enter search query:")
 		query = sys.stdin.readline()
 		if "quit()" not in query:
+			# Preprocessing on the query
 			if wordEmbedding:
 				processedQuery = processQueryString(
 					query,
@@ -42,7 +51,9 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 			else:
 				processedQuery = processQueryString(
 					query,
-					lemmatization = True)
+					stemming = applyStemming,
+					lemmatization = applyLemmatization)
+			# Execution of the search algorithm on the query
 			queryResult = searchAlgorithm(processedQuery)
 			if(queryResult):
 				returnedDocuments = documentServer.serveDocuments(queryResult)
@@ -64,6 +75,16 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 			break
 
 def processQueryString(query, stemming = False, lemmatization = False, embedding = False, embeddingModel = None, nbOfSynonyms = 0):
+	'''
+    Preprocessing on the query to be compatible to the search algorithm requirements
+    args:
+        query: a string represennting the user query
+		stemming: boolean value to choose to apply or not stemming on query
+		lemmatization: boolean value to choose to apply or not lemmatization on query
+		embedding: boolean value to choose to extend the query with synonyms or not
+		embeddingModel: the model to be able to process word embedding
+		nbOfSynonyms: an integer representing the number of words answered by the model for each word in th query
+	'''
 	query = createListOfTokens(query)
 	query = removeStopWords(query)
 
@@ -75,11 +96,10 @@ def processQueryString(query, stemming = False, lemmatization = False, embedding
 	if embedding:
 		for i in range(0, len(query)):
 			synonyms = findSynonyms(embeddingModel, query[i], nbOfSynonyms)
-			print(synonyms)
 			for newWord in synonyms:
 				query.append(newWord[0])
 
-	print(query)
+	print('Your query :', query)
 	return query
 
 def processReturnedDocuments(returnedDocuments):

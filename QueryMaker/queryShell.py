@@ -2,9 +2,8 @@ import sys
 import pickle
 import os.path
 from os import path
-#import gensim 
 import Globals.globals as glob
-from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
+from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma, removeStopWords
 from Tokenization import tokenizer
 
 def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False):
@@ -66,6 +65,7 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 
 def processQueryString(query, stemming = False, lemmatization = False, embedding = False, embeddingModel = None, nbOfSynonyms = 0):
 	query = createListOfTokens(query)
+	query = removeStopWords(query)
 
 	if lemmatization:
 		query = replaceWordsByLemma(query)

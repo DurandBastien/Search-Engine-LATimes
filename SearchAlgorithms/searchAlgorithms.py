@@ -26,7 +26,7 @@ def naiveAlgo(query):
     # if(not glob.invertedFile):
     #     return []
     finalDic = dict()
-    for keyword in query:
+    for keyword,_ in query:
         postingList = glob.voc2PostingList(keyword)
         if (postingList != None):
             finalDic = dict(Counter(finalDic) + Counter(postingList)) # additionne les valeurs des deux dictionnaires avec la même clé
@@ -51,7 +51,6 @@ def faginAlgo(query):
     while(len(C) < nbTopElements and len(listEndedPL) < nbOfElementsInQuery):
         keyword, scorePower = listWordsQuery[indexWord]
         if (keyword in IF):
-            print("taille PL pour le mot ", keyword, " ", IF[keyword])
             if indexPL < len(IF[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue
                 docId = list(IF[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir
                 score = IF[keyword][docId]*scorePower #le score de ce docID multiplié par l'importance du mot dans la query, dépend notamment si synonyme ou mot de la requete 
@@ -63,10 +62,8 @@ def faginAlgo(query):
                         del M[docId]
                 else : # si c'est la première fois qu'on rencontre ce document on ajoute l'ajoute à M avec son score et nbdefoisvu à 1 
                     M[docId] = (score, 1)
-                print("M : ", M)
             else: # si on a parcouru une des PLlistes en entier, on break car on sait qu'on aura plus rien à ajouter à C 
                 listEndedPL.add(indexWord)
-                print(listEndedPL)
         indexWord = indexWord+1
         if (indexWord == nbOfElementsInQuery):#si on a parcouru tous les mots de la query, alors on peut passer au niveau suivant dans les PLlistes, on incrémente l'index indexPL pour regarder le prochain élement de chaque PLliste 
             indexWord = 0

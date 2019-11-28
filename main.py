@@ -83,9 +83,9 @@ if __name__ == "__main__":
 		
 		documentServer.foldername = datasetFoldername
 
-		algorithm = searchAlgorithms.threshold
+		algorithm = searchAlgorithms.faginAlgo
 
-		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False)
 
 	elif(argv[1] == "test"):
 		test()

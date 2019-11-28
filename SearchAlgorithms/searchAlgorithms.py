@@ -11,7 +11,6 @@ import heapq
 sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
 
 from collections import Counter, OrderedDict
-from Globals.globals import invertedFile as IF
 from SearchAlgorithms.minHeap import PQNode
 import Globals.globals as glob
 
@@ -41,21 +40,24 @@ def ranking(finalDic):
 
 def faginAlgo(query):
 
-
     M = dict();
     C = []
-    nbTopElements = 10
+    print("query", query)
+    nbTopElements = 2
     listWordsQuery = query
     IF = glob.vocList2PostingLists(listWordsQuery)
     nbOfElementsInQuery = len(listWordsQuery)
+    listEndedPL = set()
     indexWord = 0
     indexPL = 0
-    while(len(C) < nbTopElements):
+    while(len(C) < nbTopElements and len(listEndedPL) < nbOfElementsInQuery):
         keyword = listWordsQuery[indexWord]
         if (keyword in IF):
+            print("taille PL pour le mot ", keyword, " ", IF[keyword])
             if indexPL < len(IF[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue
                 docId = list(IF[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir
                 score = IF[keyword][docId] #le score de ce docID
+                print("docId : ", docId, " score : ", score)
                 if (docId in M):
                     previousScore, nbTimesSeen = M[docId]
                     M[docId] = (previousScore + score, nbTimesSeen + 1) # on utilise la somme pour calculer les scores des documents 
@@ -64,9 +66,10 @@ def faginAlgo(query):
                         del M[docId]
                 else : # si c'est la première fois qu'on rencontre ce document on ajoute l'ajoute à M avec son score et nbdefoisvu à 1 
                     M[docId] = (score, 1)
+                print("M : ", M)
             else: # si on a parcouru une des PLlistes en entier, on break car on sait qu'on aura plus rien à ajouter à C 
-                print("in")
-                break
+                listEndedPL.add(indexWord)
+                print(listEndedPL)
         indexWord = indexWord+1
         if (indexWord == nbOfElementsInQuery):#si on a parcouru tous les mots de la query, alors on peut passer au niveau suivant dans les PLlistes, on incrémente l'index indexPL pour regarder le prochain élement de chaque PLliste 
             indexWord = 0
@@ -153,9 +156,8 @@ def testPQNode():
         print(heapq.heappop(hinput))
 
 if __name__ == "__main__":
-
-    IF = {"you": {1: 3, 2: 2, 3:1}, "are": {1: 2, 3:2, 4: 6}, "tuples": {2: 2, 3:3}, "hello": {1: 4, 2: 5, 3:10}}
+    
     ##naiveAlgo("you tuples")
-    faginAlgo("you are")
+    faginAlgo(["january"])
 
-    threshold("you are")
+    #threshold("you are")

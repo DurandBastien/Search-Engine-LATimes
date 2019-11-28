@@ -18,7 +18,7 @@ def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbeddin
     countDoc = 0
     documentsForEmbedding = []
 
-    for file in tokenizer.listfile[:10]:
+    for file in tokenizer.listfile:
         content = tokenizer.readFile(file)
         index = 0
         while index != len(content):

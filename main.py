@@ -1,5 +1,7 @@
 import sys
 import pickle
+#import os.path
+#from os import path
 
 
 from IFConstruction import ifConstructor
@@ -13,7 +15,7 @@ from Tokenization import tokenizer
 
 #Here try out whatever you want
 def test():
-	datasetFoldername = "../latimesTest"
+	datasetFoldername = "../../latimes/latimes"
 
 	tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
 
@@ -24,7 +26,7 @@ def test():
 	documentServer.foldername = datasetFoldername
 	algorithm = searchAlgorithms.naiveAlgo
 
-	queryShell.launchShell(algorithm, documentServer,applyStemming = False, applyLemmatization = True, wordEmbedding = True, documentsForEmbedding = embeddingDataset)
+	queryShell.launchShell(algorithm, documentServer,applyStemming = False, applyLemmatization = True, wordEmbedding = True)
 
 
 
@@ -50,9 +52,17 @@ if __name__ == "__main__":
 		#tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
 		#ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
 		
-		embeddingFile = open('./Globals/embeddingDataset', 'rb')
-		embeddingDataset = pickle.load(embeddingFile)
-		embeddingFile.close()
+		'''if path.exists('./Globals/embeddingDataset'):
+			embeddingFile = open('./Globals/embeddingDataset', 'rb')
+			embeddingDataset = pickle.load(embeddingFile)
+			embeddingFile.close()
+		else: #AMELIORER GENERATION DU DATASET
+			tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+			ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
+		'''
+
+		#glob.trainModelForEmbedding(embeddingDataset)
+
 
 		constructIF = False
 		
@@ -75,7 +85,7 @@ if __name__ == "__main__":
 
 		algorithm = searchAlgorithms.threshold
 
-		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True, documentsForEmbedding = embeddingDataset)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
 
 	elif(argv[1] == "test"):
 		test()

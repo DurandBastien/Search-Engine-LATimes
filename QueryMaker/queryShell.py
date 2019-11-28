@@ -1,17 +1,32 @@
 import sys
 import pickle
+import os.path
+from os import path
 #import gensim 
+import Globals.globals as glob
 from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
+from Tokenization import tokenizer
 
-def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False, documentsForEmbedding = []):
+def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False):
 	if wordEmbedding:
-		# Load word embedding model from memory
+		# Load word embedding model
+		if not path.exists('./Globals/embeddingModel'):
+			if not path.exists('./Globals/embeddingDataset'):
+				datasetFoldername = "../latimesTest"
+				tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+				glob.constructEmbeddingDataset(tokenizer_, stemming = applyStemming, lemmatization = applyLemmatization)
+			embeddingFile = open('./Globals/embeddingDataset', 'rb')
+			embeddingDataset = pickle.load(embeddingFile)
+			embeddingFile.close()
+			glob.trainModelForEmbedding(embeddingDataset)
 		embeddingFile = open('./Globals/embeddingModel', 'rb')
 		model = pickle.load(embeddingFile)
 		print(model)
 		embeddingFile.close()
+
 		print("\nEnter the number of synonyms you want for request\'s words")
 		nbSynonyms = int(sys.stdin.readline())
+
 	while 1:
 		print("\nEnter \'quit()\' to exit")
 		print("Enter search query:")

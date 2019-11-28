@@ -150,8 +150,10 @@ def testPQNode():
         print(heapq.heappop(hinput))
 
 if __name__ == "__main__":
-    
-    ##naiveAlgo("you tuples")
-    faginAlgo(["january"])
 
-    #threshold("you are")
+    query = ["love", "and", "chocolate"]
+    glob.loadVocabulary()
+    print(naiveAlgo(query))
+    print(faginAlgo(query))
+
+    print(threshold(query))

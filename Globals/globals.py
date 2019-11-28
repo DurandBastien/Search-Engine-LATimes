@@ -24,7 +24,7 @@ vocabularyDict = {} ##global variable used to map a word found in the dataset to
 #read vocabulary already stored on disk and initialize global vocabularyDict with it
 def loadVocabulary():
 	global vocabularyDict
-	vocFilename = "Globals/vocabulary.dict"
+	vocFilename = "../Globals/vocabulary.dict"
 	try:
 		with open(vocFilename, "r") as voc_file:
 			vocabularyDict = eval(voc_file.readline())
@@ -53,7 +53,7 @@ def voc2PostingList(word):
 			return {}
 	else:
 		global vocabularyDict
-		IFname = "Globals/IF.dict"
+		IFname = "../Globals/IF.dict"
 		if(word in vocabularyDict):
 			try:
 				with open(IFname, "r") as IF_file:	
@@ -76,7 +76,7 @@ def vocList2PostingLists(words):
 				result[w] = {}
 	else:
 		global vocabularyDict
-		IFname = "Globals/IF.dict"
+		IFname = "../Globals/IF.dict"
 		wordsToFetch = []
 		for w in words:
 			wordsToFetch.append([w])

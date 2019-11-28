@@ -8,6 +8,8 @@ Created on Fri Nov  8 11:28:26 2019
 
 import sys
 import heapq
+import time
+
 sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
 
 from collections import Counter, OrderedDict
@@ -53,7 +55,7 @@ def faginAlgo(query):
         if (keyword in IF):
             if indexPL < len(IF[keyword]): # si on a pas parcouru toute la taille d'une des PLliste on continue
                 docId = list(IF[keyword])[indexPL] #docID pour l'indexe de la PLliste du terme à parcourir
-                score = IF[keyword][docId]*scorePower #le score de ce docID multiplié par l'importance du mot dans la query, dépend notamment si synonyme ou mot de la requete 
+                score = IF[keyword][docId]*scorePower #le score de ce docID multiplié par l'importance du mot dans la query, dépend notamment si synonyme ou mot de la requete
                 if (docId in M):
                     previousScore, nbTimesSeen = M[docId]
                     M[docId] = (previousScore + score, nbTimesSeen + 1) # on utilise la somme pour calculer les scores des documents 
@@ -62,8 +64,9 @@ def faginAlgo(query):
                         del M[docId]
                 else : # si c'est la première fois qu'on rencontre ce document on ajoute l'ajoute à M avec son score et nbdefoisvu à 1 
                     M[docId] = (score, 1)
-            else: # si on a parcouru une des PLlistes en entier, on break car on sait qu'on aura plus rien à ajouter à C 
+            else: # si on a parcouru une des PLlistes en entier, on break car on sait qu'on aura plus rien à ajouter à C
                 listEndedPL.add(indexWord)
+
         indexWord = indexWord+1
         if (indexWord == nbOfElementsInQuery):#si on a parcouru tous les mots de la query, alors on peut passer au niveau suivant dans les PLlistes, on incrémente l'index indexPL pour regarder le prochain élement de chaque PLliste 
             indexWord = 0
@@ -105,8 +108,8 @@ def threshold(query):
     heap = []
     indexPL = 0
 
-    if(len(listWordsQuery & IF.keys()) == 1 ):
-        return
+    if(len(listWordsQuery & IF.keys())==1 and IF[listWordsQuery[0]]=={}):
+        return []
 
     while True:
         threshold = 0
@@ -149,11 +152,45 @@ def testPQNode():
     while (hinput):
         print(heapq.heappop(hinput))
 
-if __name__ == "__main__":
+def test(query):
 
-    query = ["love", "and", "chocolate"]
-    glob.loadVocabulary()
     print(naiveAlgo(query))
     print(faginAlgo(query))
-
     print(threshold(query))
+    print("")
+
+def testTime(queries):
+    start_time = time.time()
+    for query in queries:
+        naiveAlgo(query)
+    print("--- %s naiveAlgo seconds ---" % (time.time() - start_time))
+    start_time = time.time()
+    for query in queries:
+        faginAlgo(query)
+    print("--- %s faginAlgo seconds ---" % (time.time() - start_time))
+    start_time = time.time()
+    for query in queries:
+        threshold(query)
+    print("--- %s threshold seconds ---" % (time.time() - start_time))
+
+
+if __name__ == "__main__":
+    glob.loadVocabulary()
+    queries = [
+                ["love", "and", "chocolate"],
+                ["january"],
+                ["narrow"],
+                ["today", "and", "tomorrow"],
+                ["r425252252"],
+                ["good","work","tomorrow"],
+                ["good","work","tomorrow","january","narrow","love","chocolate"]
+
+    ]
+
+    short = [
+        "daylight"
+    ]
+    # for query in queries:
+    #     test(query)
+
+    testTime(short)

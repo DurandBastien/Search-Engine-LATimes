@@ -40,14 +40,14 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		datasetFoldername = "../latimesTest"
-		# datasetFoldername = "/home/bastien/Documents/latimes"
+		# datasetFoldername = "../latimesTest"
+		datasetFoldername = "/home/bastien/Documents/latimes"
 		
 		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
-		tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
-		documents = ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
+		# tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+		# documents = ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
 
-		constructIF = False
+		constructIF = True
 		
 		if(constructIF):
 			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername)

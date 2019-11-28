@@ -89,8 +89,8 @@ string Tokenizer::parseText2Tokens(string& text){
 	stringstream ssText(text);
 	string word;
 	while(ssText >> word){
+		removePunctuation(word);
 		if(!isTag(word) && !isStopWord(word)){
-			removePunctuation(word);
 			if(word.size() > 0)
 				tokens += (word + " ");
 		}

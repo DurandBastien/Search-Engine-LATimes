@@ -62,6 +62,13 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 		else:
 			break
 
+def createTokensWithScore(listOfTokens):
+	tokenWithScore = []
+	for token in listOfTokens:
+		mytoken = (token, 3)
+		tokenWithScore.append(mytoken)
+	return tokenWithScore
+
 def processQueryString(query, stemming = False, lemmatization = False, embedding = False, embeddingModel = None, nbOfSynonyms = 0):
 	query = createListOfTokens(query)
 	query = removeStopWords(query)
@@ -71,13 +78,15 @@ def processQueryString(query, stemming = False, lemmatization = False, embedding
 	elif stemming:
 		query = replaceWordsByStem(query)
 	
+	queryWithScore = createTokensWithScore(query)
+	
 	if embedding:
 		for i in range(0, len(query)):
 			synonyms = findSynonyms(embeddingModel, query[i], nbOfSynonyms)
 			for newWord in synonyms:
-				query.append(newWord[0])
-
-	return query
+				queryWithScore.append((newWord[0],1))
+	print(queryWithScore)
+	return queryWithScore
 
 def processReturnedDocuments(returnedDocuments):
 	return returnedDocuments.keys()

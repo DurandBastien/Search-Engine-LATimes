@@ -90,7 +90,9 @@ def vocList2PostingLists(words):
 				for entry in wordsToFetch:
 					if(entry[1] != None):
 						IF_file.seek(entry[1])
-						result[entry[0]] = eval(IF_file.readline().strip())[1]
+						test = IF_file.readline().strip()
+						print(test)
+						result[entry[0]] = eval(test)[1]
 					else:
 						result[entry[0]] = {}
 		except OSError:

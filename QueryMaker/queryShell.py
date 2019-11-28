@@ -69,6 +69,20 @@ def createTokensWithScore(listOfTokens):
 		tokenWithScore.append(mytoken)
 	return tokenWithScore
 
+def deleteDuplicatesInQuery(queryWithScore):
+	myWords = [token[0] for token in queryWithScore]
+	wordsWithoutDuplicates = []
+	#print(myWords)
+	for i in range(len(myWords)):
+		if myWords[i] not in myWords[:i]:
+			indices = [i for i, x in enumerate(myWords) if x == myWords[i]]
+			#print(myWords[i], indices)
+			myScore = 0
+			for indice in indices:
+				myScore += queryWithScore[indice][1]
+			wordsWithoutDuplicates.append((myWords[i], myScore))
+	return wordsWithoutDuplicates
+	
 def processQueryString(query, stemming = False, lemmatization = False, embedding = False, embeddingModel = None, nbOfSynonyms = 0):
 	query = createListOfTokens(query)
 	query = removeStopWords(query)

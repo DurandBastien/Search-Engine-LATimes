@@ -7,9 +7,11 @@ Created on Fri Nov  8 11:02:35 2019
 """
 
 import sys
-
+import gensim 
+import pickle
 
 from collections import OrderedDict
+from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
 
 numberOfDocuments = 0 #global variable incremented when dataset read 
 
@@ -69,7 +71,7 @@ def vocList2PostingLists(words):
 	if(len(invertedFile.keys()) > 0):
 		for w in words:	
 			if(w in invertedFile):
-				result[w] = invertedFile[word] 
+				result[w] = invertedFile[w]
 			else:
 				result[w] = {}
 	else:
@@ -99,3 +101,43 @@ def vocList2PostingLists(words):
 
 # def initmap():
 #     invertedFile = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}
+
+def constructEmbeddingDataset(tokenizer, stemming = False, lemmatization = False,):
+	documentsForEmbedding = []
+	
+	for file in tokenizer.listfile:
+		content = tokenizer.readFile(file)
+		index = 0
+		while index != len(content):
+			mydoc= tokenizer.extractDocumentFromFile(content,index)
+			index = mydoc[3]
+			tokens = createListOfTokens(mydoc[1])
+			tokens = tokenizer.removeStopWords(tokens)
+			if lemmatization:
+				tokens = replaceWordsByLemma(tokens)
+			elif stemming:
+				tokens = replaceWordsByStem(tokens)
+			if index != len(content):
+				documentsForEmbedding.append(tokens)
+				
+	# Write in memory the dataset for wordEmbedding
+	embeddingFile = open('./Globals/embeddingDataset', 'wb')
+	pickle.dump(documentsForEmbedding, embeddingFile)
+	embeddingFile.close()
+	print("The dataset for word embedding has been stored in memory.")
+
+def trainModelForEmbedding(listOfDocuments):
+	model = gensim.models.Word2Vec(
+		listOfDocuments,
+		size = 100,
+		window = 10,
+		min_count = 1,
+		workers = 10,
+		iter = 10
+	)
+
+	# Write in memory the model for wordEmbedding
+	embeddingFile = open('./Globals/embeddingModel', 'wb')
+	pickle.dump(model, embeddingFile)
+	embeddingFile.close()
+	print("Model for embedding has been stored in memory.")

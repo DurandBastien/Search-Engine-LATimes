@@ -1,13 +1,32 @@
 import sys
-import gensim 
-import gensim.downloader as api
+import pickle
+import os.path
+from os import path
+#import gensim 
+import Globals.globals as glob
 from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
+from Tokenization import tokenizer
 
-def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False, documentsForEmbedding = []):
+def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False):
 	if wordEmbedding:
-		model = trainModelForEmbedding(documentsForEmbedding)
+		# Load word embedding model
+		if not path.exists('./Globals/embeddingModel'):
+			if not path.exists('./Globals/embeddingDataset'):
+				datasetFoldername = "../latimesTest"
+				tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
+				glob.constructEmbeddingDataset(tokenizer_, stemming = applyStemming, lemmatization = applyLemmatization)
+			embeddingFile = open('./Globals/embeddingDataset', 'rb')
+			embeddingDataset = pickle.load(embeddingFile)
+			embeddingFile.close()
+			glob.trainModelForEmbedding(embeddingDataset)
+		embeddingFile = open('./Globals/embeddingModel', 'rb')
+		model = pickle.load(embeddingFile)
+		print(model)
+		embeddingFile.close()
+
 		print("\nEnter the number of synonyms you want for request\'s words")
 		nbSynonyms = int(sys.stdin.readline())
+
 	while 1:
 		print("\nEnter \'quit()\' to exit")
 		print("Enter search query:")
@@ -65,20 +84,6 @@ def processQueryString(query, stemming = False, lemmatization = False, embedding
 
 def processReturnedDocuments(returnedDocuments):
 	return returnedDocuments.keys()
-
-def trainModelForEmbedding(listOfDocuments):
-	model = gensim.models.Word2Vec(
-		listOfDocuments,
-		size = 50,
-		window = 10,
-		min_count = 1,
-		workers = 10,
-		iter = 5
-	)
-	print(model)
-	#model = model.wv
-	#model = api.load("glove-wiki-gigaword-100")
-	return model
 
 def findSynonyms(model, myWord, nbOfSynonyms):
 	word_vectors = model.wv

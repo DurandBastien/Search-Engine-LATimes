@@ -11,14 +11,14 @@ import os
 from collections import OrderedDict 
 import Globals.globals as glob
 from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
-
+import pickle
 
 def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbedding = False):
     global countDoc
     countDoc = 0
     documentsForEmbedding = []
 
-    for file in tokenizer.listfile[:10]:
+    for file in tokenizer.listfile:
         content = tokenizer.readFile(file)
         index = 0
         while index != len(content):
@@ -49,7 +49,13 @@ def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbeddin
                     glob.invertedFile[word] = {docId: 1}
         print(file, len(glob.invertedFile)) 
 
-    return documentsForEmbedding
+    # Write in memory the dataset for wordEmbedding
+    embeddingFile = open('./Globals/embeddingDataset', 'wb')
+    pickle.dump(documentsForEmbedding, embeddingFile)
+    embeddingFile.close()
+    print("The dataset for word embedding has been stored in memory.")
+
+    # return documentsForEmbedding
 
 #in-memory inverted file construction using a stream-like tokenizer
 def constructIFFromStreamTokenizer(streamTokenizer):

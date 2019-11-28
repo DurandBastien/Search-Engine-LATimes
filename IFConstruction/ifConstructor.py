@@ -10,7 +10,7 @@ import ast;
 import os
 from collections import OrderedDict 
 import Globals.globals as glob
-from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
+from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma, removeStopWords
 import pickle
 
 def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbedding = False):
@@ -29,7 +29,7 @@ def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbeddin
             docId = mydoc[0]
             index = mydoc[3]
             tokens = createListOfTokens(mydoc[1])
-            tokens = tokenizer.removeStopWords(tokens)
+            tokens = removeStopWords(tokens)
             if lemmatization:
                 tokens = replaceWordsByLemma(tokens)
             elif stemming:

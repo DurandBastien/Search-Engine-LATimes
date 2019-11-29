@@ -1,8 +1,23 @@
 # Search-Engine-LATimes
 
 This is a framework to execute search queries on a dataset consisting of LA Times records.
-To be able to run this code you will need to execute:
-  - pip install nltk
+
+We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the NAME file. You can run again the tests but you will also have access to the results we obtain with the following characteristics:
+  - processor: TO COMPLETE
+  - ram: TO COMPLETE
+  - memory: TO COMPLETE
+  
+To be able to run this code you will need to execute the framework you will need to install:
+  - nltk
+  - gensim
+  - download the model using lemmatization for word embedding () and save it in the folder named 'Globals'
+  - download the inverted file using lemmatization () and save it in the folder named 'Globals'
+If you don't save properly those two files, the framework will construct them and you will lose time however the framework will still work.
+
+The framework is divided into different folders representing functionalities:
+  - TO COMPLETE
+  
+Finally, we have built the framework with different updates detailed in the following sections.
 
 ## First iteration
 
@@ -61,6 +76,11 @@ To be able to run this code you will need to execute:
   - instead of yielding a list of doc ID as a query result, it fetchs metadata from the documents (date, headline, section) 
 
 
+# Authors:
+  - Bastien DURAND
+  - Clément GUITTAT
+  - Yang HUA
+  - Alexandra VERRIER
 
 ## Test phase
 - conditions générales : une requête commune (gibberish ->16files,gobbledygook ->16 files, scrumptious -> 15 files, internet -> 3 files)

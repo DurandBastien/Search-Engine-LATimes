@@ -11,6 +11,7 @@ from SearchAlgorithms import searchAlgorithms
 from QueryMaker import queryShell
 
 from Tokenization import tokenizer
+from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 
 
 #Here try out whatever you want
@@ -44,8 +45,8 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		datasetFoldername = "../latimes"
-
+		# datasetFoldername = "../latimes"
+		datasetFoldername = "../latimesTest"
 		# datasetFoldername = "/home/bastien/Documents/latimes"
 		
 		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
@@ -64,15 +65,15 @@ if __name__ == "__main__":
 		#glob.trainModelForEmbedding(embeddingDataset)
 
 
-		constructIF = True
+		constructIF = False
 		
 		if(constructIF):
-			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername)
+			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername, lemmatization_ = True, stemming_ = False)
 			#set runSize such that :
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
 			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 150)
 			#AJOUTER GENERATION EMBEDDING DATASET DANS constructIF_diskBased
-			glob.trainModelForEmbedding(embeddingDataset)
+			# glob.trainModelForEmbedding(embeddingDataset)
 
 		diskBasedIF = True
 
@@ -83,9 +84,9 @@ if __name__ == "__main__":
 		
 		documentServer.foldername = datasetFoldername
 
-		algorithm = searchAlgorithms.threshold
+		algorithm = searchAlgorithms.naiveAlgo
 
-		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = False)
 
 	elif(argv[1] == "test"):
 		test()

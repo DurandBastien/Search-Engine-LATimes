@@ -19,11 +19,14 @@ To be able to run this code you will need to execute:
   - Posting List: HashMap(key = docID, value = score(word, docID))
   - Loop through files and update global HashMap using number of word occurence in document as score
 - Search algorithm
-  - naive algorithm to be able to test the project
-  - Making queries
+  - naive algorithm to be able to test the project : 
+    - we go through all the Posting List associated with the keywords in the query. 
+    - Then we compute the score of each document by adding the value of a document in every Posting List. 
+- Making queries
     - simple shell which takes a search algorithm and performs user's queries with it
     - print the 10 best results as a list of doc ID
     - then print the content of the document corresponding to the chosen doc ID
+
 ## Second iteration
 
 - Tokenization (using nltk)
@@ -42,6 +45,11 @@ To be able to run this code you will need to execute:
   - each entry of the inverted file are (word, posting list) and each posting list are sorted by decreasing score 
   - in the meantime two hashmaps are constructed in-memory, one to map doc IDs to the place where is stores their content on disk (e.g. filename and indexes) and one to map a word to the place in the inverted file where its posting list is stored
 - Search algorithm
+  - implementation of the fagin algorithm :
+    - retrieve all the posting lists associated with the keywords in the query
+    - instantiate the dict M as all the documents seen at least once in a Posting List but not in all the Posting List
+    - M : HashMap (key = docId, value = pair(updated score of the document, number of PostingList who contains the document ) )
+    - instantiate the list C as all the documents seen in every Posting List
 - Making queries
 
 

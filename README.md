@@ -45,12 +45,12 @@ Finally, we have built the framework with different updates detailed in the foll
 
 ## Second iteration
 
-- Tokenization (using nltk)
+- Tokenization
   - Reading the dataset
     - C++ Tokenizer behaving as a stream, yielding document after document
     - First, it opens the folder, then it reads the dataset as if it was one file
     - Next element in the stream is : [filename, doc ID, tokens in doc, doc start index in file, doc end index in file]
-  - Pre-processing on tokens
+  - Pre-processing on tokens (using nltk)
     - Replace words by their lemma
     - Replace words by their stem
 - Inverted files construction
@@ -82,6 +82,8 @@ Finally, we have built the framework with different updates detailed in the foll
     - Construct the dataset with stemming/lemmatization if needed and store it in memory
     - Train the model with 100 dimensions and store it in memory
     - Compute the most similar function (based on cosinus similarity) on query's tokens to extract the most relevant synonyms
+  - Convert query into list of tokens with associated scores to make the original query's tokens more important than the synonyms added
+    - In case of duplicated tokens, we have chosen to add up their scores
 
 
 # Authors:

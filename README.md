@@ -68,7 +68,7 @@ To be able to run this code you will need to execute:
   - top 10 sur naive algorithm avec requête type (chocolate and internet)
     - calcul de score nb occurence
     - calcul de score tf/idf
-  - top 10 avec même requête, sans stem, sans lem, sans wordEmbeding
+  - top 10(score if/idf) avec même requête, sans stem, sans lem, sans wordEmbeding
     - naive algo
     - fagin
     - threshold

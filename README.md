@@ -63,7 +63,7 @@ To be able to run this code you will need to execute:
 
 
 ## Test phase
-- conditions générales : une requête commune (gobbledygook ->16 files, scrumptious -> 15 files, internet -> 3 files)
+- conditions générales : une requête commune (gibberish ->16files,gobbledygook ->16 files, scrumptious -> 15 files, internet -> 3 files)
 - Consistency (marquer résultat obtenu sur une même requête) (test end to end)
   - top 10 sur naive algorithm
     - sans stem, sans lem, sans wordEmbeding

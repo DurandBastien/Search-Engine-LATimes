@@ -11,7 +11,7 @@ import gensim
 import pickle
 
 from collections import OrderedDict
-from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma
+from Tokenization.tokenizer import createListOfTokens, replaceWordsByStem, replaceWordsByLemma, removeStopWords
 
 numberOfDocuments = 0 #global variable incremented when dataset read 
 
@@ -109,12 +109,13 @@ def constructEmbeddingDataset(tokenizer, stemming = False, lemmatization = False
 	
 	for file in tokenizer.listfile:
 		content = tokenizer.readFile(file)
+		print(file)
 		index = 0
 		while index != len(content):
 			mydoc= tokenizer.extractDocumentFromFile(content,index)
 			index = mydoc[3]
 			tokens = createListOfTokens(mydoc[1])
-			tokens = tokenizer.removeStopWords(tokens)
+			tokens = removeStopWords(tokens)
 			if lemmatization:
 				tokens = replaceWordsByLemma(tokens)
 			elif stemming:

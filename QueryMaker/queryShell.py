@@ -11,7 +11,7 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 		# Load word embedding model
 		if not path.exists('./Globals/embeddingModel'):
 			if not path.exists('./Globals/embeddingDataset'):
-				datasetFoldername = "../latimesTest"
+				datasetFoldername = "../../latimes/latimes"
 				tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
 				glob.constructEmbeddingDataset(tokenizer_, stemming = applyStemming, lemmatization = applyLemmatization)
 			embeddingFile = open('./Globals/embeddingDataset', 'rb')

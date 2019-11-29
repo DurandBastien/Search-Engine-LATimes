@@ -44,25 +44,9 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		datasetFoldername = "../latimes"
+		datasetFoldername = "../../latimes/latimes"
 
 		# datasetFoldername = "/home/bastien/Documents/latimes"
-		
-		#TO DELETE WHEN MODEL WILL BE CHARGED IN MEMORY
-		#tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
-		#ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
-		
-		'''if path.exists('./Globals/embeddingDataset'):
-			embeddingFile = open('./Globals/embeddingDataset', 'rb')
-			embeddingDataset = pickle.load(embeddingFile)
-			embeddingFile.close()
-		else: #AMELIORER GENERATION DU DATASET
-			tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
-			ifConstructor.constructIF(tokenizer_, stemming = False, lemmatization = True, wordEmbedding = True)
-		'''
-
-		#glob.trainModelForEmbedding(embeddingDataset)
-
 
 		constructIF = False
 		
@@ -72,7 +56,7 @@ if __name__ == "__main__":
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
 			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 150)
 			#AJOUTER GENERATION EMBEDDING DATASET DANS constructIF_diskBased
-			glob.trainModelForEmbedding(embeddingDataset)
+			#glob.trainModelForEmbedding(embeddingDataset)
 
 		diskBasedIF = True
 
@@ -85,7 +69,7 @@ if __name__ == "__main__":
 
 		algorithm = searchAlgorithms.faginAlgo
 
-		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
 
 	elif(argv[1] == "test"):
 		test()

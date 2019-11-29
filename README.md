@@ -10,7 +10,7 @@ We have experimented different methods to improve our search engine for disjounc
 To be able to run this code you will need to execute the framework you will need to install:
   - nltk
   - gensim
-  - download the model using lemmatization for word embedding () and save it in the folder named 'Globals'
+  - download the model using lemmatization for word embedding (https://fex.insa-lyon.fr/get?k=rXHgD8ErlA8p40dCFxD) and save it in the folder named 'Globals'
   - download the inverted file using lemmatization () and save it in the folder named 'Globals'
 If you don't save properly those two files, the framework will construct them and you will lose time however the framework will still work.
 
@@ -66,14 +66,21 @@ Finally, we have built the framework with different updates detailed in the foll
     - M : HashMap (key = docId, value = pair(updated score of the document, number of PostingList who contains the document ) )
     - instantiate the list C as all the documents seen in every Posting List
 - Making queries
-
+  - Pre-processing on queries before applying the search algorithm
+    - Convert into list of tokens
+    - Remove stop words
+    - Apply stemming/lemmatization if needed
 
 ## Third iteration
 
 - Inverted files construction
-  - compute score = tf * idf = (1 + log(number of occurrences)) * log(total number of documents/(length of posting list))) 
+  - Compute score = tf * idf = (1 + log(number of occurrences)) * log(total number of documents/(length of posting list))) 
 - Making queries
-  - instead of yielding a list of doc ID as a query result, it fetchs metadata from the documents (date, headline, section) 
+  - Instead of yielding a list of doc ID as a query result, it fetchs metadata from the documents (date, headline, section)
+  - Apply word embedding on queries to extend them with synonyms (using gensim)
+    - Construct the dataset with stemming/lemmatization if needed and store it in memory
+    - Train the model with 100 dimensions and store it in memory
+    - Compute the most similar function (based on cosinus similarity) on query's tokens to extract the most relevant synonyms
 
 
 # Authors:

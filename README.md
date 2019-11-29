@@ -12,6 +12,7 @@ To be able to run this code you will need to install:
   - gensim
   - download the model using lemmatization for word embedding (https://fex.insa-lyon.fr/get?k=rXHgD8ErlA8p40dCFxD) and save it in the folder named 'Globals'
   - download the inverted file using lemmatization () and save it in the folder named 'Globals'
+
 If you don't save properly those two files, the framework will construct them and you will lose time however the framework will still work.
 
 The framework is divided into different folders representing functionalities:

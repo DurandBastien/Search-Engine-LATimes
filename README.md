@@ -7,7 +7,7 @@ We have experimented different methods to improve our search engine for disjounc
   - ram: TO COMPLETE
   - memory: TO COMPLETE
   
-To be able to run this code you will need to execute the framework you will need to install:
+To be able to run this code you will need to install:
   - nltk
   - gensim
   - download the model using lemmatization for word embedding (https://fex.insa-lyon.fr/get?k=rXHgD8ErlA8p40dCFxD) and save it in the folder named 'Globals'

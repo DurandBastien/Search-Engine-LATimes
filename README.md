@@ -63,7 +63,28 @@ To be able to run this code you will need to execute:
 
 
 ## Test phase
-- 
-- Inverted file 
-- Inverted file consistency
-- 
+- conditions générales : une requête commune (gobbledygook ->16 files, scrumptious -> 15 files, internet -> 3 files)
+- Consistency (marquer résultat obtenu sur une même requête) (test end to end)
+  - top 10 sur naive algorithm
+    - sans stem, sans lem, sans wordEmbeding
+    - avec stem, sans lem, sans wordEmbeding
+    - sans stem, avec lem, sans wordEmbeding
+    - sans stem, avec lem, avec wordEmbeding (3 synonymes)
+  - top 10 sur fagin
+    - sans stem, sans lem, sans wordEmbeding
+    - avec stem, sans lem, sans wordEmbeding
+    - sans stem, avec lem, sans wordEmbeding
+    - sans stem, avec lem, avec wordEmbeding (3 synonymes)
+  - top 10 sur threshold
+    - sans stem, sans lem, sans wordEmbeding
+    - avec stem, sans lem, sans wordEmbeding
+    - sans stem, avec lem, sans wordEmbeding
+    - sans stem, avec lem, avec wordEmbeding (3 synonymes)
+- Performance (marquer temps exécution en commentaire)
+  - temps de construction:
+    - IF in RAM (pas de stem, lem ni embedding)
+    - IF disk based (pas de stem, lem ni embedding)
+  - temps d'exécution pour une même requête:
+    - naive algo
+    - fagin algo
+    - threshold algo

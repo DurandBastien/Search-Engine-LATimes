@@ -65,17 +65,14 @@ To be able to run this code you will need to execute:
 ## Test phase
 - conditions générales : une requête commune (gibberish ->16files,gobbledygook ->16 files, scrumptious -> 15 files, internet -> 3 files)
 - Consistency (marquer résultat obtenu sur une même requête) (test end to end)
-  - top 10 sur naive algorithm
-    - sans stem, sans lem, sans wordEmbeding
-    - avec stem, sans lem, sans wordEmbeding
-    - sans stem, avec lem, sans wordEmbeding
-    - sans stem, avec lem, avec wordEmbeding (3 synonymes)
-  - top 10 sur fagin
-    - sans stem, sans lem, sans wordEmbeding
-    - avec stem, sans lem, sans wordEmbeding
-    - sans stem, avec lem, sans wordEmbeding
-    - sans stem, avec lem, avec wordEmbeding (3 synonymes)
-  - top 10 sur threshold
+  - top 10 sur naive algorithm avec requête type (chocolate and internet)
+    - calcul de score nb occurence
+    - calcul de score tf/idf
+  - top 10 avec même requête, sans stem, sans lem, sans wordEmbeding
+    - naive algo
+    - fagin
+    - threshold
+  - top 10 sur le meilleur algo
     - sans stem, sans lem, sans wordEmbeding
     - avec stem, sans lem, sans wordEmbeding
     - sans stem, avec lem, sans wordEmbeding

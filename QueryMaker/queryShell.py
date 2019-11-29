@@ -46,16 +46,19 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 			queryResult = searchAlgorithm(processedQuery)
 			if(queryResult):
 				returnedDocuments = documentServer.serveDocuments(queryResult)
-				metadata = processReturnedDocuments(returnedDocuments)
+				# metadata = processReturnedDocuments(returnedDocuments)
 				print("\n")
-				print("result:\n")
-				print(metadata, "\n")
+				print("results:\n")
+				for idx, doc in enumerate(returnedDocuments.keys()):
+					print(idx+1,"----------------------------------")
+					print(returnedDocuments[doc]["metadata"]),
+				print("----------------------------------")
 				if(returnedDocuments):
 					print("choose docID")
 					chosenDocId = sys.stdin.readline()
 					print("\n")
 					if(chosenDocId.strip() in returnedDocuments):
-						print(returnedDocuments[chosenDocId.strip()],"\n")
+						print(returnedDocuments[chosenDocId.strip()]["content"],"\n")
 					else:
 						print("doc ID not in result")
 			else:

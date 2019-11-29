@@ -41,7 +41,8 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 			else:
 				processedQuery = processQueryString(
 					query,
-					lemmatization = True)
+                    stemming = applyStemming,
+					lemmatization = applyLemmatization)
 			queryResult = searchAlgorithm(processedQuery)
 			if(queryResult):
 				returnedDocuments = documentServer.serveDocuments(queryResult)

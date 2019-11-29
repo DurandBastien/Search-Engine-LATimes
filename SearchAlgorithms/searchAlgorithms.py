@@ -127,7 +127,7 @@ def threshold(query):
                         heapq.heappush(heap, newNode)
                     threshold = threshold + score
 
-            indexPL = indexPL + 1
+        indexPL = indexPL + 1
         if getKthElement(nbTop,heap).value > threshold:
             res = []
             for node in heapq.nlargest(nbTop,heap):
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     short = [
         ("daylight",3)
     ]
-    # for query in queries:
-    #     test(query)
+    for query in queries:
+        test(query)
 
-    testTime(queries)
+    # testTime(queries)

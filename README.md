@@ -28,7 +28,7 @@ Finally, we have built the framework with different updates detailed in the foll
     - Extract documents from files representing by an id
     - Extract tokens from documents using white space as delimiter
   - Pre-processing on tokens
-    - remove punctuation and stop words	
+    - Remove punctuation and stop words	
 - Inverted file construction
   - Construction in-memory using the tokenizer described above
   - Inverted file: HashMap(keys = word, value = Posting List)
@@ -36,7 +36,7 @@ Finally, we have built the framework with different updates detailed in the foll
   - Loop through files and update global HashMap using number of word occurence in document as score
 - Search algorithm
   - naive algorithm to be able to test the project : 
-    - we go through all the Posting List associated with the keywords in the query. 
+    - We go through all the Posting List associated with the keywords in the query. 
     - Then we compute the score of each document by adding the value of a document in every Posting List. 
 - Making queries
     - simple shell which takes a search algorithm and performs user's queries with it
@@ -64,8 +64,11 @@ Finally, we have built the framework with different updates detailed in the foll
   - implementation of the fagin algorithm :
     - retrieve all the posting lists associated with the keywords in the query
     - instantiate the dict M as all the documents seen at least once in a Posting List but not in all the Posting List
-    - M : HashMap (key = docId, value = pair(updated score of the document, number of PostingList who contains the document ) )
+    - M : HashMap (key = docId, value = pair(updated score of the document, number of PostingList seen which contains the document ) )
     - instantiate the list C as all the documents seen in every Posting List
+    - First, we go through the first element of every PostingList. If this element is a document we've never seen, we will add it to M. Otherwise, if this element has been seen in every PostingList we will add it to C and remove it from M, else we will just update the value of the score of this document in M and increment the "number of times seen" variable.
+    - Then we will go on with the second element of every PostingList and so on. 
+    - After this loop process, we will go through the remaining elements in M and compute their final score by taking into account every Posting List in order to be sure that their score are not bigger than those in C. 
 - Making queries
   - Pre-processing on queries before applying the search algorithm
     - Convert into list of tokens
@@ -84,6 +87,9 @@ Finally, we have built the framework with different updates detailed in the foll
     - Compute the most similar function (based on cosinus similarity) on query's tokens to extract the most relevant synonyms
   - Convert query into list of tokens with associated scores to make the original query's tokens more important than the synonyms added
     - In case of duplicated tokens, we have chosen to add up their scores
+- Search Algorithm: 
+  - When computing the score of a document, we take into account the weight of the keyword in the query (not the same weight if it was present more than once in the querry or if it was an added synonym word) 
+  - ????? Calcul du score en faisant la moyenne (à implémenter si besoin car pour l'instant c'est juste une addition)
 
 
 # Authors:

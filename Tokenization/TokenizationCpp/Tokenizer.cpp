@@ -2,6 +2,7 @@
 #include <cstring>
 #include <sstream>
 #include <algorithm>
+// #include <ctype.h>
 
 using namespace std;
 
@@ -88,18 +89,30 @@ string Tokenizer::parseText2Tokens(string& text){
 	toLowerCase(text);
 	stringstream ssText(text);
 	string word;
-	while(ssText >> word){
-		removePunctuation(word);
-		if(!isTag(word) && !isStopWord(word)){
-			if(word.size() > 0)
-				tokens += (word + " ");
+	string line;
+	while(getline(ssText, line, '<')){
+		line = line.substr(line.find(">") + 1);
+		stringstream ssLine(line);
+		while(getline(ssLine, word, ' ')){
+			if(isTagStart(word)){
+				cout << word << endl;
+			}
+			removePunctuation(word);
+			if(!isStopWord(word)){
+				if(word.size() > 0)
+					tokens += (word + " ");
+			}
 		}
 	}
 	return tokens;
 }
 
-bool Tokenizer::isTag(std::string& word){
+bool Tokenizer::isTagStart(std::string& word){
 	return (word.find("<") != string::npos);
+}
+
+bool Tokenizer::isTagEnd(std::string& word){
+	return (word.find(">") != string::npos);
 }
 
 bool Tokenizer::isStopWord(string& word){
@@ -108,9 +121,17 @@ bool Tokenizer::isStopWord(string& word){
 
 void Tokenizer::removePunctuation(string& word){  
     for (int i = 0, len = word.size(); i < len; i++) { 
-        if (ispunct(word[i])){ 
-            word.erase(i--, 1); 
-            len = word.size(); 
+        if (ispunct(word[i])){
+        	if(word[i] == ','){
+	            word.erase(i--, 1); 
+	            len = word.size();
+        	}else if(word[i] != ':'){
+        		word[i] = ' '; 
+        	}
+        	// if(i > 1 && i + 1 < len && isdigit(word[i+1])){
+        	// 	cout << word << endl;
+        	// 	continue; 
+        	// }
         } 
     } 
       

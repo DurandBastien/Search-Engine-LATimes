@@ -15,7 +15,7 @@ from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 
 
 #Here try out whatever you want
-def test():
+def test1():
 	datasetFoldername = "../../latimes/latimes"
 
 	tokenizer_ = tokenizer.Tokenizer(datasetFoldername)
@@ -29,7 +29,10 @@ def test():
 
 	queryShell.launchShell(algorithm, documentServer,applyStemming = False, applyLemmatization = True, wordEmbedding = True)
 
-
+def test2():
+	glob.loadVocabulary()
+	algo = searchAlgorithms.naiveAlgo
+	print(algo([("january", 3)]))
 
 if __name__ == "__main__":
 
@@ -46,16 +49,16 @@ if __name__ == "__main__":
 	if(len(argv) <= 1):
 
 		# datasetFoldername = "../latimes"
-		datasetFoldername = "../latimesTest"
-		# datasetFoldername = "/home/bastien/Documents/latimes"
+		# datasetFoldername = "../latimesTest"
+		datasetFoldername = "/home/bastien/Documents/latimes"
 
-		constructIF = False
-		
+		constructIF = True
+
 		if(constructIF):
 			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername, lemmatization_ = True, stemming_ = False)
 			#set runSize such that :
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
-			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 150)
+			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 130)
 			#AJOUTER GENERATION EMBEDDING DATASET DANS constructIF_diskBased
 			# glob.trainModelForEmbedding(embeddingDataset)
 
@@ -64,15 +67,15 @@ if __name__ == "__main__":
 		if(diskBasedIF):
 			glob.loadVocabulary()
 			glob.loadDocID2Content()
-		
-		
+
 		documentServer.foldername = datasetFoldername
 
-		algorithm = searchAlgorithms.naiveAlgo
+		algorithm = searchAlgorithms.fagginAlgo
 
 		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = False)
 
 	elif(argv[1] == "test"):
-		test()
+		# test1()
+		test2()
 	else:
 		print("unknown arg")

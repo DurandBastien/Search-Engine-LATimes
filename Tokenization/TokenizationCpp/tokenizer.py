@@ -29,8 +29,8 @@ class Tokenizer():
             return res
         if(self.stemming):
             res = list(res)
-            lemm_words = replaceWordsByStem(res[2].split())
-            res[2] = " ".join(lemm_words)
+            stemm_words = replaceWordsByStem(res[2].split())
+            res[2] = " ".join(stemm_words)
             return res
         elif(self.lemmatization):
             res = list(res)

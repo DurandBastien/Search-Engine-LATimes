@@ -97,8 +97,8 @@ def datasetToSortedRuns(streamTokenizer, runSize):
     runTriples = [] #store triples (word, docID, number of occurence) for a whole run before flushing on disk in temporary file 
     docID2Content = {} #in-memory construction before flushing on disk, see Globals.globals.docID2ContentIndexes
     while(docFromStream):
-        # print(">", int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments, end="\r")
-        print(">", "Doc number :",glob.numberOfDocuments, end="\r")
+        print(">", int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments, end="\r")
+        # print(">", "Doc number :",glob.numberOfDocuments, end="\r")
 
         #parse result from tokenizer
         glob.numberOfDocuments += 1 #count number of document processed from beginning
@@ -145,8 +145,8 @@ def datasetToSortedRuns(streamTokenizer, runSize):
     docID2Content_file.write(str(docID2Content))
     docID2Content_file.close()
 
-    # print(int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments)
-    print(">", "Doc number :",glob.numberOfDocuments)
+    print(int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments)
+    # print(">", "Doc number :",glob.numberOfDocuments)
 
 #merge all temporary files containing run triples (see above) in an on-disk inverted files 
 def mergeRunsToIF():
@@ -200,7 +200,7 @@ def mergeRunsToIF():
                 if(entry != "" and entry != "\n"):
                     #parse triple
                     entry_eval = ast.literal_eval(entry)
-                    currentEntriesInFiles.append([entry_eval[0], entry_eval[1], entry_eval[2], i])
+                    currentEntriesInFiles.append([entry_eval[0], entry_eval[1], entry_eval[2], current_entry[3]])
                 #the stack is sorted so it wil pop the right entry 
                 currentEntriesInFiles[1:] = sorted(currentEntriesInFiles[1:], reverse=True)
                 current_entry = currentEntriesInFiles.pop()

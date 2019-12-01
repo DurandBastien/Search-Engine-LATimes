@@ -42,7 +42,8 @@ private:
 	bool openNextFile();
 	bool gotoNextOccurence(std::string&);
 	std::string parseDocID(std::string&);
-	bool isTag(std::string&);
+	bool isTagStart(std::string&);
+    bool isTagEnd(std::string&);
 	bool isStopWord(std::string&);
 	void removePunctuation(std::string&);
 	void toLowerCase(std::string&);

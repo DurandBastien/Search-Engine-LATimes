@@ -119,8 +119,11 @@ def replaceWordsByStem(tokens):
     return stemTokens
 
 def replaceWordsByLemma(tokens):
+    stemmer = PorterStemmer()
     lemmatizer = WordNetLemmatizer()
     for i in range(0, len(tokens)):
+        #Replace the word by its stem
+        tokens[i] = stemmer.stem(tokens[i])
         #Extract the type of word to find the correct lemma
         tag = nltk.pos_tag([tokens[i]])[0][1][0].upper()
         tag_dict = {"J": wordnet.ADJ,
@@ -130,7 +133,7 @@ def replaceWordsByLemma(tokens):
         POS = tag_dict.get(tag, wordnet.NOUN)
         #Replace the word by its lemma
         tokens[i] = lemmatizer.lemmatize(tokens[i], POS)
-    return tokens  
+    return tokens
 
 def createListOfTokens(paragraph):
         """

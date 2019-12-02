@@ -30,9 +30,11 @@ def test1():
 	queryShell.launchShell(algorithm, documentServer,applyStemming = False, applyLemmatization = True, wordEmbedding = True)
 
 def test2():
-	glob.loadVocabulary()
-	algo = searchAlgorithms.naiveAlgo
-	print(algo([("january", 3)]))
+	print(tokenizer.replaceWordsByLemma(['jumped', 'jumping', 'are', 'is', 'message']))
+	# glob.loadVocabulary()
+	# print(glob.vocList2PostingLists(["zzz"]))
+	# algo = searchAlgorithms.naiveAlgo
+	# print(algo([("january", 3)]))
 
 if __name__ == "__main__":
 
@@ -59,8 +61,8 @@ if __name__ == "__main__":
 			#set runSize such that :
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
 			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 130)
-			#AJOUTER GENERATION EMBEDDING DATASET DANS constructIF_diskBased
-			# glob.trainModelForEmbedding(embeddingDataset)
+			glob.loadEmbeddingDataset()
+			glob.trainModelForEmbedding(glob.embeddingDataset)
 
 		diskBasedIF = True
 

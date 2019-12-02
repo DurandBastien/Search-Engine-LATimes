@@ -21,6 +21,8 @@ docID2ContentIndexes = {} #global variable used to map the docID to the place wh
 
 vocabularyDict = {} ##global variable used to map a word found in the dataset to the place its posting list is stored on disk
 
+embeddingDataset = []
+
 #read vocabulary already stored on disk and initialize global vocabularyDict with it
 def loadVocabulary():
 	global vocabularyDict
@@ -41,6 +43,17 @@ def loadDocID2Content():
 			docID2ContentIndexes = eval(docID2ContentIndexes_file.readline())
 	except OSError:
 		print("Could not open/read file:", docID2CFilename)
+		sys.exit()	
+
+def loadEmbeddingDataset():
+	global 	embeddingDataset
+	embeddingDatasetFilename = "Globals/embeddingDataset"
+	try:
+		with open(embeddingDatasetFilename, "r") as embData_file:
+			for line in embData_file:
+				embeddingDataset.append(eval(line.strip()))
+	except OSError:
+		print("Could not open/read file:", embeddingDatasetFilename)
 		sys.exit()	
 	
 #use VocabularyDict to get on disk the posting list associated to the given word
@@ -90,9 +103,7 @@ def vocList2PostingLists(words):
 				for entry in wordsToFetch:
 					if(entry[1] != None):
 						IF_file.seek(entry[1])
-						test = IF_file.readline().strip()
-						print(test)
-						result[entry[0]] = eval(test)[1]
+						result[entry[0]] = eval(IF_file.readline().strip())[1]
 					else:
 						result[entry[0]] = {}
 		except OSError:
@@ -104,7 +115,7 @@ def vocList2PostingLists(words):
 # def initmap():
 #     invertedFile = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}
 
-def constructEmbeddingDataset(tokenizer, stemming = False, lemmatization = False,):
+def constructEmbeddingDataset(tokenizer, stemming = False, lemmatization = False):
 	documentsForEmbedding = []
 	
 	for file in tokenizer.listfile:
@@ -122,7 +133,7 @@ def constructEmbeddingDataset(tokenizer, stemming = False, lemmatization = False
 				tokens = replaceWordsByStem(tokens)
 			if index != len(content):
 				documentsForEmbedding.append(tokens)
-				
+
 	# Write in memory the dataset for wordEmbedding
 	embeddingFile = open('./Globals/embeddingDataset', 'wb')
 	pickle.dump(documentsForEmbedding, embeddingFile)

@@ -88,6 +88,8 @@ def datasetToSortedRuns(streamTokenizer, runSize):
     print(">","rm IFConstruction/tmp/*")
     os.system("rm IFConstruction/tmp/*")
 
+    embDatasetFilename = "Globals/embeddingDataset"
+    open(embDatasetFilename, "w").close()
     docID2ContentFilename = "Globals/docID2ContentIndexes.dict"
     tempfile = "IFConstruction/tmp/file_"
     tempfileCounter = 0 
@@ -96,41 +98,45 @@ def datasetToSortedRuns(streamTokenizer, runSize):
     docFromStream = streamTokenizer.getNextDocAsTokens()
     runTriples = [] #store triples (word, docID, number of occurence) for a whole run before flushing on disk in temporary file 
     docID2Content = {} #in-memory construction before flushing on disk, see Globals.globals.docID2ContentIndexes
-    while(docFromStream):
-        print(">", int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments, end="\r")
-        # print(">", "Doc number :",glob.numberOfDocuments, end="\r")
 
-        #parse result from tokenizer
-        glob.numberOfDocuments += 1 #count number of document processed from beginning
-        filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
-        docID2Content[docID] = [filename, docIndexStart, docIndexEnd]
+    with open(embDatasetFilename, "a+") as embDatasetFile:
+        while(docFromStream):
+            print(">", int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments, end="\r")
+            # print(">", "Doc number :",glob.numberOfDocuments, end="\r")
 
-        #check if end of run reached 
-        if(runCounter < runSize):
-            #build inverted file for the current document
-            docWiseDict = {} 
-            for word in tokens.split():
-                if (word in docWiseDict):
-                    docWiseDict[word] += 1
-                else:
-                    docWiseDict[word] = 1
-            #unroll doc-wise inverted file in triples and add to list 
-            for word in docWiseDict:
-                runTriples.append([word, docID, docWiseDict[word]])
-            runCounter += 1
-        #end of run reached     
-        else:
-            #alphabetical then docID sorting in order to make merging easier later
-            runTriples.sort()
-            #flush sorted runTriples
-            tempfileCounter += 1
-            with open(tempfile+str(tempfileCounter), "w") as file:
-                file.write(run_ToString(runTriples))
+            #parse result from tokenizer
+            glob.numberOfDocuments += 1 #count number of document processed from beginning
+            filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
+            embDatasetFile.write(str(tokens.split())+"\n")
 
-            runTriples = []
-            runCounter = 0
+            docID2Content[docID] = [filename, docIndexStart, docIndexEnd]
 
-        docFromStream = streamTokenizer.getNextDocAsTokens()
+            #check if end of run reached 
+            if(runCounter < runSize):
+                #build inverted file for the current document
+                docWiseDict = {} 
+                for word in tokens.split():
+                    if (word in docWiseDict):
+                        docWiseDict[word] += 1
+                    else:
+                        docWiseDict[word] = 1
+                #unroll doc-wise inverted file in triples and add to list 
+                for word in docWiseDict:
+                    runTriples.append([word, docID, docWiseDict[word]])
+                runCounter += 1
+            #end of run reached     
+            else:
+                #alphabetical then docID sorting in order to make merging easier later
+                runTriples.sort()
+                #flush sorted runTriples
+                tempfileCounter += 1
+                with open(tempfile+str(tempfileCounter), "w") as file:
+                    file.write(run_ToString(runTriples))
+
+                runTriples = []
+                runCounter = 0
+
+            docFromStream = streamTokenizer.getNextDocAsTokens()
 
     #last run probably uncomplete
     if(runTriples[0]):

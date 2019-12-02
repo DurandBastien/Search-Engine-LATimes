@@ -54,7 +54,7 @@ bool Tokenizer::openNextFile(){
 		if(!currentFile.is_open())
 			cerr << "Can't open " << string(foldername)+"/"+currentFilename << endl;
 	}else{
-		cerr << "Can't read " << foldername << endl;
+		cerr << "No more file in " << foldername << endl;
 		return false;
 	}
 	return true;
@@ -92,12 +92,9 @@ string Tokenizer::parseText2Tokens(string& text){
 	string line;
 	while(getline(ssText, line, '<')){
 		line = line.substr(line.find(">") + 1);
+		removePunctuation(line);
 		stringstream ssLine(line);
 		while(getline(ssLine, word, ' ')){
-			if(isTagStart(word)){
-				cout << word << endl;
-			}
-			removePunctuation(word);
 			if(!isStopWord(word)){
 				if(word.size() > 0)
 					tokens += (word + " ");
@@ -122,16 +119,12 @@ bool Tokenizer::isStopWord(string& word){
 void Tokenizer::removePunctuation(string& word){  
     for (int i = 0, len = word.size(); i < len; i++) { 
         if (ispunct(word[i])){
-        	if(word[i] == ','){
+        	if(word[i] == ',' || (word[i] == '.' && i+1 < len && !isdigit(word[i+1])) || (i-1 > 0 && word[i-1] == ' ')){
 	            word.erase(i--, 1); 
 	            len = word.size();
-        	}else if(word[i] != ':'){
+        	}else if((word[i] != ':' && word[i] != '.') || (i+1 < len && word[i+1] == ' ') || (i+1 < len && ispunct(word[i+1]))){
         		word[i] = ' '; 
         	}
-        	// if(i > 1 && i + 1 < len && isdigit(word[i+1])){
-        	// 	cout << word << endl;
-        	// 	continue; 
-        	// }
         } 
     } 
       

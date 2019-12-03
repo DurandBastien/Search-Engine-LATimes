@@ -96,7 +96,7 @@ Finally, we have built the framework with different updates detailed in the foll
     - In case of duplicated tokens, we have chosen to add up their scores
 - Search Algorithm: 
   - When computing the score of a document, we take into account the weight of the keyword in the query (not the same weight if it was present more than once in the querry or if it was an added synonym word) 
-  - ????? Calcul du score en faisant la moyenne (à implémenter si besoin car pour l'instant c'est juste une addition)
+  - To compute the global score of a document for all keywords, we are no longer simply adding the score obtained for each keyword. We now divide the global score by the sum of the weights of every keyword. That way, we take into account the condition that a document containing only one keyword may be less relevant than a document containing all keywords. 
 
 
 # Authors:

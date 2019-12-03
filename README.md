@@ -10,10 +10,12 @@ We have experimented different methods to improve our search engine for disjounc
 To be able to run this code you will need to install:
   - nltk
   - gensim
-  - download the model using lemmatization for word embedding (https://fex.insa-lyon.fr/get?k=rXHgD8ErlA8p40dCFxD) and save it in the folder named 'Globals'
-  - download the inverted file using lemmatization () and save it in the folder named 'Globals'
+  - download the model using lemmatization for word embedding (https://fex.insa-lyon.fr/get?k=IjlTXI7k7vqeFeDwUpb) and save it in the folder named 'Globals'
+  - download the inverted file using lemmatization (https://fex.insa-lyon.fr/get?k=MlszeX5lYq0OnZ143MJ) and save it in the folder named 'Globals'
 
 If you don't save properly those two files, the framework will construct them and you will lose time however the framework will still work.
+
+Before runing the code, make sure you have the dataset and put the corresponding path in the main function.
 
 The framework is divided into different folders representing functionalities:
   - TO COMPLETE

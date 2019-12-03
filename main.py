@@ -58,14 +58,16 @@ if __name__ == "__main__":
 		IF_filename = "Globals/nostemm_nolemm_notfidf/IF.dict"
 
 		constructIF = False
+		trainWordEmbModel = False
 
 		if(constructIF):
 			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername, lemmatization_ = False, stemming_ = True)
 			#set runSize such that :
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
 			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 10000, score_tf_idf = True)
-			# glob.loadEmbeddingDataset()
-			# glob.trainModelForEmbedding(glob.embeddingDataset)
+			if(trainWordEmbModel):
+				glob.loadEmbeddingDataset()
+				glob.trainModelForEmbedding(glob.embeddingDataset)
 
 		diskBasedIF = True
 

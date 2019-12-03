@@ -2,32 +2,52 @@
 
 This is a framework to execute search queries on a dataset consisting of LA Times records.
 
-We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the NAME file. You can run again the tests but you will also have access to the results we obtain with the following characteristics:
+The framework is divided into different folders representing functionalities:
+  - Document server: fetch the content of documents in the dataset so the user can get an output to its query
+  - Globals: Folder where we gather all global variables or built documents used in our application. 
+  - IFConstruction: contains functions to build an in-memory or disk-based inverted file and other configuration files.  
+  - QueryMaker:  
+  - SearchAlgorithms: Folder where you will find the 3 different algorithms used to find the best documents according to the keywords in the given query. 
+  - Tokenization: contains the two types of tokenizer, one in python and one in cpp 
+
+## Get started
+
+You need the dataset.
+
+To be able to run the code you will need to install:
+  - nltk
+  - gensim
+
+We provide ready to use configuration files (inverted file..) here : FEX TO ZIP. Unzip the folder in Globals/ so you get three subfolders in Globals/.
+Each subfolders contains :
+  - an inverted file
+  - a vocabulary file
+  - optionally : a model for word embedding
+
+If you don't save those files, you will have to tell the framework to construct them but it takes time.
+
+To be able to run the construction of the disk-based version of the inverted file:
+  - in this case a c++ tokenizer is used, this tokenizer is wrapped to be called in python,
+  - to compile the wrapper you will need the python.h header which, for instance, is provided in the python3-dev package on linux (apt-get install python3-dev),
+  - then to compile the c++ object and its wrapper, go to Tokenization/TokenizationCpp then "make clean" and "make tokenizer_py_module"
+
+Before runing the code, make sure you have set proper path in the main function :
+  - path to the dataset
+  - path to the vocabulary file
+  - path to the inverted file 
+
+## Tests
+
+We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the NAME file. You can run the tests but you will also see the expected results we have obtained with the following characteristics:
   - processor: TO COMPLETE
   - ram: TO COMPLETE
   - memory: TO COMPLETE
   
-To be able to run this code you will need to install:
-  - nltk
-  - gensim
-  - download the model using lemmatization for word embedding (https://fex.insa-lyon.fr/get?k=IjlTXI7k7vqeFeDwUpb) and save it in the folder named 'Globals'
-  - download the inverted file using lemmatization (https://fex.insa-lyon.fr/get?k=MlszeX5lYq0OnZ143MJ) and save it in the folder named 'Globals'
+Finally, details of our working process and the sequential updates we made to build the framework are detailed in the following sections.
 
-If you don't save properly those two files, the framework will construct them and you will lose time however the framework will still work.
+## Iterations
 
-Before runing the code, make sure you have the dataset and put the corresponding path in the main function.
-
-The framework is divided into different folders representing functionalities:
-  - Document server:
-  - Globals: Folder where we gather all global variables or built documents used in our application. 
-  - IFConstruction: 
-  - QueryMaker: 
-  - SearchAlgorithms: Folder where you will find the 3 different algorithms used to find the best documents according to the keywords in the given query. 
-  - Tokenization: 
-  
-Finally, we have built the framework with different updates detailed in the following sections.
-
-## First iteration
+### First iteration
 
 - Tokenization
   - Reading the dataset
@@ -50,7 +70,7 @@ Finally, we have built the framework with different updates detailed in the foll
     - print the 10 best results as a list of doc ID
     - then print the content of the document corresponding to the chosen doc ID
 
-## Second iteration
+### Second iteration
 
 - Tokenization
   - Reading the dataset
@@ -82,7 +102,7 @@ Finally, we have built the framework with different updates detailed in the foll
     - Remove stop words
     - Apply stemming/lemmatization if needed
 
-## Third iteration
+### Third iteration
 
 - Inverted files construction
   - Compute score = tf * idf = (1 + log(number of occurrences)) * log(total number of documents/(length of posting list))) 

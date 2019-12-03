@@ -18,7 +18,12 @@ If you don't save properly those two files, the framework will construct them an
 Before runing the code, make sure you have the dataset and put the corresponding path in the main function.
 
 The framework is divided into different folders representing functionalities:
-  - TO COMPLETE
+  - Document server:
+  - Globals: Folder where we gather all global variables or built documents used in our application. 
+  - IFConstruction: 
+  - QueryMaker: 
+  - SearchAlgorithms: Folder where you will find the 3 different algorithms used to find the best documents according to the keywords in the given query. 
+  - Tokenization: 
   
 Finally, we have built the framework with different updates detailed in the following sections.
 

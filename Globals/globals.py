@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Nov  8 11:02:35 2019
-
-@author: clementguittat
-"""
-
 import sys
 import gensim 
 import pickle
@@ -30,7 +22,6 @@ def loadVocabulary(vocFilename, IF_filename_):
 	global vocabularyDict
 	global IF_filename
 	IF_filename = IF_filename_
-	# vocFilename = "Globals/vocabulary.dict"
 	try:
 		with open(vocFilename, "r") as voc_file:
 			vocabularyDict = eval(voc_file.readline())
@@ -71,7 +62,6 @@ def voc2PostingList(word):
 	else:
 		global vocabularyDict
 		global IF_filename
-		# IFname = "Globals/IF.dict"
 		if(word in vocabularyDict):
 			try:
 				with open(IF_filename, "r") as IF_file:	
@@ -95,7 +85,6 @@ def vocList2PostingLists(words):
 	else:
 		global vocabularyDict
 		global IF_filename
-		# IFname = "Globals/IF.dict"
 		wordsToFetch = []
 		for w in words:
 			wordsToFetch.append([w])
@@ -116,10 +105,6 @@ def vocList2PostingLists(words):
 			print("Could not open/read file:", IF_filename)
 			sys.exit()	
 	return result
-
-
-# def initmap():
-#     invertedFile = {"you": {1: 3, 2: 2}, "are": {1: 2}, "tuples": {2: 2}}
 
 def constructEmbeddingDataset(tokenizer, stemming = False, lemmatization = False):
 	documentsForEmbedding = []

@@ -121,7 +121,6 @@ def processQueryString(query, stemming = False, lemmatization = False, embedding
 			for newWord in synonyms:
 				queryWithScore.append((newWord[0],1))
 	queryWithScore = deleteDuplicatesInQuery(queryWithScore)
-	print(queryWithScore)
 	return queryWithScore
 
 def processReturnedDocuments(returnedDocuments):

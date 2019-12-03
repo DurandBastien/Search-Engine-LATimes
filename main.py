@@ -7,9 +7,32 @@ from SearchAlgorithms import searchAlgorithms
 from QueryMaker import queryShell
 from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 
+from QueryMaker.queryShell import processQueryString
+
+def applyFaginOnQuery(processedQuery):
+    queryResult = searchAlgorithms.faginAlgo(processedQuery)
+    if(queryResult):
+        returnedDocuments = documentServer.serveDocuments(queryResult)
+        print("\n")
+        print("results:\n")
+        for idx, doc in enumerate(returnedDocuments.keys()):
+            print(idx+1,"----------------------------------")
+            print(returnedDocuments[doc]["metadata"]),
+            print("----------------------------------")
+            '''if(returnedDocuments):
+                print("choose docID")
+                chosenDocId = sys.stdin.readline()
+                print("\n")
+                if(chosenDocId.strip() in returnedDocuments):
+                    print(returnedDocuments[chosenDocId.strip()]["content"],"\n")
+                else:
+                    print("doc ID not in result")'''
+    else:
+        print("no result\n")
+
 if __name__ == "__main__":
 
-	argv = sys.argv
+	'''argv = sys.argv
 
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
@@ -44,4 +67,14 @@ if __name__ == "__main__":
 		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
 
 	else:
-		print("unknown arg")
+		print("unknown arg")'''
+
+	glob.loadVocabulary("./Globals/stemm_nolemm_tfidf/vocabulary.dict","./Globals/stemm_nolemm_tfidf/IF.dict")
+
+	query = "Chocolate and feet"
+
+	# Apply stemming on the query
+	processedQuery = processQueryString(query,stemming = True)
+	print(processedQuery)
+	# Apply fagin algorithm
+	applyFaginOnQuery(processedQuery)

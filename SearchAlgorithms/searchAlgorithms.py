@@ -48,6 +48,7 @@ def faginAlgo(query):
     listEndedPL = set()
     indexWord = 0
     indexPL = 0
+    print(nbOfElementsInQuery)
     while(len(C) < nbTopElements and len(listEndedPL) < nbOfElementsInQuery):
         keyword, scorePower = listWordsQuery[indexWord]
         if (keyword in IF):
@@ -59,9 +60,13 @@ def faginAlgo(query):
                     M[docId] = (previousScore + score, nbTimesSeen + 1) # on utilise la somme pour calculer les scores des documents 
                     if (nbTimesSeen + 1 == nbOfElementsInQuery): #si on a toruvé un document qui est dans toutes les PLlistes alors on l'ajoute à C
                         C.append((docId, previousScore + score))
+                        print(C)
                         del M[docId]
                 else : # si c'est la première fois qu'on rencontre ce document on ajoute l'ajoute à M avec son score et nbdefoisvu à 1 
-                    M[docId] = (score, 1)
+                    if (nbOfElementsInQuery == 1): #si on a trouvé un document qui est dans toutes les PLlistes alors on l'ajoute à C
+                        C.append((docId, score))
+                    else :
+                        M[docId] = (score, 1)
             else: # si on a parcouru une des PLlistes en entier, on break car on sait qu'on aura plus rien à ajouter à C 
                 listEndedPL.add(indexWord)
         indexWord = indexWord+1

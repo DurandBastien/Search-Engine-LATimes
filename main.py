@@ -50,9 +50,9 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		# datasetFoldername = "../latimes"
+		datasetFoldername = "../latimes"
 		# datasetFoldername = "../latimesTest"
-		datasetFoldername = "/home/bastien/Documents/latimes"
+		# datasetFoldername = "/home/bastien/Documents/latimes"
 
 		vocabulary_filename = "Globals/nostemm_nolemm_notfidf/vocabulary.dict"
 		IF_filename = "Globals/nostemm_nolemm_notfidf/IF.dict"

@@ -57,12 +57,12 @@ if __name__ == "__main__":
 		constructIF = True
 
 		if(constructIF):
-			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername, lemmatization_ = True, stemming_ = False)
+			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername, lemmatization_ = False, stemming_ = False)
 			#set runSize such that :
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
-			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 130)
-			glob.loadEmbeddingDataset()
-			glob.trainModelForEmbedding(glob.embeddingDataset)
+			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 1000, score_tf_idf = True)
+			# glob.loadEmbeddingDataset()
+			# glob.trainModelForEmbedding(glob.embeddingDataset)
 
 		diskBasedIF = True
 
@@ -72,9 +72,9 @@ if __name__ == "__main__":
 
 		documentServer.foldername = datasetFoldername
 
-		algorithm = searchAlgorithms.fagginAlgo
+		algorithm = searchAlgorithms.faginAlgo
 
-		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = False)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
 
 	elif(argv[1] == "test"):
 		# test1()

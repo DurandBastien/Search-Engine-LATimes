@@ -87,52 +87,54 @@ def faginAlgo(query):
 
 def threshold(query):
     '''
-
     :param query: query string
     :return: the topk results
     '''
     listWordsQuery = query
-    IF = glob.vocList2PostingLists(listWordsQuery)
+    IF = glob.vocList2PostingLists([x[0] for x in listWordsQuery])
+
     dictMerge = {}
     nbTop = 10
-    for keyword in listWordsQuery:
+    for keyword, power in listWordsQuery:
         if (keyword in IF):
             for k in IF[keyword].keys():
                 if k in dictMerge:
-                    dictMerge[k] = dictMerge[k] + IF[keyword][k]
+                    dictMerge[k] = dictMerge[k] + IF[keyword][k] * power
                 else:
-                    dictMerge[k] = IF[keyword][k]
+                    dictMerge[k] = IF[keyword][k] * power
+
+
     heap = []
     indexPL = 0
 
-    if(len(listWordsQuery & IF.keys()) == 1 ):
-        return
+    if(len((x[0] for x in listWordsQuery) & IF.keys())==1 and IF[listWordsQuery[0][0]]=={}):
+        return []
 
     while True:
         threshold = 0
-        for keyword in listWordsQuery & IF.keys():
-
-            if indexPL < len(IF[keyword]):  # si on a pas parcouru toute la taille d'une des PLliste on continue
-                docId = list(IF[keyword])[indexPL]  # docID pour l'indexe de la PLliste du terme à parcourir
-                score = IF[keyword][docId]
-                scoreAll = dictMerge[docId] # le score de ce docID ds tout PL
-                newNode = PQNode(docId,scoreAll)
-                if newNode not in heap:
-                    heapq.heappush(heap, newNode)
-                threshold = threshold + score
+        for keyword, power in listWordsQuery:
+            if keyword in IF.keys():
+                if indexPL < len(IF[keyword]):  # si on a pas parcouru toute la taille d'une des PLliste on continue
+                    docId = list(IF[keyword])[indexPL]  # docID pour l'indexe de la PLliste du terme à parcourir
+                    score = IF[keyword][docId] * power
+                    scoreAll = dictMerge[docId] # le score de ce docID ds tout PL
+                    newNode = PQNode(docId,scoreAll)
+                    if newNode not in heap:
+                        heapq.heappush(heap, newNode)
+                    threshold = threshold + score
 
         indexPL = indexPL + 1
         if getKthElement(nbTop,heap).value > threshold:
             res = []
             for node in heapq.nlargest(nbTop,heap):
                 res.append(node.key)
-
             return res
+
 
 
 def getKthElement(k,heap):
 
-    res = heapq.nlargest(k,heap)[-1]
+    res = heapq.nlargest(k, heap)[-1]
     return res
 
 def testPQNode():
@@ -149,9 +151,12 @@ def testPQNode():
     while (hinput):
         print(heapq.heappop(hinput))
 
+
+
 if __name__ == "__main__":
     
     ##naiveAlgo("you tuples")
     faginAlgo(["january"])
+
 
     #threshold("you are")

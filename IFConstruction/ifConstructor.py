@@ -76,14 +76,14 @@ def constructIFFromStreamTokenizer(streamTokenizer):
 #disk based inverted file construction using a stream-like tokenizer
 #runSize is the number of documents processed in one run
 #pre-condition : runSize > (document number)/(allowed number of files open on machine)
-def constructIF_diskBased(streamTokenizer, runSize = 1):
+def constructIF_diskBased(streamTokenizer, runSize = 1, buildDocId2Content = False, score_tf_idf = True):
     print(">","disk-based inverted file construction with a run size of:", runSize)
-    datasetToSortedRuns(streamTokenizer, runSize)
-    mergeRunsToIF()
+    datasetToSortedRuns(streamTokenizer, runSize, buildDocId2Content)
+    mergeRunsToIF(score_tf_idf)
     print(">","Inverted file successfully written on disk")
 
 #write result from each runs on different temporary files 
-def datasetToSortedRuns(streamTokenizer, runSize):
+def datasetToSortedRuns(streamTokenizer, runSize, buildDocId2Content):
     print(">","start parsing dataset in triples (word, docID, number of occurence)")
     print(">","rm IFConstruction/tmp/*")
     os.system("rm IFConstruction/tmp/*")
@@ -109,7 +109,8 @@ def datasetToSortedRuns(streamTokenizer, runSize):
             filename, docID, tokens, docIndexStart, docIndexEnd = docFromStream
             embDatasetFile.write(str(tokens.split())+"\n")
 
-            docID2Content[docID] = [filename, docIndexStart, docIndexEnd]
+            if(buildDocId2Content):
+                docID2Content[docID] = [filename, docIndexStart, docIndexEnd]
 
             #check if end of run reached 
             if(runCounter < runSize):
@@ -147,15 +148,16 @@ def datasetToSortedRuns(streamTokenizer, runSize):
             file.write(run_ToString(runTriples))
 
     #flush docID2Content for further system initializations, see Globals
-    docID2Content_file = open(docID2ContentFilename, "w")
-    docID2Content_file.write(str(docID2Content))
-    docID2Content_file.close()
+    if(buildDocId2Content):
+        docID2Content_file = open(docID2ContentFilename, "w")
+        docID2Content_file.write(str(docID2Content))
+        docID2Content_file.close()
 
     print(int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments)
     # print(">", "Doc number :",glob.numberOfDocuments)
 
 #merge all temporary files containing run triples (see above) in an on-disk inverted files 
-def mergeRunsToIF():
+def mergeRunsToIF(score_tf_idf):
     print(">","start merging runs' results")
     IFname = "Globals/IF.dict"
     vocabularyFilename = "Globals/vocabulary.dict"
@@ -216,10 +218,11 @@ def mergeRunsToIF():
             vocList[current_word] = IF_file.tell()
 
             # compute score = tf * idf
-            for j in range(len(posting_list)):
-                tf = 1 + math.log(posting_list[j][1])
-                idf = math.log(glob.numberOfDocuments/(len(posting_list))) #note that a posting list is never empty
-                posting_list[j][1] = round(tf * idf, 3)
+            if(score_tf_idf):
+                for j in range(len(posting_list)):
+                    tf = 1 + math.log(posting_list[j][1])
+                    idf = math.log(glob.numberOfDocuments/(len(posting_list))) #note that a posting list is never empty
+                    posting_list[j][1] = round(tf * idf, 3)
 
             #sort posting list by decreasing number of occurrence
             posting_list.sort(key=lambda x:x[1], reverse = True)

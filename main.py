@@ -54,27 +54,30 @@ if __name__ == "__main__":
 		# datasetFoldername = "../latimesTest"
 		datasetFoldername = "/home/bastien/Documents/latimes"
 
-		constructIF = True
+		vocabulary_filename = "Globals/nostemm_nolemm_notfidf/vocabulary.dict"
+		IF_filename = "Globals/nostemm_nolemm_notfidf/IF.dict"
+
+		constructIF = False
 
 		if(constructIF):
-			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername, lemmatization_ = False, stemming_ = False)
+			tokenizer_ = tokenizerCpp.Tokenizer(datasetFoldername, lemmatization_ = False, stemming_ = True)
 			#set runSize such that :
 			#the total number of documents in the dataset divided by runSize is less than the allowed number of simultaneously opened files on your machine (usually 1024) 
-			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 1000, score_tf_idf = True)
+			ifConstructor.constructIF_diskBased(tokenizer_, runSize = 10000, score_tf_idf = True)
 			# glob.loadEmbeddingDataset()
 			# glob.trainModelForEmbedding(glob.embeddingDataset)
 
 		diskBasedIF = True
 
 		if(diskBasedIF):
-			glob.loadVocabulary()
+			glob.loadVocabulary(vocabulary_filename, IF_filename)
 			glob.loadDocID2Content()
 
 		documentServer.foldername = datasetFoldername
 
 		algorithm = searchAlgorithms.faginAlgo
 
-		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False)
 
 	elif(argv[1] == "test"):
 		# test1()

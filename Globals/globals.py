@@ -23,10 +23,14 @@ vocabularyDict = {} ##global variable used to map a word found in the dataset to
 
 embeddingDataset = []
 
+IF_filename = ""
+
 #read vocabulary already stored on disk and initialize global vocabularyDict with it
-def loadVocabulary():
+def loadVocabulary(vocFilename, IF_filename_):
 	global vocabularyDict
-	vocFilename = "Globals/vocabulary.dict"
+	global IF_filename
+	IF_filename = IF_filename_
+	# vocFilename = "Globals/vocabulary.dict"
 	try:
 		with open(vocFilename, "r") as voc_file:
 			vocabularyDict = eval(voc_file.readline())
@@ -66,14 +70,15 @@ def voc2PostingList(word):
 			return {}
 	else:
 		global vocabularyDict
-		IFname = "Globals/IF.dict"
+		global IF_filename
+		# IFname = "Globals/IF.dict"
 		if(word in vocabularyDict):
 			try:
-				with open(IFname, "r") as IF_file:	
+				with open(IF_filename, "r") as IF_file:	
 					IF_file.seek(vocabularyDict[word])
 					return eval(IF_file.readline().strip())[1]
 			except OSError:
-				print("Could not open/read file:", IFname)
+				print("Could not open/read file:", IF_filename)
 				sys.exit()	
 		else:
 			return {}
@@ -89,7 +94,8 @@ def vocList2PostingLists(words):
 				result[w] = {}
 	else:
 		global vocabularyDict
-		IFname = "Globals/IF.dict"
+		global IF_filename
+		# IFname = "Globals/IF.dict"
 		wordsToFetch = []
 		for w in words:
 			wordsToFetch.append([w])
@@ -99,7 +105,7 @@ def vocList2PostingLists(words):
 				wordsToFetch[-1].append(None)
 		wordsToFetch.sort(key=lambda x:(x[1] is None, x[1]))
 		try:
-			with open(IFname, "r") as IF_file:
+			with open(IF_filename, "r") as IF_file:
 				for entry in wordsToFetch:
 					if(entry[1] != None):
 						IF_file.seek(entry[1])
@@ -107,7 +113,7 @@ def vocList2PostingLists(words):
 					else:
 						result[entry[0]] = {}
 		except OSError:
-			print("Could not open/read file:", IFname)
+			print("Could not open/read file:", IF_filename)
 			sys.exit()	
 	return result
 

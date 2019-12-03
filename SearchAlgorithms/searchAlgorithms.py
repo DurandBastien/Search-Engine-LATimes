@@ -1,6 +1,4 @@
-import sys
 import heapq
-sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
 
 from collections import Counter, OrderedDict
 from SearchAlgorithms.minHeap import PQNode

@@ -66,11 +66,11 @@ def launchShell(searchAlgorithm, documentServer, applyStemming = False, applyLem
 			break
 
 def createTokensWithScore(listOfTokens):
-    """
-    Create list of tokens with score of 3
-    args:
-        listOfTokens: array of tokens
-    """
+	"""
+	Create list of tokens with score of 3
+	args:
+		listOfTokens: array of tokens
+	"""
 	tokenWithScore = []
 	for token in listOfTokens:
 		mytoken = (token, 3)
@@ -78,11 +78,11 @@ def createTokensWithScore(listOfTokens):
 	return tokenWithScore
 
 def deleteDuplicatesInQuery(queryWithScore):
-    """
-    Delete duplicates in the query by summing the scores.
-    args:
-        queryWithScore: array of pairs of token and its score
-    """
+	"""
+	Delete duplicates in the query by summing the scores.
+	args:
+		queryWithScore: array of pairs of token and its score
+	"""
 	myWords = [token[0] for token in queryWithScore]
 	wordsWithoutDuplicates = []
 	for i in range(len(myWords)):
@@ -95,16 +95,16 @@ def deleteDuplicatesInQuery(queryWithScore):
 	return wordsWithoutDuplicates
 	
 def processQueryString(query, stemming = False, lemmatization = False, embedding = False, embeddingModel = None, nbOfSynonyms = 0):	
-    """
-    Process query to be compatible with the algorithm requirements
-    args:
-        query: query as string
+	"""
+	Process query to be compatible with the algorithm requirements
+	args:
+		query: query as string
 		stemming : boolean for using or not stemming
 		lemmatization : boolean for using or not lemmatization
 		embedding : boolean for using or not word embedding
 		embeddingModel : the model to use for word embedding
 		nbOfSynonyms : number of synonyms we want for tokens in query
-    """
+	"""
 	query = createListOfTokens(query)
 	query = removeStopWords(query)
 
@@ -128,13 +128,13 @@ def processReturnedDocuments(returnedDocuments):
 	return returnedDocuments.keys()
 
 def findSynonyms(model, myWord, nbOfSynonyms):
-    """
-    Find the "nbOfSynonyms" closest words from "myWord" to extend the query
-    args:
-        model: word embedding model
+	"""
+	Find the "nbOfSynonyms" closest words from "myWord" to extend the query
+	args:
+		model: word embedding model
 		myWord: the string of the word
 		nbOfSynonyms : the number of synonyms we want for the word
-    """
+	"""
 	word_vectors = model.wv
 	try:
 		synonyms = model.wv.most_similar (positive=[myWord], topn=nbOfSynonyms) 

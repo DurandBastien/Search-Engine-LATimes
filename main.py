@@ -1,12 +1,10 @@
 import sys
-import pickle
 
 from IFConstruction import ifConstructor
 import Globals.globals as glob
 from DocumentServer import documentServer
 from SearchAlgorithms import searchAlgorithms
 from QueryMaker import queryShell
-from Tokenization import tokenizer
 from Tokenization.TokenizationCpp import tokenizer as tokenizerCpp
 
 if __name__ == "__main__":
@@ -16,10 +14,10 @@ if __name__ == "__main__":
 	#default behavior = up to date solution
 	if(len(argv) <= 1):
 
-		datasetFoldername = "/home/bastien/Documents/latimes"
+		datasetFoldername = "../../latimes/latimes" # CHANGE HERE THE PATH DATASET
 
-		vocabulary_filename = "Globals/nostemm_nolemm_notfidf/vocabulary.dict"
-		IF_filename = "Globals/nostemm_nolemm_notfidf/IF.dict"
+		vocabulary_filename = "Globals/IF_files/vocabulary.dict"
+		IF_filename = "Globals/IF_files/IF_stemm_lemm_tfidf.dict"
 
 		constructIF = False
 		trainWordEmbModel = False
@@ -43,7 +41,7 @@ if __name__ == "__main__":
 
 		algorithm = searchAlgorithms.faginAlgo
 
-		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = False, wordEmbedding = False)
-		
+		queryShell.launchShell(algorithm, documentServer, applyStemming = False, applyLemmatization = True, wordEmbedding = True)
+
 	else:
 		print("unknown arg")

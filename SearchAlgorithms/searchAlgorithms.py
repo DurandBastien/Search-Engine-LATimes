@@ -1,14 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Nov  8 11:28:26 2019
-
-@author: clementguittat
-"""
-
-import sys
 import heapq
-sys.path.insert(1, '/Users/clementguittat/Documents/INSA LYON/5A/QueryText/Search-Engine-LATimes')
 
 from collections import Counter, OrderedDict
 from SearchAlgorithms.minHeap import PQNode
@@ -23,8 +13,6 @@ import Globals.globals as glob
 # pour chaque mot-clé on calcule le score associé au document. Puis pour chaque document, on calcule son score global sur la requête en additionnant le score obtenu par mot-clé
 # puis je classe les documents par rapport à leur score 
 def naiveAlgo(query):
-    # if(not glob.invertedFile):
-    #     return []
     finalDic = dict()
     for keyword,_ in query:
         postingList = glob.voc2PostingList(keyword)
@@ -34,12 +22,10 @@ def naiveAlgo(query):
 
 # Fonction de classement des documents selon leur score 
 def ranking(finalDic):
-    # for docId, freq  in sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]:
-        # print("document ID:", docId, " freq:", freq)
     return sorted(finalDic.items(), key=lambda x: x[1], reverse=True)[:10]
 
 def faginAlgo(query):
-    M = dict();
+    M = dict()
     C = []
     nbTopElements = 10
     listWordsQuery = query
@@ -155,13 +141,3 @@ def testPQNode():
 
     while (hinput):
         print(heapq.heappop(hinput))
-
-
-
-if __name__ == "__main__":
-    
-    ##naiveAlgo("you tuples")
-    faginAlgo(["january"])
-
-
-    #threshold("you are")

@@ -1,12 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Nov  8 11:03:25 2019
-
-@author: clementguittat
-"""
-import math;
-import ast;
+import math
+import ast
 import os
 from collections import OrderedDict 
 import Globals.globals as glob
@@ -55,8 +48,6 @@ def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbeddin
     embeddingFile.close()
     print("The dataset for word embedding has been stored in memory.")
 
-    # return documentsForEmbedding
-
 #in-memory inverted file construction using a stream-like tokenizer
 def constructIFFromStreamTokenizer(streamTokenizer):
     docFromStream = streamTokenizer.getNextDocAsTokens()
@@ -102,7 +93,6 @@ def datasetToSortedRuns(streamTokenizer, runSize, buildDocId2Content):
     with open(embDatasetFilename, "a+") as embDatasetFile:
         while(docFromStream):
             print(">", int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments, end="\r")
-            # print(">", "Doc number :",glob.numberOfDocuments, end="\r")
 
             #parse result from tokenizer
             glob.numberOfDocuments += 1 #count number of document processed from beginning
@@ -154,7 +144,6 @@ def datasetToSortedRuns(streamTokenizer, runSize, buildDocId2Content):
         docID2Content_file.close()
 
     print(int(glob.numberOfDocuments*100/131897), "%", "Doc number :",glob.numberOfDocuments)
-    # print(">", "Doc number :",glob.numberOfDocuments)
 
 #merge all temporary files containing run triples (see above) in an on-disk inverted files 
 def mergeRunsToIF(score_tf_idf):
@@ -255,109 +244,9 @@ def giveScores(nbOfOccurence):
     for word in IF:
         for docId in IF[word]:
             IF[word][docId] = (1 + math.log(IF[word][docId])) * math.log(countDoc / (1 + len(IF[word])))
-    print(countDoc)  #132626 docs for whole dir
+    print(countDoc)  #132626 docs for whole directory
 
 
 if __name__ == "__main__":
     constructIF()
     print(IF)
-
-# def mergeSortedRuns():
-#     tempfile1 = "IFConstruction/tmp/file_1.tmp" 
-#     tempfile2 = "IFConstruction/tmp/file_2.tmp"
-#     tempfile3 = "IFConstruction/tmp/file_3.tmp" 
-#     tempfile4 = "IFConstruction/tmp/file_4.tmp"
-
-#     mergeDone = False
-#     switchFiles = True
-
-#     while not mergeDone:
-
-#         if(switchFiles):
-#             fileTomerge1 = tempfile1
-#             fileTomerge2 = tempfile2
-#             destFile1 = tempfile3
-#             destFile2 = tempfile4
-#         else:
-#             fileTomerge1 = tempfile3
-#             fileTomerge2 = tempfile4
-#             destFile1 = tempfile1
-#             destFile2 = tempfile2
-
-#         open(destFile1, "w").close()
-#         open(destFile2, "w").close()
-
-#         with open(fileTomerge1, 'r') as file1, open(fileTomerge2, 'r') as file2, open(destFile1, 'a+') as file3, open(destFile2, 'a+') as file4:
-#             mergedPairNumber = pairWiseMerge(file1, file2, file3, file4)
-
-#         if(mergedPairNumber == 0):
-#             mergeDone = True
-
-#         switchFiles = not switchFiles
-
-
-# def pairWiseMerge(fileToMerge1, fileToMerge2, destinationFile1, destinationFile2):
-#     writefile1 = True
-#     entry2 = fileToMerge2.readline()
-#     if(entry2 == "" or entry2 == "\n"):
-#         return 0
-#     word2 = ast.literal_eval(entry2)[0]
-#     pairCounter = 0
-#     for entry1 in fileToMerge1:
-#         if(entry1 != "\n"):
-#             word1 = ast.literal_eval(entry1)[0]
-#         # print("before while")
-#         while((entry2 != "" and entry2 != "\n" and word2 < word1) or (entry2 != "" and entry2 != "\n" and entry1 == "\n")):#or (entry2 != "\n" and entry1 == "")
-#             if(writefile1):
-#                 destinationFile1.write(entry2)
-#             else:
-#                 destinationFile2.write(entry2)
-
-#             entry2 = fileToMerge2.readline()
-#             if(entry2 != "\n"):
-#                 word2 = ast.literal_eval(entry2)[0]
-
-#         # print("after while")
-
-#         if(entry1 == "\n" and entry2 == "\n"):
-#             pairCounter += 1
-#             print("number of merged pair :", pairCounter, end="\r")
-#             if(writefile1):
-#                 destinationFile1.write("\n")
-#             else:
-#                 destinationFile2.write("\n")
-#             writefile1 = not writefile1
-#             entry2 = fileToMerge2.readline()
-#             if(entry2 != "" and entry2 != "\n"):
-#                 word2 = ast.literal_eval(entry2)[0]
-#             continue
-
-#         if(writefile1):
-#             destinationFile1.write(entry1)
-#         else:
-#             destinationFile2.write(entry1)
-
-#         # print("end for")
-
-#     if(entry2 != ""):
-#         for leftEntry in fileToMerge2:
-#             if(writefile1):
-#                 destinationFile1.write(leftEntry)
-#             else:
-#                 destinationFile2.write(leftEntry)
-
-#     if(writefile1):
-#         destinationFile1.write("\n")
-#     else:
-#         destinationFile2.write("\n")    
-
-#     print("number of merged pair :", pairCounter)
-#     return pairCounter
-
-# # def mergedRunsToIF():
-# #     mergedRunsFile = "IFConstruction/tmp/file_1.tmp" 
-# #     IFfile = "IFConstruction/tmp/inverted_file" 
-
-# #     open(tempfile1, "w").close()
-
-# #     with open(mergedRunsFile, 'r') as file1, open(IFfile, 'a+') as file2:

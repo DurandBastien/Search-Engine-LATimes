@@ -18,11 +18,10 @@ To be able to run the code you will need to install:
   - nltk
   - gensim
 
-We provide ready to use configuration files (inverted file..) here : FEX TO ZIP. Unzip the folder in Globals/ so you get three subfolders in Globals/.
-Each subfolders contains :
+We provide ready to use configuration files (inverted file..) here : https://fex.insa-lyon.fr/get?k=rx0QON6MxKBHMnvyk8F. Unzip the folder in Globals/ so you get four subfolders in Globals/ and the word embedding model.
+Each subfolder contains :
   - an inverted file
   - a vocabulary file
-  - optionally : a model for word embedding
 
 If you don't save those files, you will have to tell the framework to construct them but it takes time.
 

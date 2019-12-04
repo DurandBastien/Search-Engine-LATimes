@@ -38,9 +38,7 @@ Before runing the code, make sure you have set proper path in the main function 
 
 ## Tests
 
-We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the NAME file. You can run the tests but you will also see the expected results we have obtained with the following characteristics:
-  - processor: TO COMPLETE
-  - ram: TO COMPLETE
+We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the NAME file. You can run the tests but you will also see the expected results we have obtained.
   
 Finally, details of our working process and the sequential updates we made to build the framework are detailed in the following sections.
 

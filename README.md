@@ -21,11 +21,11 @@ To be able to run the code you will need to install:
 We provide ready to use configuration files (inverted file..) here : https://fex.insa-lyon.fr/get?k=rx0QON6MxKBHMnvyk8F. Unzip the folder in Globals/ so you get four subfolders in Globals/ and the word embedding model :
 
 /Globals<br/>
-  / nostemm_nolemm_notfidf<br/>
-  / nostemm_nolemm_tfidf<br/>
-  / stemm_nolemm_tfidf<br/>
-  / stemm_lemm_tfidf<br/>
-  embeddingModel<br/>
+--/ nostemm_nolemm_notfidf<br/>
+--/ nostemm_nolemm_tfidf<br/>
+--/ stemm_nolemm_tfidf<br/>
+--/ stemm_lemm_tfidf<br/>
+--embeddingModel<br/>
   
 Each subfolder contains :
   - an inverted file

@@ -40,7 +40,7 @@ def constructIF(tokenizer, stemming = False, lemmatization = False, wordEmbeddin
                         glob.invertedFile[word][docId] = 1
                 else:
                     glob.invertedFile[word] = {docId: 1}
-        print(file, len(glob.invertedFile)) 
+        # print(file, len(glob.invertedFile)) 
 
     # Write in memory the dataset for wordEmbedding
     embeddingFile = open('./Globals/embeddingDataset', 'wb')

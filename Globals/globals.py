@@ -25,7 +25,6 @@ def loadVocabulary(vocFilename, IF_filename_):
 	try:
 		with open(vocFilename, "r") as voc_file:
 			vocabularyDict = eval(voc_file.readline())
-		print('The vocabulary set has a size of', len(vocabularyDict))
 	except OSError:
 		print("Could not open/read file:", vocFilename)
 		sys.exit()

@@ -6,8 +6,8 @@ The framework is divided into different folders representing functionalities:
   - Document server: fetch the content of documents in the dataset so the user can get an output to its query
   - Globals: Folder where we gather all global variables or built documents used in our application. 
   - IFConstruction: contains functions to build an in-memory or disk-based inverted file and other configuration files.  
-  - QueryMaker:  
-  - SearchAlgorithms: Folder where you will find the 3 different algorithms used to find the best documents according to the keywords in the given query. 
+  - QueryMaker: get the query from user and process it before give it to the search algorithm
+  - SearchAlgorithms: folder where you will find the 3 different algorithms used to find the best documents according to the keywords in the given query. 
   - Tokenization: contains the two types of tokenizer, one in python and one in cpp 
 
 ## Get started
@@ -41,7 +41,6 @@ Before runing the code, make sure you have set proper path in the main function 
 We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the NAME file. You can run the tests but you will also see the expected results we have obtained with the following characteristics:
   - processor: TO COMPLETE
   - ram: TO COMPLETE
-  - memory: TO COMPLETE
   
 Finally, details of our working process and the sequential updates we made to build the framework are detailed in the following sections.
 
@@ -123,27 +122,3 @@ Finally, details of our working process and the sequential updates we made to bu
   - Clément GUITTAT
   - Yang HUA
   - Alexandra VERRIER
-
-## Test phase
-- conditions générales : une requête commune (gibberish ->16files,gobbledygook ->16 files, scrumptious -> 15 files, internet -> 3 files)
-- Consistency (marquer résultat obtenu sur une même requête) (test end to end)
-  - top 10 sur naive algorithm avec requête type (chocolate and internet)
-    - calcul de score nb occurence
-    - calcul de score tf/idf
-  - top 10(score if/idf) avec même requête, sans stem, sans lem, sans wordEmbeding
-    - naive algo
-    - fagin
-    - threshold
-  - top 10 sur le meilleur algo
-    - sans stem, sans lem, sans wordEmbeding
-    - avec stem, sans lem, sans wordEmbeding
-    - sans stem, avec lem, sans wordEmbeding
-    - sans stem, avec lem, avec wordEmbeding (3 synonymes)
-- Performance (marquer temps exécution en commentaire)
-  - temps de construction:
-    - IF in RAM (pas de stem, lem ni embedding)
-    - IF disk based (pas de stem, lem ni embedding)
-  - temps d'exécution pour une même requête:
-    - naive algo
-    - fagin algo
-    - threshold algo

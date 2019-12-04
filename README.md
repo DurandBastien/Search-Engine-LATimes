@@ -4,9 +4,9 @@ This is a framework to execute search queries on a dataset consisting of LA Time
 
 The framework is divided into different folders representing functionalities:
   - Document server: fetch the content of documents in the dataset so the user can get an output to its query
-  - Globals: Folder where we gather all global variables or built documents used in our application. 
+  - Globals: folder where we gather all global variables or built files used in our application. 
   - IFConstruction: contains functions to build an in-memory or disk-based inverted file and other configuration files.  
-  - QueryMaker: get the query from user and process it before give it to the search algorithm
+  - QueryMaker: used to emulate a query shell and also contain functions to pre-process queries
   - SearchAlgorithms: folder where you will find the 3 different algorithms used to find the best documents according to the keywords in the given query. 
   - Tokenization: contains the two types of tokenizer, one in python and one in cpp 
 
@@ -18,19 +18,26 @@ To be able to run the code you will need to install:
   - nltk
   - gensim
 
-We provide ready to use configuration files (inverted file..) here : https://fex.insa-lyon.fr/get?k=rx0QON6MxKBHMnvyk8F. Unzip the folder in Globals/ so you get four subfolders in Globals/ and the word embedding model.
+We provide ready to use configuration files (inverted file..) here : https://fex.insa-lyon.fr/get?k=rx0QON6MxKBHMnvyk8F. Unzip the folder in Globals/ so you get four subfolders in Globals/ and the word embedding model :
+/Globals
+  / nostemm_nolemm_notfidf
+  / nostemm_nolemm_tfidf
+  / stemm_nolemm_tfidf
+  / stemm_lemm_tfidf
+  embeddingModel
+  
 Each subfolder contains :
   - an inverted file
   - a vocabulary file
 
 If you don't save those files, you will have to tell the framework to construct them but it takes time.
-
-To be able to run the construction of the disk-based version of the inverted file:
-  - in this case a c++ tokenizer is used, this tokenizer is wrapped to be called in python,
+ 
+In this case, to be able to run the construction of the disk-based version of the inverted file:
+  - a c++ tokenizer is used, this tokenizer is wrapped to be called in python,
   - to compile the wrapper you will need the python.h header which, for instance, is provided in the python3-dev package on linux (apt-get install python3-dev),
   - then to compile the c++ object and its wrapper, go to Tokenization/TokenizationCpp then "make clean" and "make tokenizer_py_module"
 
-Before runing the code, make sure you have set proper path in the main function :
+Eventually, before runing the code, make sure you have set proper paths in the main function :
   - path to the dataset
   - path to the vocabulary file
   - path to the inverted file 

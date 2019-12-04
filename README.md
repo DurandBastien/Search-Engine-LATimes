@@ -44,11 +44,10 @@ Eventually, before runing the code, make sure you have set proper paths in the m
 
 ## Tests
 
-We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the NAME file. You can run the tests but you will also see the expected results we have obtained.
-  
-Finally, details of our working process and the sequential updates we made to build the framework are detailed in the following sections.
+We have experimented different methods to improve our search engine for disjounctive queries. You will find our consistency and performance tests in the test.ipynb file. You should be able to run the tests if you have all the configuration files as provided.
 
 ## Iterations
+Finally, details of our working process and the sequential updates we made to build the framework are detailed in the following sections.
 
 ### First iteration
 
